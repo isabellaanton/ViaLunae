@@ -13,3 +13,9 @@ data/raw/
 
 # Configurações locais de ferramentas
 .claude/
+
+# Vercel CLI (configuração local do projeto e build)
+.vercel/
+
+.vercel
+.env*

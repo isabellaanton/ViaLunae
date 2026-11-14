@@ -1,0 +1,10 @@
+# Nunca enviar segredos nem arquivos locais/pesados para a Vercel
+.env
+.env.*
+!.env.example
+node_modules
+dist
+data/raw
+public/cesium
+.claude
+prototype
