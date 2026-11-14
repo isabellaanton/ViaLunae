@@ -47,13 +47,10 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [x] 4.5 Coordenadas livres (digitadas ou clicando no globo) consultam a API ao vivo; locais fixos fora dos 12 meses também
 
 ## Fase 5 — Métricas e potência solar
-- [ ] 5.1 Módulo `src/metrics.js`: a partir da série de Sol/Terra, calcular
-  - elevação do Sol (atual, mínima, máxima, média)
-  - duração da luz solar (% do período e horas) e tempo até o próximo pôr do Sol
-  - visibilidade da Terra (% do período, janelas) e tempo até o próximo pôr da Terra
-- [ ] 5.2 Módulo `src/power.js`: potência em kW com valores padrão editáveis (área, eficiência, inclinação, azimute; padrão = painel vertical que segue o Sol)
-- [ ] 5.3 Formulário do painel solar com os valores padrão
-- [ ] 5.4 Testes unitários simples das funções de métricas e potência
+- [x] 5.1 Módulo `src/metrics.js`: elevação do Sol (início, mín., média, máx.), luz solar (% e horas, maior período, próximo pôr/nascer), Terra visível (%, janelas, próximo pôr/nascer da Terra) e atraso do sinal
+- [x] 5.2 Módulo `src/power.js`: potência em kW (irradiância 1361 W/m² ÷ d², ângulo de incidência), modos vertical seguindo o Sol (padrão), 2 eixos e fixo; potência no início, média, pico e energia (kWh)
+- [x] 5.3 Formulário do painel solar com padrão editável (10 m², 30%, vertical seguindo o Sol), lembrado no navegador
+- [x] 5.4 Testes unitários (`npm test`, 10 testes) de métricas e potência
 
 ## Fase 5B — Simulação das condições de uma coordenada
 Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como muda ao longo do período.

@@ -11,6 +11,7 @@ import {
 import { fetchSubsolarPoint } from "./horizons.js";
 import { createMarkers } from "./markers.js";
 import { initScenarioPanel } from "./scenario.js";
+import { initPanelForm } from "./panel.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -82,7 +83,11 @@ const markers = createMarkers(viewer, {
   onSelectSite: (site) => markers.onSelect?.(site),
   onPickCoordinate: (lat, lon) => markers.onPick?.(lat, lon),
 });
-initScenarioPanel({ viewer, markers }).catch((e) => setStatus("scenario.error", { msg: e.message }, true));
+let scenario = null;
+const panelForm = initPanelForm(() => scenario?.rerender());
+initScenarioPanel({ viewer, markers, getPanel: () => panelForm.get() })
+  .then((ctl) => (scenario = ctl))
+  .catch((e) => setStatus("scenario.error", { msg: e.message }, true));
 
 applySurface(DEFAULT_SURFACE);
 flyToGlobal(viewer, 0);

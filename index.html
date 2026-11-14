@@ -80,9 +80,41 @@
         </form>
         <div id="sc-result" class="result" aria-live="polite"></div>
       </section>
-      <section class="card">
+      <section class="card" id="solar-card">
         <h2 data-i18n="solar.title">Painel solar</h2>
-        <p class="muted" data-i18n="solar.placeholder">Área, eficiência e orientação.</p>
+        <p class="muted small" data-i18n="solar.intro">Valores padrão editáveis. A potência é recalculada na hora.</p>
+        <form id="solar-form" class="form" novalidate>
+          <div class="row">
+            <label class="field">
+              <span data-i18n="solar.area">Área (m²)</span>
+              <input id="pv-area" type="number" min="0.1" max="10000" step="0.1" required>
+            </label>
+            <label class="field">
+              <span data-i18n="solar.efficiency">Eficiência (%)</span>
+              <input id="pv-eff" type="number" min="1" max="100" step="0.5" required>
+            </label>
+          </div>
+          <label class="field">
+            <span data-i18n="solar.mode">Orientação</span>
+            <select id="pv-mode">
+              <option value="vertical-tracking" data-i18n="solar.modeVertical">Vertical, girando atrás do Sol</option>
+              <option value="dual-axis" data-i18n="solar.modeDual">Sempre apontado para o Sol (2 eixos)</option>
+              <option value="fixed" data-i18n="solar.modeFixed">Fixo (inclinação e azimute)</option>
+            </select>
+          </label>
+          <div class="row" id="pv-fixed" hidden>
+            <label class="field">
+              <span data-i18n="solar.tilt">Inclinação (° do chão)</span>
+              <input id="pv-tilt" type="number" min="0" max="90" step="1">
+            </label>
+            <label class="field">
+              <span data-i18n="solar.azimuth">Azimute (° do norte)</span>
+              <input id="pv-az" type="number" min="0" max="359" step="1">
+            </label>
+          </div>
+          <button id="pv-reset" type="button" class="ghost" data-i18n="solar.reset">Restaurar padrão</button>
+          <p id="pv-error" class="error small" hidden data-i18n="solar.invalid">Confira os valores do painel.</p>
+        </form>
       </section>
       <section class="card">
         <h2 data-i18n="compare.title">Comparação</h2>

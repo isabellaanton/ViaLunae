@@ -122,3 +122,15 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
 .result .sun { color: var(--sun); }
 .result .earth { color: var(--earth); }
 .result .error, .error { color: #ff9b9b; }
+
+/* métricas do cenário */
+.metric-block { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; }
+.metric-block h3 { font-size: 13px; margin: 0 0 6px; }
+.metric-block.sun h3 { color: var(--sun); }
+.metric-block.earth h3 { color: var(--earth); }
+.metric-block.power h3 { color: #8ef0b5; }
+.metric-block dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0; font-size: 12.5px; }
+.metric-block dt { color: var(--muted); }
+.metric-block dd { margin: 0; font-variant-numeric: tabular-nums; }
+.result .note { margin-top: 8px; }
+#pv-reset { align-self: flex-start; padding: 4px 10px; font-size: 12px; }
