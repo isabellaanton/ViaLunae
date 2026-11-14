@@ -1,7 +1,8 @@
-# Lunar Site Explorer — Plano de microtarefas
+# ViaLunae — Plano de microtarefas
 
 Aplicação web (PT/EN) para comparar locais e datas de pouso na Lua, com foco no polo sul:
 globo 3D (CesiumJS), dados da JPL Horizons, relevo LOLA, potência solar em kW,
+simulação das condições de uma coordenada (Sol, Terra, irradiância, temperatura estimada),
 vista do horizonte, linha do tempo, modo educativo e exportação CSV. Publicação na Vercel.
 
 Regra geral: **tudo em versão simples primeiro**, refinar só no fim (fase 10).
@@ -39,41 +40,50 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [x] 3.4 Rodar as funções localmente (plugin do Vite executa api/*.js no `npm run dev`)
 
 ## Fase 4 — Locais fixos e dados pré-calculados
-- [ ] 4.1 Lista de locais `data/sites.json`: 6 sítios Apollo + sítios do polo sul (nome PT/EN, lat, lon, tipo, descrição)
-- [ ] 4.2 ✋ Conferir comigo a lista de sítios do polo sul (propostos: borda de Shackleton, crista conectora, + 1 a confirmar no PGDA)
-- [ ] 4.3 Script `scripts/precompute.js`: consulta a Horizons para cada local fixo num período padrão e grava `data/ephem/<sitio>.json`
-- [ ] 4.4 Marcadores dos locais no globo, com nome e clique para selecionar
-- [ ] 4.5 Entrada de coordenadas livres (lat/lon) que consulta a API ao vivo
+- [x] 4.1 Lista de locais `public/data/sites.json`: 6 sítios Apollo + Mons Mouton (IM-2) e Malapert A (IM-1), nomes PT/EN, lat, lon, ano, descrição e fonte
+- [x] 4.2 ✋ Lista do polo sul aprovada: Mons Mouton (IM-2 Athena) e Malapert A (IM-1 Odysseus)
+- [x] 4.3 Script `scripts/precompute.mjs`: 12 meses (2026-11-01 a 2027-11-01, passo 1 h) por sítio em `public/data/ephem/<sitio>.json`, com distância do Sol e da Terra
+- [x] 4.4 Marcadores dos locais no globo, com nome e clique para selecionar
+- [x] 4.5 Coordenadas livres (digitadas ou clicando no globo) consultam a API ao vivo; locais fixos fora dos 12 meses também
 
 ## Fase 5 — Métricas e potência solar
-- [ ] 5.1 Módulo `src/metrics.js`: a partir da série de Sol/Terra, calcular
-  - elevação do Sol (atual, mínima, máxima, média)
-  - duração da luz solar (% do período e horas) e tempo até o próximo pôr do Sol
-  - visibilidade da Terra (% do período, janelas) e tempo até o próximo pôr da Terra
-- [ ] 5.2 Módulo `src/power.js`: potência em kW com valores padrão editáveis (área, eficiência, inclinação, azimute; padrão = painel vertical que segue o Sol)
-- [ ] 5.3 Formulário do painel solar com os valores padrão
-- [ ] 5.4 Testes unitários simples das funções de métricas e potência
+- [x] 5.1 Módulo `src/metrics.js`: elevação do Sol (início, mín., média, máx.), luz solar (% e horas, maior período, próximo pôr/nascer), Terra visível (%, janelas, próximo pôr/nascer da Terra) e atraso do sinal
+- [x] 5.2 Módulo `src/power.js`: potência em kW (irradiância 1361 W/m² ÷ d², ângulo de incidência), modos vertical seguindo o Sol (padrão), 2 eixos e fixo; potência no início, média, pico e energia (kWh)
+- [x] 5.3 Formulário do painel solar com padrão editável (10 m², 30%, vertical seguindo o Sol), lembrado no navegador
+- [x] 5.4 Testes unitários (`npm test`, 10 testes) de métricas e potência
+
+## Fase 5B — Simulação das condições de uma coordenada
+Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como muda ao longo do período.
+- [x] 5B.1 Card "Condições no local": dia/noite, Sol e Terra (elevação e azimute) no instante escolhido na barra de tempo
+- [x] 5B.2 Irradiância (raios diretos e no chão, W/m²) com a distância ao Sol vinda da Horizons
+- [x] 5B.3 Temperatura estimada (°C e K): equilíbrio radiativo de dia (albedo 0,12, emissividade 0,95) e piso noturno por latitude; aviso na tela
+- [x] 5B.4 Atraso do sinal e distância Terra–local no instante
+- [x] 5B.5 Fração iluminada da Terra vista do local e duração do dia e da noite (quando há ciclo completo no período)
+- [x] 5B.6 Gráfico SVG de irradiância e temperatura no período, com cursor ligado à barra de tempo
+- [x] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média)
+- [ ] 5B.8 Cartões educativos explicando cada condição — junto com a Fase 9
+- [x] 5B.9 Horizonte real: Sol atrás do relevo = sombra, com efeito na irradiância, na temperatura e na potência
 
 ## Fase 6 — Tabela de comparação de cenários
-- [ ] 6.1 Criar cenário: local + data inicial + duração, botão "adicionar à comparação"
-- [ ] 6.2 Tabela com N cenários e as quatro métricas em colunas
-- [ ] 6.3 Ordenar por coluna e destacar o melhor valor de cada métrica
-- [ ] 6.4 Remover e duplicar cenário (para mudar só a data ou só o local)
-- [ ] 6.5 Exportar a tabela em CSV
+- [x] 6.1 Botão "+ Adicionar à comparação" depois de carregar um cenário (evita repetidos, até 12)
+- [x] 6.2 Tabela com N cenários: luz solar, elevação média, maior período de luz, até o pôr do Sol, Terra visível, maior janela, potência média, energia, irradiância e temperaturas
+- [x] 6.3 Ordenar por coluna (clique no título) e destacar em verde o melhor valor de cada coluna
+- [x] 6.4 Remover e Editar (carrega o cenário no formulário para mudar só a data ou só o local e adicionar como novo); lista lembrada no navegador
+- [x] 6.5 Exportar a tabela em CSV (cabeçalho no idioma atual, ponto decimal, BOM para o Excel, inclui lat/lon e painel usado)
 
 ## Fase 7 — Linha do tempo e animação
-- [ ] 7.1 Barra de tempo do período do cenário selecionado
-- [ ] 7.2 Botão animar / pausar e controle de velocidade
-- [ ] 7.3 Gráfico simples de elevação do Sol e da Terra ao longo do tempo, com o horizonte em 0°
-- [ ] 7.4 Globo e métricas atualizam conforme o tempo avança
+- [x] 7.1 Barra de tempo do período do cenário selecionado
+- [x] 7.2 Botão animar / pausar e controle de velocidade (0,5×, 1×, 2×, 4×; 1× = período inteiro em ~12 s)
+- [x] 7.3 Gráfico de elevação do Sol e da Terra no período, com o horizonte em 0°, faixas de Terra visível e cursor da barra de tempo
+- [x] 7.4 Globo (luz do Sol) e condições atualizam conforme o tempo avança
 
 ## Fase 8 — Relevo LOLA e vista do horizonte (Street View)
-- [ ] 8.1 ✋ Escolher e aprovar os arquivos LOLA 5 m do PGDA (nome, tamanho e origem antes de baixar)
-- [ ] 8.2 Script que recorta e reduz cada sítio para um mapa de altura leve (ex.: PNG 16 bits ou binário) em `data/terrain/`
-- [ ] 8.3 Cálculo do perfil do horizonte (elevação do terreno em cada azimute) para cada sítio
-- [ ] 8.4 Usar o horizonte real nas métricas (Sol/Terra visíveis só acima do relevo)
-- [ ] 8.5 Panorama 3D: câmera no chão, terreno sombreado, Sol e Terra no céu na hora escolhida
-- [ ] 8.6 Botão "ver do chão" a partir do globo e da tabela
+- [x] 8.1 ✋ Fonte do relevo aprovada: terreno do Cesium Moon (LOLA 5 m do PGDA cobre só ~16–25 km e só Mons Mouton; o horizonte do polo depende de montanhas a 50–150 km)
+- [x] 8.2 Amostragem do relevo no navegador (`src/horizon.js`): 180 azimutes × 27 distâncias até 150 km, em duas passadas (perto/longe)
+- [x] 8.3 Perfil do horizonte por sítio em `public/data/horizon/<id>.json`; coordenadas livres calculadas ao vivo (~30–70 s) e guardadas no navegador
+- [x] 8.4 Horizonte real nas métricas, potência, condições, tabela e CSV (caixa "Considerar relevo"; "atrás do relevo" e "sombra do relevo")
+- [x] 8.5 Vista do chão: câmera a 2 m do solo, relevo real, Sol e Terra no céu seguindo a barra de tempo; arrastar para olhar em volta
+- [x] 8.6 Botão "Ver do chão" no card de condições, com "Olhar para o Sol / Terra" e "Sair"; gráfico panorâmico do horizonte com os caminhos do Sol e da Terra
 
 ## Fase 9 — Modo educativo
 - [ ] 9.1 Cartões de explicação curtos (PT/EN) ao lado de cada métrica (ícone "?")

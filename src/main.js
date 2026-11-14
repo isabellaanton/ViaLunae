@@ -6,9 +6,17 @@ import {
   flyToSouthPole,
   flyToGlobal,
   setSunFromSubsolarPoint,
+  setSunFromLocalAzEl,
   hasIonToken,
 } from "./globe.js";
 import { fetchSubsolarPoint } from "./horizons.js";
+import { createMarkers } from "./markers.js";
+import { initScenarioPanel } from "./scenario.js";
+import { initPanelForm } from "./panel.js";
+import { createConditionsView } from "./conditionsView.js";
+import { createTimeline } from "./timeline.js";
+import { createComparison } from "./compare.js";
+import { createGroundView } from "./groundView.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -74,6 +82,105 @@ async function lightNow() {
     setStatus("globe.sunError", { msg: e.message }, true);
   }
 }
+
+// ---------- locais e cenário ----------
+const markers = createMarkers(viewer, {
+  onSelectSite: (site) => markers.onSelect?.(site),
+  onPickCoordinate: (lat, lon) => markers.onPick?.(lat, lon),
+});
+let scenario = null;
+let loaded = null; // { query, series }
+const conditions = createConditionsView();
+const ground = createGroundView(viewer);
+let currentIndex = 0;
+const groundLabels = () => ({ sun: t("ground.sun"), earth: t("ground.earth") });
+onLangChange(() => {
+  conditions.rerender();
+  ground.setLabels(groundLabels());
+});
+
+function setGroundUi(on) {
+  $("ground-bar").hidden = !on;
+  document.querySelector(".globe-tools").hidden = on;
+}
+function exitGround() {
+  ground.exit();
+  setGroundUi(false);
+}
+$("btn-ground").addEventListener("click", () => {
+  if (!loaded?.horizon) return;
+  ground.enter({
+    lat: loaded.query.lat,
+    lon: loaded.query.lon,
+    groundHeightM: loaded.horizon.groundHeightM,
+    sample: loaded.series.samples[currentIndex],
+    labels: groundLabels(),
+  });
+  setGroundUi(true);
+});
+$("ground-exit").addEventListener("click", exitGround);
+$("ground-sun").addEventListener("click", () => {
+  const s = loaded?.series.samples[currentIndex];
+  if (s) ground.lookAt(s.sunAz, s.sunEl);
+});
+$("ground-earth").addEventListener("click", () => {
+  const s = loaded?.series.samples[currentIndex];
+  if (s) ground.lookAt(s.earthAz, s.earthEl);
+});
+
+// instante escolhido na barra de tempo -> condições e luz do globo
+const timeline = createTimeline((i) => {
+  if (!loaded) return;
+  currentIndex = i;
+  conditions.setIndex(i);
+  const s = loaded.series.samples[i];
+  ground.update(s);
+  const p = setSunFromLocalAzEl(viewer, loaded.query.lat, loaded.query.lon, s.sunAz, s.sunEl);
+  sunStatus = { key: "globe.sunAt", vars: { time: s.t.replace("T", " ").replace(/:00Z$|Z$/, ""), lon: p.lon.toFixed(1), lat: p.lat.toFixed(1) } };
+  setStatus(sunStatus.key, sunStatus.vars);
+});
+
+let comparison = null;
+const panelForm = initPanelForm(() => {
+  scenario?.rerender();
+  comparison?.rerender();
+});
+initScenarioPanel({
+  viewer,
+  markers,
+  getPanel: () => panelForm.get(),
+  onScenarioLoaded: (r) => {
+    loaded = r;
+    exitGround();
+    currentIndex = 0;
+    conditions.setScenario(r.series.samples, r.query.lat, r.horizon);
+    timeline.load(r.series.samples);
+  },
+  onScenarioCleared: () => {
+    loaded = null;
+    exitGround();
+    conditions.clear();
+    timeline.clear();
+  },
+})
+  .then((ctl) => {
+    scenario = ctl;
+    comparison = createComparison({
+      getPanel: () => panelForm.get(),
+      siteLabel: ctl.siteLabel,
+      loadSeries: (q) => ctl.loadSeries(q),
+      onEdit: ctl.loadQuery,
+    });
+    const addBtn = document.getElementById("sc-add");
+    addBtn.addEventListener("click", () => {
+      const r = scenario.getLast();
+      if (!r || r.error) return;
+      const res = comparison.add(r);
+      addBtn.textContent = t({ added: "cmp.added", duplicate: "cmp.duplicate", full: "cmp.full" }[res]);
+      addBtn.disabled = res === "added" || res === "duplicate";
+    });
+  })
+  .catch((e) => setStatus("scenario.error", { msg: e.message }, true));
 
 applySurface(DEFAULT_SURFACE);
 flyToGlobal(viewer, 0);

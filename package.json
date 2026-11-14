@@ -8,7 +8,8 @@
     "postinstall": "node scripts/copy-cesium.mjs",
     "dev": "vite",
     "build": "node scripts/copy-cesium.mjs && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"test/*.test.js\""
   },
   "dependencies": {
     "cesium": "^1.147.0"
