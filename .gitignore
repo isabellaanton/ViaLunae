@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.local
+*.log
+
+# Cesium copiado de node_modules no install (scripts/copy-cesium.mjs)
+public/cesium/
+
+# Dados brutos grandes (LOLA original); só os recortes leves vão para o Git
+data/raw/
+
+# Configurações locais de ferramentas
+.claude/

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lunar Site Explorer</title>
+  <link rel="stylesheet" href="/cesium/Widgets/widgets.css">
+  <!-- Cesium carrega workers e assets daqui (copiados por scripts/copy-cesium.mjs) -->
+  <script>window.CESIUM_BASE_URL = "/cesium";</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">☾</span>
+      <span class="title" data-i18n="app.title">Lunar Site Explorer</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-tour" class="ghost" type="button" data-i18n="app.tour">Tour</button>
+      <select id="lang" data-i18n-aria-label="app.language" aria-label="Idioma">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="globe-wrap" data-i18n-aria-label="globe.label" aria-label="Globo da Lua">
+      <div id="globe"></div>
+      <div class="globe-tools">
+        <button id="btn-south" type="button" class="ghost" data-i18n="globe.southPole">Polo sul</button>
+        <button id="btn-global" type="button" class="ghost" data-i18n="globe.global">Visão global</button>
+        <label class="surface-pick">
+          <span data-i18n="globe.surface">Superfície</span>
+          <select id="surface">
+            <option value="ion" data-i18n="globe.surfaceIon">Cesium Moon (relevo)</option>
+            <option value="trek" data-i18n="globe.surfaceTrek">Moon Trek (imagem)</option>
+          </select>
+        </label>
+      </div>
+      <div id="globe-status" class="globe-status muted" role="status"></div>
+    </section>
+
+    <aside class="panel" data-i18n-aria-label="panel.label" aria-label="Painel de cenários">
+      <section class="card">
+        <h2 data-i18n="scenario.title">Cenário</h2>
+        <p class="muted" data-i18n="scenario.placeholder">Escolha um local e um período.</p>
+      </section>
+      <section class="card">
+        <h2 data-i18n="solar.title">Painel solar</h2>
+        <p class="muted" data-i18n="solar.placeholder">Área, eficiência e orientação.</p>
+      </section>
+      <section class="card">
+        <h2 data-i18n="compare.title">Comparação</h2>
+        <p class="muted" data-i18n="compare.placeholder">Tabela de cenários e exportação CSV.</p>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="timebar" data-i18n-aria-label="time.label" aria-label="Linha do tempo">
+    <button id="btn-play" type="button" disabled data-i18n-title="time.play" data-i18n-aria-label="time.play" title="Animar" aria-label="Animar">▶</button>
+    <input id="time-slider" type="range" min="0" max="100" value="0" disabled data-i18n-aria-label="time.label" aria-label="Linha do tempo">
+    <span id="time-label" class="muted" data-i18n="time.none">—</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lua 3D Horizons</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #05070d; color: #e6e9f0; font: 14px system-ui, sans-serif; overflow: hidden; }
+  #c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
+  #c:active { cursor: grabbing; }
+  .panel { position: fixed; top: 12px; left: 12px; background: rgba(15,20,32,.88); border: 1px solid #2a3350; border-radius: 10px; padding: 12px 14px; width: 270px; max-width: calc(100vw - 24px); box-sizing: border-box; }
+  .panel h1 { font-size: 15px; margin: 0 0 8px; }
+  .row { display: flex; gap: 8px; margin-bottom: 6px; align-items: center; }
+  .row label { flex: 1; font-size: 12px; color: #9aa6c4; }
+  input { width: 100%; box-sizing: border-box; background: #0b1020; color: #e6e9f0; border: 1px solid #2a3350; border-radius: 6px; padding: 5px 6px; font: inherit; }
+  button { background: #3b6cff; color: #fff; border: 0; border-radius: 6px; padding: 7px 10px; font: inherit; cursor: pointer; width: 100%; margin-top: 4px; }
+  button:disabled { opacity: .5; }
+  #info { margin-top: 10px; line-height: 1.55; }
+  #info b { color: #fff; }
+  .sun { color: #ffd45e; } .earth { color: #6fb7ff; }
+  #bar { position: fixed; left: 12px; right: 12px; bottom: 12px; background: rgba(15,20,32,.88); border: 1px solid #2a3350; border-radius: 10px; padding: 10px 14px; display: none; }
+  #bar input[type=range] { padding: 0; }
+  #msg { color: #ff9b9b; font-size: 12px; margin-top: 6px; }
+  .note { position: fixed; right: 12px; top: 12px; font-size: 11px; color: #7d89a8; max-width: 240px; text-align: right; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div class="panel">
+  <h1>Lua 3D com dados da Horizons</h1>
+  <div class="row"><label>Latitude (°)<input id="lat" type="number" step="0.1" value="-89.5"></label>
+                   <label>Longitude (°E)<input id="lon" type="number" step="0.1" value="0"></label></div>
+  <div class="row"><label>Data inicial (UTC)<input id="start" type="date"></label>
+                   <label>Dias<input id="days" type="number" min="1" max="60" value="30"></label></div>
+  <button id="go">Carregar Sol e Terra</button>
+  <div id="msg"></div>
+  <div id="info"></div>
+</div>
+
+<div id="bar">
+  <input id="slider" type="range" min="0" max="0" value="0">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+    <span id="tlabel"></span>
+    <button id="play" style="width:auto;margin:0;padding:4px 12px;">▶ Animar</button>
+  </div>
+</div>
+
+<div class="note">Textura fictícia (crateras aleatórias). Só a iluminação e a direção da Terra vêm da Horizons.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ---------- cena ----------
+const canvas = document.getElementById("c");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+let camDist = 4.2;
+camera.position.set(0, 0, camDist);
+
+// grupo no referencial fixo da Lua (z = norte vira Y do three.js)
+const moonGroup = new THREE.Group();
+scene.add(moonGroup);
+
+// textura procedural (equirretangular)
+function makeTexture() {
+  const w = 1024, h = 512, c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const g = c.getContext("2d");
+  g.fillStyle = "#8d8d8d"; g.fillRect(0, 0, w, h);
+  let s = 12345; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 6000; i++) {
+    const x = rnd() * w, y = rnd() * h, r = 1 + Math.pow(rnd(), 3) * 26;
+    const tone = 80 + rnd() * 50;
+    g.fillStyle = `rgba(${tone},${tone},${tone},.35)`;
+    g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+    g.strokeStyle = "rgba(210,210,210,.25)"; g.lineWidth = 1;
+    g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke();
+  }
+  return new THREE.CanvasTexture(c);
+}
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(1, 96, 64),
+  new THREE.MeshLambertMaterial({ map: makeTexture() })
+);
+moonGroup.add(moon);
+
+// luz do Sol (direcional) + ambiente quase nulo (sem atmosfera: lado escuro é escuro)
+const sunLight = new THREE.DirectionalLight(0xffffff, 1.35);
+scene.add(sunLight);
+scene.add(new THREE.AmbientLight(0x111118, 1));
+
+const sunBall = new THREE.Mesh(new THREE.SphereGeometry(0.12, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffd45e }));
+const earthBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 24), new THREE.MeshBasicMaterial({ color: 0x3f8cff }));
+moonGroup.add(sunBall, earthBall);
+
+// marcador do local + ponteiro para cima
+const marker = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 8), new THREE.MeshBasicMaterial({ color: 0xff4d4d }));
+moonGroup.add(marker);
+
+// estrelas
+{
+  const pts = [];
+  for (let i = 0; i < 1500; i++) {
+    const v = new THREE.Vector3().randomDirection ? new THREE.Vector3().randomDirection() : new THREE.Vector3(Math.random()-.5, Math.random()-.5, Math.random()-.5).normalize();
+    pts.push(v.multiplyScalar(40));
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.08 })));
+}
+
+// ---------- geometria lunar ----------
+const rad = (d) => d * Math.PI / 180;
+// referencial da Lua (x, y, z=norte) -> three (x, z, -y)
+const toThree = (v) => new THREE.Vector3(v.x, v.z, -v.y);
+
+function siteBasis(lonDeg, latDeg) {
+  const lo = rad(lonDeg), la = rad(latDeg);
+  return {
+    up:    { x: Math.cos(la) * Math.cos(lo), y: Math.cos(la) * Math.sin(lo), z: Math.sin(la) },
+    east:  { x: -Math.sin(lo), y: Math.cos(lo), z: 0 },
+    north: { x: -Math.sin(la) * Math.cos(lo), y: -Math.sin(la) * Math.sin(lo), z: Math.cos(la) },
+  };
+}
+// az (a partir do norte, sentido horário) + elevação -> vetor no referencial da Lua
+function dirFromAzEl(basis, azDeg, elDeg) {
+  const az = rad(azDeg), el = rad(elDeg), ce = Math.cos(el);
+  const e = Math.sin(az) * ce, n = Math.cos(az) * ce, u = Math.sin(el);
+  return {
+    x: basis.east.x * e + basis.north.x * n + basis.up.x * u,
+    y: basis.east.y * e + basis.north.y * n + basis.up.y * u,
+    z: basis.east.z * e + basis.north.z * n + basis.up.z * u,
+  };
+}
+
+// ---------- câmera: arrastar para girar, roda para zoom ----------
+let dragging = false, lx = 0, ly = 0;
+canvas.addEventListener("pointerdown", (e) => { dragging = true; lx = e.clientX; ly = e.clientY; canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener("pointerup", () => dragging = false);
+canvas.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
+  const dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY;
+  const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(dy * 0.005, dx * 0.005, 0, "XYZ"));
+  // gira o mundo da Lua (luz e Terra junto) mantendo a câmera fixa
+  moonGroup.quaternion.premultiply(q);
+  updateLight();
+});
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  camDist = Math.min(12, Math.max(1.4, camDist * (1 + e.deltaY * 0.001)));
+  camera.position.set(0, 0, camDist);
+}, { passive: false });
+
+function resize() {
+  renderer.setSize(innerWidth, innerHeight, false);
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+}
+addEventListener("resize", resize); resize();
+
+// ---------- dados ----------
+let data = [], basis = null;
+const $ = (id) => document.getElementById(id);
+const slider = $("slider");
+
+function faceSite() {
+  // gira a Lua para o local ficar voltado à câmera
+  const up = toThree(basis.up).normalize();
+  moonGroup.quaternion.setFromUnitVectors(up, new THREE.Vector3(0, 0, 1));
+}
+
+function updateLight() {
+  // luz direcional no mundo = direção do Sol no referencial da Lua, rodada pelo grupo
+  if (!sunBall.userData.dir) return;
+  const worldSun = sunBall.userData.dir.clone().applyQuaternion(moonGroup.quaternion);
+  sunLight.position.copy(worldSun.multiplyScalar(10));
+}
+
+function show(i) {
+  const d = data[i]; if (!d) return;
+  const sunDir = toThree(dirFromAzEl(basis, d.sunAz, d.sunEl)).normalize();
+  const earthDir = toThree(dirFromAzEl(basis, d.earthAz, d.earthEl)).normalize();
+  sunBall.userData.dir = sunDir;
+  sunBall.position.copy(sunDir.clone().multiplyScalar(5));
+  earthBall.position.copy(earthDir.clone().multiplyScalar(3));
+  updateLight();
+  $("tlabel").textContent = d.t + " UTC";
+  const sv = d.sunEl > 0, ev = d.earthEl > 0;
+  $("info").innerHTML =
+    `<div class="sun">☀ Sol: elevação <b>${d.sunEl.toFixed(2)}°</b>, azimute ${d.sunAz.toFixed(1)}° — <b>${sv ? "visível" : "abaixo do horizonte"}</b></div>` +
+    `<div class="earth">🌍 Terra: elevação <b>${d.earthEl.toFixed(2)}°</b>, azimute ${d.earthAz.toFixed(1)}° — <b>${ev ? "visível (comunicação direta possível)" : "abaixo do horizonte"}</b></div>` +
+    `<div style="font-size:11px;color:#7d89a8;margin-top:6px;">Horizonte liso (sem relevo do LOLA).</div>`;
+}
+
+slider.addEventListener("input", () => show(+slider.value));
+
+$("go").addEventListener("click", async () => {
+  const lat = parseFloat($("lat").value), lon = parseFloat($("lon").value);
+  $("msg").textContent = ""; $("go").disabled = true; $("go").textContent = "Consultando a Horizons...";
+  try {
+    const q = new URLSearchParams({ lat, lon, start: $("start").value, days: $("days").value });
+    const r = await fetch("/api/sky?" + q);
+    const j = await r.json();
+    if (j.error) throw new Error(j.error);
+    data = j; basis = siteBasis(lon, lat);
+    marker.position.copy(toThree(basis.up).multiplyScalar(1.01));
+    slider.max = data.length - 1; slider.value = 0;
+    $("bar").style.display = "block";
+    faceSite(); show(0);
+  } catch (e) {
+    $("msg").textContent = "Erro: " + e.message;
+  } finally {
+    $("go").disabled = false; $("go").textContent = "Carregar Sol e Terra";
+  }
+});
+
+let timer = null;
+$("play").addEventListener("click", () => {
+  if (timer) { clearInterval(timer); timer = null; $("play").textContent = "▶ Animar"; return; }
+  $("play").textContent = "⏸ Pausar";
+  timer = setInterval(() => {
+    slider.value = (+slider.value + 1) % data.length; show(+slider.value);
+  }, 60);
+});
+
+$("start").value = new Date().toISOString().slice(0, 10);
+
+(function loop() { requestAnimationFrame(loop); renderer.render(scene, camera); })();
+</script>
+</body>
+</html>
