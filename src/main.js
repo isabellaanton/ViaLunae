@@ -9,6 +9,8 @@ import {
   hasIonToken,
 } from "./globe.js";
 import { fetchSubsolarPoint } from "./horizons.js";
+import { createMarkers } from "./markers.js";
+import { initScenarioPanel } from "./scenario.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -74,6 +76,13 @@ async function lightNow() {
     setStatus("globe.sunError", { msg: e.message }, true);
   }
 }
+
+// ---------- locais e cenário ----------
+const markers = createMarkers(viewer, {
+  onSelectSite: (site) => markers.onSelect?.(site),
+  onPickCoordinate: (lat, lon) => markers.onPick?.(lat, lon),
+});
+initScenarioPanel({ viewer, markers }).catch((e) => setStatus("scenario.error", { msg: e.message }, true));
 
 applySurface(DEFAULT_SURFACE);
 flyToGlobal(viewer, 0);

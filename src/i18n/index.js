@@ -42,7 +42,7 @@ export function getLang() {
   return current;
 }
 
-const ATTRS = ["title", "aria-label", "placeholder"];
+const ATTRS = ["title", "aria-label", "placeholder", "label"];
 
 export function applyTranslations(root = document) {
   root.querySelectorAll("[data-i18n]").forEach((el) => {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lunar Site Explorer</title>
+  <title>ViaLunae</title>
   <link rel="stylesheet" href="/cesium/Widgets/widgets.css">
   <!-- Cesium carrega workers e assets daqui (copiados por scripts/copy-cesium.mjs) -->
   <script>window.CESIUM_BASE_URL = "/cesium";</script>
@@ -12,7 +12,7 @@
   <header class="topbar">
     <div class="brand">
       <span class="logo" aria-hidden="true">☾</span>
-      <span class="title" data-i18n="app.title">Lunar Site Explorer</span>
+      <span class="title" data-i18n="app.title">ViaLunae</span>
     </div>
     <div class="topbar-actions">
       <button id="btn-tour" class="ghost" type="button" data-i18n="app.tour">Tour</button>
@@ -41,9 +41,44 @@
     </section>
 
     <aside class="panel" data-i18n-aria-label="panel.label" aria-label="Painel de cenários">
-      <section class="card">
+      <section class="card" id="scenario-card">
         <h2 data-i18n="scenario.title">Cenário</h2>
-        <p class="muted" data-i18n="scenario.placeholder">Escolha um local e um período.</p>
+        <form id="scenario-form" class="form" novalidate>
+          <label class="field">
+            <span data-i18n="scenario.site">Local</span>
+            <select id="sc-site">
+              <optgroup data-i18n-label="scenario.groupApollo" label="Missões Apollo" id="sc-group-apollo"></optgroup>
+              <optgroup data-i18n-label="scenario.groupSouth" label="Polo sul" id="sc-group-southpole"></optgroup>
+              <optgroup data-i18n-label="scenario.groupCustom" label="Outro local">
+                <option value="custom" data-i18n="scenario.custom">Coordenadas livres</option>
+              </optgroup>
+            </select>
+          </label>
+          <p id="sc-site-desc" class="muted small"></p>
+          <div class="row">
+            <label class="field">
+              <span data-i18n="scenario.lat">Latitude (°)</span>
+              <input id="sc-lat" type="number" step="0.0001" min="-90" max="90" required>
+            </label>
+            <label class="field">
+              <span data-i18n="scenario.lon">Longitude leste (°)</span>
+              <input id="sc-lon" type="number" step="0.0001" min="-180" max="360" required>
+            </label>
+          </div>
+          <p id="sc-pick-hint" class="muted small" data-i18n="scenario.pickHint" hidden>Dica: clique no globo para escolher o ponto.</p>
+          <div class="row">
+            <label class="field">
+              <span data-i18n="scenario.start">Início (UTC)</span>
+              <input id="sc-start" type="date" required>
+            </label>
+            <label class="field">
+              <span data-i18n="scenario.days">Duração (dias)</span>
+              <input id="sc-days" type="number" min="1" max="365" step="1" value="30" required>
+            </label>
+          </div>
+          <button id="sc-load" type="submit" data-i18n="scenario.load">Carregar cenário</button>
+        </form>
+        <div id="sc-result" class="result" aria-live="polite"></div>
       </section>
       <section class="card">
         <h2 data-i18n="solar.title">Painel solar</h2>

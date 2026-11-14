@@ -1,4 +1,4 @@
-# Lunar Site Explorer — Plano de microtarefas
+# ViaLunae — Plano de microtarefas
 
 Aplicação web (PT/EN) para comparar locais e datas de pouso na Lua, com foco no polo sul:
 globo 3D (CesiumJS), dados da JPL Horizons, relevo LOLA, potência solar em kW,
@@ -40,11 +40,11 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [x] 3.4 Rodar as funções localmente (plugin do Vite executa api/*.js no `npm run dev`)
 
 ## Fase 4 — Locais fixos e dados pré-calculados
-- [ ] 4.1 Lista de locais `data/sites.json`: 6 sítios Apollo + sítios do polo sul (nome PT/EN, lat, lon, tipo, descrição)
-- [ ] 4.2 ✋ Conferir comigo a lista de sítios do polo sul (propostos: borda de Shackleton, crista conectora, + 1 a confirmar no PGDA)
-- [ ] 4.3 Script `scripts/precompute.js`: consulta a Horizons para cada local fixo num período padrão e grava `data/ephem/<sitio>.json`
-- [ ] 4.4 Marcadores dos locais no globo, com nome e clique para selecionar
-- [ ] 4.5 Entrada de coordenadas livres (lat/lon) que consulta a API ao vivo
+- [x] 4.1 Lista de locais `public/data/sites.json`: 6 sítios Apollo + Mons Mouton (IM-2) e Malapert A (IM-1), nomes PT/EN, lat, lon, ano, descrição e fonte
+- [x] 4.2 ✋ Lista do polo sul aprovada: Mons Mouton (IM-2 Athena) e Malapert A (IM-1 Odysseus)
+- [x] 4.3 Script `scripts/precompute.mjs`: 12 meses (2026-11-01 a 2027-11-01, passo 1 h) por sítio em `public/data/ephem/<sitio>.json`, com distância do Sol e da Terra
+- [x] 4.4 Marcadores dos locais no globo, com nome e clique para selecionar
+- [x] 4.5 Coordenadas livres (digitadas ou clicando no globo) consultam a API ao vivo; locais fixos fora dos 12 meses também
 
 ## Fase 5 — Métricas e potência solar
 - [ ] 5.1 Módulo `src/metrics.js`: a partir da série de Sol/Terra, calcular

@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "notes": "Coordenadas selenográficas: lat (graus, sul negativo), lon leste (graus, -180 a 180). Fontes por sítio em 'source'.",
+  "sites": [
+    {
+      "id": "apollo11",
+      "group": "apollo",
+      "name": { "pt": "Apollo 11 — Mar da Tranquilidade", "en": "Apollo 11 — Sea of Tranquility" },
+      "lat": 0.6741,
+      "lon": 23.4730,
+      "year": 1969,
+      "description": {
+        "pt": "Primeiro pouso tripulado (Armstrong e Aldrin), numa planície de mare perto do equador.",
+        "en": "First crewed landing (Armstrong and Aldrin), on a mare plain near the equator."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    },
+    {
+      "id": "apollo12",
+      "group": "apollo",
+      "name": { "pt": "Apollo 12 — Oceano das Tempestades", "en": "Apollo 12 — Ocean of Storms" },
+      "lat": -3.0124,
+      "lon": -23.4216,
+      "year": 1969,
+      "description": {
+        "pt": "Pouso de precisão ao lado da sonda Surveyor 3.",
+        "en": "Precision landing next to the Surveyor 3 probe."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    },
+    {
+      "id": "apollo14",
+      "group": "apollo",
+      "name": { "pt": "Apollo 14 — Fra Mauro", "en": "Apollo 14 — Fra Mauro" },
+      "lat": -3.6453,
+      "lon": -17.4714,
+      "year": 1971,
+      "description": {
+        "pt": "Terras altas de Fra Mauro, material ejetado da bacia Imbrium.",
+        "en": "Fra Mauro highlands, ejecta from the Imbrium basin."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    },
+    {
+      "id": "apollo15",
+      "group": "apollo",
+      "name": { "pt": "Apollo 15 — Hadley-Apeninos", "en": "Apollo 15 — Hadley-Apennine" },
+      "lat": 26.1322,
+      "lon": 3.6339,
+      "year": 1971,
+      "description": {
+        "pt": "Primeiro jipe lunar (LRV), entre os montes Apeninos e o vale Hadley.",
+        "en": "First lunar rover (LRV), between the Apennine mountains and Hadley Rille."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    },
+    {
+      "id": "apollo16",
+      "group": "apollo",
+      "name": { "pt": "Apollo 16 — Descartes", "en": "Apollo 16 — Descartes" },
+      "lat": -8.9730,
+      "lon": 15.5002,
+      "year": 1972,
+      "description": {
+        "pt": "Único pouso Apollo nas terras altas centrais.",
+        "en": "The only Apollo landing in the central highlands."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    },
+    {
+      "id": "apollo17",
+      "group": "apollo",
+      "name": { "pt": "Apollo 17 — Taurus-Littrow", "en": "Apollo 17 — Taurus-Littrow" },
+      "lat": 20.1908,
+      "lon": 30.7717,
+      "year": 1972,
+      "description": {
+        "pt": "Última missão tripulada até hoje, num vale na borda do Mar da Serenidade.",
+        "en": "Last crewed mission to date, in a valley on the edge of the Sea of Serenity."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    },
+    {
+      "id": "mons-mouton",
+      "group": "southpole",
+      "name": { "pt": "Mons Mouton (IM-2 Athena)", "en": "Mons Mouton (IM-2 Athena)" },
+      "lat": -84.7906,
+      "lon": 29.1957,
+      "year": 2025,
+      "description": {
+        "pt": "Pouso da Athena (Intuitive Machines, CLPS) em 2025. Região candidata da Artemis III.",
+        "en": "Athena landing (Intuitive Machines, CLPS) in 2025. Artemis III candidate region."
+      },
+      "source": "Wikipedia, IM-2 (landing site 84.7906°S 29.1957°E)"
+    },
+    {
+      "id": "malapert-a",
+      "group": "southpole",
+      "name": { "pt": "Malapert A (IM-1 Odysseus)", "en": "Malapert A (IM-1 Odysseus)" },
+      "lat": -80.13,
+      "lon": 1.44,
+      "year": 2024,
+      "description": {
+        "pt": "Pouso da Odysseus (Intuitive Machines, CLPS) em 2024, primeiro pouso comercial americano.",
+        "en": "Odysseus landing (Intuitive Machines, CLPS) in 2024, the first US commercial landing."
+      },
+      "source": "Wikipedia, List of landings on extraterrestrial bodies"
+    }
+  ]
+}

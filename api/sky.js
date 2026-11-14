@@ -8,7 +8,7 @@
 //   days  duração em dias (padrão 30, máx. 400)
 //   step  passo em minutos (padrão: automático para ~2000 pontos; mín. 10)
 //
-// Resposta: { site, start, stop, stepMinutes, samples: [{ t, sunAz, sunEl, earthAz, earthEl }] }
+// Resposta: { site, start, stop, stepMinutes, samples: [{ t, sunAz, sunEl, earthAz, earthEl, sunDistAu, earthDistKm }] }
 // Elevações são em relação ao horizonte liso (esfera lunar), sem relevo.
 import {
   callHorizons,
@@ -24,6 +24,7 @@ import {
   HttpError,
 } from "./_lib/horizons.js";
 
+const AU_KM = 149_597_870.7;
 const MAX_POINTS = 5000;
 const TARGET_POINTS = 2000;
 const ALLOWED_STEPS = [10, 15, 20, 30, 60, 120, 180, 240, 360, 720, 1440];
@@ -50,13 +51,14 @@ async function azElSeries(body, { lat, lon, startStr, stopStr, step }) {
     START_TIME: startStr,
     STOP_TIME: stopStr,
     STEP_SIZE: `${step}m`,
-    QUANTITIES: "4",
+    QUANTITIES: "4,20", // azimute/elevação + distância (delta, au)
     CSV_FORMAT: "YES",
   });
   return parseCsvTable(result).map((c) => ({
     t: horizonsTimeToIso(c[0]),
     az: parseFloat(c[3]),
     el: parseFloat(c[4]),
+    distAu: parseFloat(c[5]),
   }));
 }
 
@@ -76,6 +78,8 @@ export async function getSky({ lat, lon, start, days, step }) {
       sunEl: sun[i].el,
       earthAz: earth[i].az,
       earthEl: earth[i].el,
+      sunDistAu: sun[i].distAu,
+      earthDistKm: Math.round(earth[i].distAu * AU_KM),
     };
   }
   return {

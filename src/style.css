@@ -102,3 +102,23 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
   .panel { border-left: 0; border-top: 1px solid var(--border); }
   #time-label { min-width: 0; }
 }
+
+/* formulários do painel */
+.form { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.field { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); }
+.field input, .field select {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; color: var(--text);
+  width: 100%; min-width: 0;
+}
+.field input[readonly] { opacity: .7; }
+.field input:focus, .field select:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+.small { font-size: 12px; }
+.card p.small { margin: 0; }
+.result { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+.result:empty { display: none; }
+.result p { margin: 0; }
+.result .strong { font-weight: 600; margin-top: 4px; }
+.result .sun { color: var(--sun); }
+.result .earth { color: var(--earth); }
+.result .error, .error { color: #ff9b9b; }

@@ -38,13 +38,24 @@ Erros vêm como `{ "error": { "code", "message" } }` com status 400, 502, 503 ou
 Respostas são guardadas em cache (memória da função + `Cache-Control` na CDN da Vercel).
 As elevações consideram o horizonte liso (esfera lunar); o relevo LOLA entra na Fase 8.
 
+## Dados pré-calculados
+
+Os locais fixos têm 12 meses de Sol e Terra gravados em `public/data/ephem/`. Para regenerar:
+
+```bash
+node scripts/precompute.mjs 2026-11-01 365
+```
+
+Fora desse período, ou para coordenadas livres, o app consulta `/api/sky` ao vivo.
+
 ## Estrutura
 
 | Pasta | Conteúdo |
 |---|---|
 | `src/` | Front-end (globo, painel, métricas, idiomas) |
 | `api/` | Funções serverless da Vercel (proxy da Horizons) |
-| `data/` | Dados pré-calculados (efemérides e recortes de relevo) |
+| `public/data/` | Locais (`sites.json`) e efemérides pré-calculadas (`ephem/`) |
+| `data/raw/` | Dados brutos grandes (LOLA), fora do Git |
 | `scripts/` | Scripts de geração de dados e build |
 | `prototype/` | Primeiro protótipo (three.js + Node), só como referência |
 
