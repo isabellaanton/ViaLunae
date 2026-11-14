@@ -2,6 +2,7 @@
 
 Aplicação web (PT/EN) para comparar locais e datas de pouso na Lua, com foco no polo sul:
 globo 3D (CesiumJS), dados da JPL Horizons, relevo LOLA, potência solar em kW,
+simulação das condições de uma coordenada (Sol, Terra, irradiância, temperatura estimada),
 vista do horizonte, linha do tempo, modo educativo e exportação CSV. Publicação na Vercel.
 
 Regra geral: **tudo em versão simples primeiro**, refinar só no fim (fase 10).
@@ -53,6 +54,18 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [ ] 5.2 Módulo `src/power.js`: potência em kW com valores padrão editáveis (área, eficiência, inclinação, azimute; padrão = painel vertical que segue o Sol)
 - [ ] 5.3 Formulário do painel solar com os valores padrão
 - [ ] 5.4 Testes unitários simples das funções de métricas e potência
+
+## Fase 5B — Simulação das condições de uma coordenada
+Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como muda ao longo do período.
+- [ ] 5B.1 Painel "Condições no local" com: dia/noite, elevação e azimute do Sol, elevação e azimute da Terra, tempo até o próximo pôr do Sol e pôr da Terra
+- [ ] 5B.2 Irradiância solar na superfície (W/m²): constante solar corrigida pela distância ao Sol (Horizons) × seno da elevação do Sol; zero com o Sol abaixo do horizonte
+- [ ] 5B.3 Temperatura da superfície **estimada** (K e °C): equilíbrio radiativo de dia (albedo e emissividade lunares típicos) e valor de noite fria; aviso claro de que é estimativa, não medição
+- [ ] 5B.4 Atraso de comunicação com a Terra (tempo-luz, Horizons) e distância Terra–local
+- [ ] 5B.5 Fase da Terra vista do local (fração iluminada) e duração do dia/noite lunar no local
+- [ ] 5B.6 Gráfico das condições ao longo do período (irradiância e temperatura), ligado à linha do tempo
+- [ ] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média)
+- [ ] 5B.8 Cartões educativos explicando cada condição (por que a temperatura varia tanto, por que não há atmosfera)
+- [ ] 5B.9 (refino, Fase 8) Usar o horizonte LOLA: Sol atrás do relevo = sombra, com efeito na irradiância e na temperatura
 
 ## Fase 6 — Tabela de comparação de cenários
 - [ ] 6.1 Criar cenário: local + data inicial + duração, botão "adicionar à comparação"
