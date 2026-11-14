@@ -150,3 +150,8 @@ export function setSunFromLocalAzEl(viewer, latDeg, lonDeg, azDeg, elDeg) {
   setSunFromSubsolarPoint(viewer, lon, lat);
   return { lon, lat };
 }
+
+// Tileset do Cesium Moon em uso (null quando a superfície é o Moon Trek, sem relevo)
+export function getTerrainTileset() {
+  return currentTileset;
+}

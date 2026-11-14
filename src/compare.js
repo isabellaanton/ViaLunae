@@ -50,7 +50,7 @@ export function createComparison({ getPanel, siteLabel, loadSeries, onEdit }) {
     for (const q of saved.slice(0, MAX_SCENARIOS)) {
       try {
         const query = { ...q, start: new Date(q.start) };
-        const series = await loadSeries(query);
+        const { series } = await loadSeries(query);
         scenarios.push({ id: `s${nextId++}`, query, series });
       } catch {
         // cenário que não carrega mais (ex.: sem rede) é descartado
@@ -61,7 +61,7 @@ export function createComparison({ getPanel, siteLabel, loadSeries, onEdit }) {
 
   function rows() {
     const panel = getPanel();
-    return scenarios.map((s) => buildRow(s, panel, siteLabel(s.query)));
+    return scenarios.map((s) => buildRow(s, panel, siteLabel(s.query) + (s.query.terrain ? " ⛰" : "")));
   }
 
   // ---------- lista resumida no painel ----------
@@ -197,7 +197,7 @@ export function createComparison({ getPanel, siteLabel, loadSeries, onEdit }) {
     add(result) {
       const q = result.query;
       const same = scenarios.some(
-        (s) => s.query.lat === q.lat && s.query.lon === q.lon && s.query.days === q.days && +s.query.start === +q.start
+        (s) => s.query.lat === q.lat && s.query.lon === q.lon && s.query.days === q.days && +s.query.start === +q.start && !!s.query.terrain === !!q.terrain
       );
       if (same) return "duplicate";
       if (scenarios.length >= MAX_SCENARIOS) return "full";

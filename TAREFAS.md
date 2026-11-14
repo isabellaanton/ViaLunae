@@ -62,7 +62,7 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 - [x] 5B.6 Gráfico SVG de irradiância e temperatura no período, com cursor ligado à barra de tempo
 - [x] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média)
 - [ ] 5B.8 Cartões educativos explicando cada condição — junto com a Fase 9
-- [ ] 5B.9 (refino, Fase 8) Usar o horizonte LOLA: Sol atrás do relevo = sombra, com efeito na irradiância e na temperatura
+- [x] 5B.9 Horizonte real: Sol atrás do relevo = sombra, com efeito na irradiância, na temperatura e na potência
 
 ## Fase 6 — Tabela de comparação de cenários
 - [x] 6.1 Botão "+ Adicionar à comparação" depois de carregar um cenário (evita repetidos, até 12)
@@ -78,12 +78,12 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 - [x] 7.4 Globo (luz do Sol) e condições atualizam conforme o tempo avança
 
 ## Fase 8 — Relevo LOLA e vista do horizonte (Street View)
-- [ ] 8.1 ✋ Escolher e aprovar os arquivos LOLA 5 m do PGDA (nome, tamanho e origem antes de baixar)
-- [ ] 8.2 Script que recorta e reduz cada sítio para um mapa de altura leve (ex.: PNG 16 bits ou binário) em `data/terrain/`
-- [ ] 8.3 Cálculo do perfil do horizonte (elevação do terreno em cada azimute) para cada sítio
-- [ ] 8.4 Usar o horizonte real nas métricas (Sol/Terra visíveis só acima do relevo)
-- [ ] 8.5 Panorama 3D: câmera no chão, terreno sombreado, Sol e Terra no céu na hora escolhida
-- [ ] 8.6 Botão "ver do chão" a partir do globo e da tabela
+- [x] 8.1 ✋ Fonte do relevo aprovada: terreno do Cesium Moon (LOLA 5 m do PGDA cobre só ~16–25 km e só Mons Mouton; o horizonte do polo depende de montanhas a 50–150 km)
+- [x] 8.2 Amostragem do relevo no navegador (`src/horizon.js`): 180 azimutes × 27 distâncias até 150 km, em duas passadas (perto/longe)
+- [x] 8.3 Perfil do horizonte por sítio em `public/data/horizon/<id>.json`; coordenadas livres calculadas ao vivo (~30–70 s) e guardadas no navegador
+- [x] 8.4 Horizonte real nas métricas, potência, condições, tabela e CSV (caixa "Considerar relevo"; "atrás do relevo" e "sombra do relevo")
+- [x] 8.5 Vista do chão: câmera a 2 m do solo, relevo real, Sol e Terra no céu seguindo a barra de tempo; arrastar para olhar em volta
+- [x] 8.6 Botão "Ver do chão" no card de condições, com "Olhar para o Sol / Terra" e "Sair"; gráfico panorâmico do horizonte com os caminhos do Sol e da Terra
 
 ## Fase 9 — Modo educativo
 - [ ] 9.1 Cartões de explicação curtos (PT/EN) ao lado de cada métrica (ícone "?")

@@ -46,6 +46,8 @@ export function incidenceCos(sunEl, sunAz, panel) {
 
 /** Potência instantânea em kW para uma amostra */
 export function powerKw(sample, panel) {
+  // relevo: Sol escondido atrás do horizonte real -> painel na sombra
+  if (sample.sunHz != null && sample.sunEl <= sample.sunHz) return 0;
   const cos = incidenceCos(sample.sunEl, sample.sunAz, panel);
   if (cos === 0) return 0;
   return (irradiance(sample.sunDistAu ?? 1) * panel.areaM2 * panel.efficiency * cos) / 1000;

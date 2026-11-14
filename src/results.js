@@ -59,14 +59,15 @@ export function renderScenarioResult(container, lastResult, panel) {
   const { metrics: m, power: p } = computeScenario(series, panel);
   const s0 = series.samples[0];
   const last = series.samples[series.samples.length - 1];
-  const vis = (v) => (v ? t("scenario.visible") : t("scenario.below"));
+  // visível / atrás do relevo (acima da esfera, mas escondido pelo terreno) / abaixo do horizonte
+  const vis = (v, el) => (v ? t("scenario.visible") : el > 0 ? t("metrics.behindTerrain") : t("scenario.below"));
 
   container.append(
     el("p", "muted small", t("scenario.summary", { n: series.samples.length, step2: series.stepMinutes, from: fmtTime(s0.t), to: fmtTime(last.t) })),
     el("p", "muted small", t("scenario.source", { source: t(series.source === "file" ? "scenario.sourceFile" : "scenario.sourceLive") })),
 
     section(t("metrics.sun"), "sun", [
-      [t("metrics.atStart"), `${n(m.sun.elevationNow)}° · ${vis(m.sun.visibleNow)}`],
+      [t("metrics.atStart"), `${n(m.sun.elevationNow)}° · ${vis(m.sun.visibleNow, m.sun.elevationNow)}`],
       [t("metrics.elevRange"), t("metrics.minMeanMax", { min: n(m.sun.elevation.min), mean: n(m.sun.elevation.mean), max: n(m.sun.elevation.max) })],
       [t("metrics.sunlight"), t("metrics.fractionOf", { pct: n(m.sun.fraction * 100, 0), d: dur(m.sun.hours) })],
       [t("metrics.longest"), dur(m.sun.longestWindowHours)],
@@ -74,7 +75,7 @@ export function renderScenarioResult(container, lastResult, panel) {
     ]),
 
     section(t("metrics.earth"), "earth", [
-      [t("metrics.atStart"), `${n(m.earth.elevationNow)}° · ${vis(m.earth.visibleNow)}`],
+      [t("metrics.atStart"), `${n(m.earth.elevationNow)}° · ${vis(m.earth.visibleNow, m.earth.elevationNow)}`],
       [t("metrics.commWindow"), t("metrics.fractionOf", { pct: n(m.earth.fraction * 100, 0), d: dur(m.earth.hours) })],
       [t("metrics.windows"), t("metrics.windowsCount", { count: m.earth.windows.length, longest: dur(m.earth.longestWindowHours) })],
       [t("metrics.next"), next(m.earth.next, "metrics.earthsetIn", "metrics.earthriseIn")],
@@ -90,6 +91,7 @@ export function renderScenarioResult(container, lastResult, panel) {
       [t("metrics.energy"), t("units.kwh", { v: n(p.energyKwh, 0) })],
     ]),
 
-    el("p", "muted small note", t("metrics.smoothNote"))
+    el("p", "muted small note", lastResult.horizon ? t("metrics.terrainNote", { km: lastResult.horizon.maxRangeKm }) : t("metrics.smoothNote")),
+    ...(lastResult.horizonError ? [el("p", "error small", t(lastResult.horizonError))] : [])
   );
 }

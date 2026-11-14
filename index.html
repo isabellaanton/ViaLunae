@@ -38,6 +38,12 @@
         </label>
       </div>
       <div id="globe-status" class="globe-status muted" role="status"></div>
+      <div id="ground-bar" class="ground-bar" hidden>
+        <span class="small" data-i18n="ground.hint">Arraste para olhar em volta.</span>
+        <button id="ground-sun" type="button" class="ghost" data-i18n="ground.lookSun">☀ Olhar para o Sol</button>
+        <button id="ground-earth" type="button" class="ghost" data-i18n="ground.lookEarth">🌍 Olhar para a Terra</button>
+        <button id="ground-exit" type="button" data-i18n="ground.exit">Sair da vista do chão</button>
+      </div>
     </section>
 
     <aside class="panel" data-i18n-aria-label="panel.label" aria-label="Painel de cenários">
@@ -76,6 +82,10 @@
               <input id="sc-days" type="number" min="1" max="365" step="1" value="30" required>
             </label>
           </div>
+          <label class="check">
+            <input id="sc-terrain" type="checkbox" checked>
+            <span data-i18n="scenario.terrain">Considerar relevo (horizonte real até 150 km)</span>
+          </label>
           <button id="sc-load" type="submit" data-i18n="scenario.load">Carregar cenário</button>
         </form>
         <div id="sc-result" class="result" aria-live="polite"></div>
@@ -85,6 +95,15 @@
         <h2 data-i18n="cond.title">Condições no local</h2>
         <p id="cond-time" class="muted small"></p>
         <dl id="cond-values" class="cond-grid"></dl>
+        <figure class="chart-wrap" id="hz-wrap" hidden>
+          <svg id="hz-chart" viewBox="0 0 320 150" role="img" data-i18n-aria-label="cond.hzChartLabel" aria-label="Horizonte real com os caminhos do Sol e da Terra"></svg>
+          <figcaption class="chart-legend small">
+            <span class="lg terrain" data-i18n="cond.legendTerrain">Relevo (horizonte real)</span>
+            <span class="lg sun" data-i18n="cond.legendSunPath">Caminho do Sol</span>
+            <span class="lg earth" data-i18n="cond.legendEarthPath">Caminho da Terra</span>
+          </figcaption>
+          <div class="btn-row"><button id="btn-ground" type="button" data-i18n="ground.enter">👁 Ver do chão</button></div>
+        </figure>
         <figure class="chart-wrap">
           <svg id="elev-chart" viewBox="0 0 320 150" role="img" data-i18n-aria-label="cond.elevChartLabel" aria-label="Elevação do Sol e da Terra ao longo do período"></svg>
           <figcaption class="chart-legend small">

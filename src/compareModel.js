@@ -53,6 +53,7 @@ export function buildRow(scenario, panel, siteLabel) {
     tempMinC: kToC(c.tempMinK),
     tempMaxC: kToC(c.tempMaxK),
     source: series.source,
+    terrain: Boolean(query.terrain),
   };
 }
 
@@ -104,6 +105,7 @@ export function toCsv(rows, labelFn, panel) {
     { key: "lon", header: "lon_east" },
     { key: "end", header: "end_utc" },
     { key: "source", header: "source" },
+    { key: "terrain", header: "terrain_horizon" },
   ];
   const header = [
     ...COLUMNS.map((c) => (c.unit ? `${labelFn(c.label)} (${c.unit})` : labelFn(c.label))),

@@ -3,6 +3,8 @@ import { t, getLang, onLangChange } from "./i18n/index.js";
 import { loadSites, getSeries } from "./sites.js";
 import { flyToSite } from "./markers.js";
 import { renderScenarioResult } from "./results.js";
+import { getHorizonProfile } from "./horizonStore.js";
+import { applyHorizon } from "./horizon.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -16,6 +18,7 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
   const hint = $("sc-pick-hint");
   const result = $("sc-result");
   const btn = $("sc-load");
+  const terrain = $("sc-terrain");
 
   const sites = await loadSites();
   const byId = new Map(sites.map((s) => [s.id, s]));
@@ -127,10 +130,13 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
         lon: Number(lon.value),
         start: new Date(`${start.value}T00:00:00Z`),
         days: Number(days.value),
+        terrain: terrain.checked,
       };
-      const series = await getSeries(q);
-      if (!series.samples.length) throw new Error("sem dados");
-      lastResult = { query: q, series };
+      const loaded = await loadSeries(q, (frac) => {
+        btn.textContent = t("scenario.horizonProgress", { pct: Math.round(frac * 100) });
+      });
+      if (!loaded.series.samples.length) throw new Error("sem dados");
+      lastResult = { query: q, ...loaded };
       renderResult();
       addBtn.hidden = false;
       addBtn.disabled = false;
@@ -161,6 +167,24 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
   sel.value = "mons-mouton";
   applySelection({ fly: false });
 
+  /**
+   * Série + horizonte real (se pedido). Usado aqui e para recarregar a comparação.
+   * Se o relevo não puder ser calculado, segue com horizonte liso e avisa (horizonError).
+   */
+  async function loadSeries(q, onProgress) {
+    const series = await getSeries(q);
+    let horizon = null, horizonError = null;
+    if (q.terrain) {
+      if (!q.siteId) btn.textContent = t("scenario.horizonComputing");
+      try {
+        horizon = await getHorizonProfile(q, viewer, onProgress);
+      } catch (e) {
+        horizonError = e.message === "NO_TERRAIN" ? "scenario.noTerrain" : "scenario.horizonFailed";
+      }
+    }
+    return { series: { ...series, samples: applyHorizon(series.samples, horizon) }, horizon, horizonError };
+  }
+
   // nome do local de uma consulta, no idioma atual
   function siteLabel(q) {
     const s = q.siteId && byId.get(q.siteId);
@@ -180,9 +204,10 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
     }
     start.value = q.start.toISOString().slice(0, 10);
     days.value = q.days;
+    terrain.checked = q.terrain !== false;
     $("scenario-form").requestSubmit();
     $("scenario-card").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  return { rerender: renderResult, getLast: () => lastResult, siteLabel, loadQuery };
+  return { rerender: renderResult, getLast: () => lastResult, siteLabel, loadQuery, loadSeries };
 }

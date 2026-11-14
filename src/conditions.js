@@ -1,7 +1,7 @@
 // Condições na superfície num instante: luz, irradiância, temperatura estimada, Terra e comunicação.
 // Funções puras sobre as amostras { t, sunAz, sunEl, earthAz, earthEl, sunDistAu, earthDistKm }.
 import { irradiance } from "./power.js";
-import { windows } from "./metrics.js";
+import { windows, isUp } from "./metrics.js";
 
 const AU_KM = 149_597_870.7;
 const LIGHT_KM_S = 299_792.458;
@@ -55,7 +55,8 @@ export function earthIlluminatedFraction(s) {
 
 /** Condições num instante */
 export function conditionsAt(s, latDeg) {
-  const sunUp = s.sunEl > 0;
+  const sunUp = isUp(s, "sunEl");
+  const shadowed = !sunUp && s.sunEl > 0; // Sol acima da esfera, mas atrás do relevo
   const normal = irradiance(s.sunDistAu ?? 1);
   return {
     t: s.t,
@@ -64,11 +65,14 @@ export function conditionsAt(s, latDeg) {
     sunAz: s.sunAz,
     earthEl: s.earthEl,
     earthAz: s.earthAz,
-    earthVisible: s.earthEl > 0,
+    earthVisible: isUp(s, "earthEl"),
+    shadowed,
+    sunHz: s.sunHz ?? null,
+    earthHz: s.earthHz ?? null,
     // irradiância perpendicular aos raios e sobre o chão plano
     irradianceNormal: sunUp ? normal : 0,
     irradianceGround: sunUp ? normal * Math.sin(rad(s.sunEl)) : 0,
-    tempK: surfaceTempK(s.sunEl, s.sunDistAu ?? 1, latDeg),
+    tempK: surfaceTempK(sunUp ? s.sunEl : -1, s.sunDistAu ?? 1, latDeg),
     earthPhase: earthIlluminatedFraction(s),
     earthDistKm: s.earthDistKm ?? null,
     delayS: s.earthDistKm != null ? s.earthDistKm / LIGHT_KM_S : null,
@@ -90,8 +94,8 @@ export function dayNightDurations(samples) {
     return full.length ? full.reduce((a, w) => a + w.hours, 0) / full.length : null;
   };
   return {
-    dayHours: mean(windows(samples, (s) => s.sunEl > 0)),
-    nightHours: mean(windows(samples, (s) => s.sunEl <= 0)),
+    dayHours: mean(windows(samples, (s) => isUp(s, "sunEl"))),
+    nightHours: mean(windows(samples, (s) => !isUp(s, "sunEl"))),
   };
 }
 

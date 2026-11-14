@@ -203,3 +203,27 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
 .chart-legend .horizon::before { background: repeating-linear-gradient(90deg, #fff 0 4px, transparent 4px 7px); opacity: .6; }
 .chart-legend .band::before { height: 8px; background: var(--earth); opacity: .25; }
 #time-speed { padding: 4px 6px; }
+
+/* horizonte real e vista do chão */
+.check { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--text); cursor: pointer; }
+.check input { width: 16px; height: 16px; accent-color: var(--accent); }
+#hz-chart { width: 100%; height: auto; display: block; }
+#hz-chart .ch-sky { fill: #070b16; stroke: var(--border); }
+#hz-chart .ch-terrain { fill: #4b4f5a; stroke: #9aa0ad; stroke-width: .8; }
+#hz-chart .ch-horizon { stroke: #fff; stroke-opacity: .4; stroke-dasharray: 4 3; }
+#hz-chart .ch-sunpath { fill: var(--sun); fill-opacity: .55; }
+#hz-chart .ch-earthpath { fill: var(--earth); fill-opacity: .55; }
+#hz-chart .ch-sunnow { fill: var(--sun); stroke: #fff; stroke-width: 1; }
+#hz-chart .ch-earthnow { fill: var(--earth); stroke: #fff; stroke-width: 1; }
+#hz-chart .ch-txt { fill: var(--muted); font-size: 9px; }
+#elev-chart .ch-sunhz { fill: none; stroke: #9aa0ad; stroke-width: 1.2; stroke-dasharray: 3 2; }
+.chart-legend .terrain::before { height: 8px; background: #4b4f5a; border: 1px solid #9aa0ad; }
+.cond-grid dd.terrain { color: #c3c7d1; }
+.ground-bar {
+  position: absolute; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  background: rgba(15, 20, 32, .85); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+}
+.ground-bar .small { color: var(--muted); margin-right: auto; }
+
+/* [hidden] sempre esconde, mesmo em elementos com display próprio */
+[hidden] { display: none !important; }

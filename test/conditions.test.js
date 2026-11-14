@@ -42,3 +42,16 @@ test("duração do dia: só conta janelas completas", () => {
   assert.equal(r.dayHours, 2); // 01:00 a 03:00
   assert.equal(r.nightHours, 1); // 04:00 a 05:00
 });
+
+test("relevo: Sol acima da esfera mas abaixo do horizonte real = sombra", async () => {
+  const { powerKw, DEFAULT_PANEL } = await import("../src/power.js");
+  const { computeMetrics } = await import("../src/metrics.js");
+  const s = { t: "2026-01-01T00:00:00Z", sunAz: 90, sunEl: 2, sunHz: 3, earthAz: 0, earthEl: 1, earthHz: -1, sunDistAu: 1, earthDistKm: 384400 };
+  const c = conditionsAt(s, -85);
+  assert.equal(c.isDay, false);
+  assert.equal(c.shadowed, true);
+  assert.equal(c.earthVisible, true);
+  assert.equal(c.irradianceGround, 0);
+  assert.equal(powerKw(s, DEFAULT_PANEL), 0);
+  assert.equal(computeMetrics([s, { ...s, t: "2026-01-01T01:00:00Z" }]).sun.fraction, 0);
+});

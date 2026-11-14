@@ -7,7 +7,7 @@ janelas de comunicação direta com a Terra.
 
 - Globo 3D: [CesiumJS](https://cesium.com/platform/cesiumjs/)
 - Efemérides: [JPL Horizons API](https://ssd-api.jpl.nasa.gov/doc/horizons.html)
-- Relevo do polo sul: LOLA 5 m/pixel ([NASA PGDA](https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/))
+- Relevo e horizonte real: [Cesium Moon Terrain](https://cesium.com/platform/cesium-ion/content/cesium-moon-terrain) (Cesium ion, asset 2684829)
 - Plano de trabalho: [TAREFAS.md](TAREFAS.md)
 
 ## Como rodar localmente
@@ -48,6 +48,12 @@ node scripts/precompute.mjs 2026-11-01 365
 
 Fora desse período, ou para coordenadas livres, o app consulta `/api/sky` ao vivo.
 
+## Horizonte real
+
+Com "Considerar relevo", o app usa o perfil do horizonte do local: a elevação do terreno em 180 direções,
+amostrada no relevo do Cesium Moon até 150 km. O Sol e a Terra só contam como visíveis acima desse perfil.
+Os locais fixos têm o perfil em `public/data/horizon/`; coordenadas livres são calculadas no navegador.
+
 ## Estrutura
 
 | Pasta | Conteúdo |
@@ -61,4 +67,4 @@ Fora desse período, ou para coordenadas livres, o app consulta `/api/sky` ao vi
 
 ## Créditos
 
-Dados de efemérides: NASA/JPL Horizons. Relevo: NASA LOLA (Barker et al., 2021).
+Dados de efemérides: NASA/JPL Horizons. Relevo: Cesium Moon Terrain (dados NASA e USGS Astrogeology). Imagem: LROC WAC (NASA/GSFC/ASU) via NASA Moon Trek.

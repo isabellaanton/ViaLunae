@@ -48,5 +48,5 @@ test("CSV: cabeçalho, uma linha por cenário e escape de vírgula", () => {
   assert.equal(lines.length, 2);
   assert.ok(lines[0].startsWith("cmp.col.site,cmp.col.start"));
   assert.ok(lines[1].startsWith('"Local, com vírgula",2026-01-01T00:00:00.000Z'));
-  assert.equal(lines[0].split(",").length, COLUMNS.length + 7);
+  assert.equal(lines[0].split(",").length, COLUMNS.length + 8);
 });

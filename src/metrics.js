@@ -5,6 +5,15 @@
 // Refinamento possível: borda do disco (Sol ~0,27°, Terra ~0,95°) e relevo LOLA (Fase 8).
 export const HORIZON_DEG = 0;
 
+/**
+ * Astro visível? Com relevo, a amostra traz sunHz/earthHz (elevação do horizonte real naquela direção);
+ * sem relevo, o horizonte é a esfera lisa (0°). key: "sunEl" ou "earthEl".
+ */
+export function isUp(s, key) {
+  const hz = s[key === "sunEl" ? "sunHz" : "earthHz"];
+  return s[key] > (hz ?? HORIZON_DEG);
+}
+
 const hoursBetween = (a, b) => (Date.parse(b) - Date.parse(a)) / 3_600_000;
 
 /** Trechos contínuos em que pred(amostra) é verdadeiro -> [{ start, end, hours }] */
@@ -35,9 +44,9 @@ export function windows(samples, pred) {
  */
 export function timeToChange(samples, key) {
   if (!samples.length) return null;
-  const up0 = samples[0][key] > HORIZON_DEG;
+  const up0 = isUp(samples[0], key);
   for (let i = 1; i < samples.length; i++) {
-    if (samples[i][key] > HORIZON_DEG !== up0) {
+    if (isUp(samples[i], key) !== up0) {
       return { hours: hoursBetween(samples[0].t, samples[i].t), event: up0 ? "set" : "rise" };
     }
   }
@@ -56,7 +65,7 @@ function stats(values) {
 
 /** Fração de amostras visíveis e horas correspondentes no período */
 function visibility(samples, key, totalHours) {
-  const visible = samples.filter((s) => s[key] > HORIZON_DEG).length;
+  const visible = samples.filter((s) => isUp(s, key)).length;
   const fraction = samples.length ? visible / samples.length : 0;
   return { fraction, hours: fraction * totalHours };
 }
@@ -64,8 +73,8 @@ function visibility(samples, key, totalHours) {
 export function computeMetrics(samples) {
   if (!samples.length) throw new Error("série vazia");
   const totalHours = hoursBetween(samples[0].t, samples[samples.length - 1].t);
-  const sunUp = (s) => s.sunEl > HORIZON_DEG;
-  const earthUp = (s) => s.earthEl > HORIZON_DEG;
+  const sunUp = (s) => isUp(s, "sunEl");
+  const earthUp = (s) => isUp(s, "earthEl");
 
   const sunWins = windows(samples, sunUp);
   const earthWins = windows(samples, earthUp);
