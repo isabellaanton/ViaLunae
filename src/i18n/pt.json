@@ -135,5 +135,11 @@
   "cmp.col.energyKwh": "Energia",
   "cmp.col.irrMean": "Irradiância média no chão",
   "cmp.col.tempMinC": "Temp. mín.",
-  "cmp.col.tempMaxC": "Temp. máx."
+  "cmp.col.tempMaxC": "Temp. máx.",
+  "cond.elevChartLabel": "Elevação do Sol e da Terra ao longo do período",
+  "cond.legendSun": "Sol (elevação)",
+  "cond.legendEarth": "Terra (elevação)",
+  "cond.legendHorizon": "Horizonte (0°)",
+  "cond.legendBand": "Terra visível",
+  "time.speed": "Velocidade da animação"
 }

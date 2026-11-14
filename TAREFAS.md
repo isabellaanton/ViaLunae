@@ -73,8 +73,8 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 
 ## Fase 7 — Linha do tempo e animação
 - [x] 7.1 Barra de tempo do período do cenário selecionado
-- [x] 7.2 Botão animar / pausar (velocidade fixa: período inteiro em ~12 s)
-- [ ] 7.3 Gráfico simples de elevação do Sol e da Terra ao longo do tempo, com o horizonte em 0°
+- [x] 7.2 Botão animar / pausar e controle de velocidade (0,5×, 1×, 2×, 4×; 1× = período inteiro em ~12 s)
+- [x] 7.3 Gráfico de elevação do Sol e da Terra no período, com o horizonte em 0°, faixas de Terra visível e cursor da barra de tempo
 - [x] 7.4 Globo (luz do Sol) e condições atualizam conforme o tempo avança
 
 ## Fase 8 — Relevo LOLA e vista do horizonte (Street View)

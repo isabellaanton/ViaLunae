@@ -188,3 +188,18 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
 /* coluna "Local" fixa ao rolar a tabela para o lado */
 .cmp-table thead th:first-child { left: 0; z-index: 2; }
 .cmp-table tbody th { position: sticky; left: 0; background: var(--surface); z-index: 1; }
+
+/* gráfico de elevação */
+#elev-chart { width: 100%; height: auto; display: block; }
+#elev-chart .ch-bg { fill: var(--bg); stroke: var(--border); }
+#elev-chart .ch-sun { fill: none; stroke: var(--sun); stroke-width: 1.5; }
+#elev-chart .ch-earth { fill: none; stroke: var(--earth); stroke-width: 1.5; }
+#elev-chart .ch-horizon { stroke: #fff; stroke-opacity: .55; stroke-dasharray: 4 3; }
+#elev-chart .ch-band-earth { fill: var(--earth); fill-opacity: .10; }
+#elev-chart .ch-cursor { stroke: #fff; stroke-width: 1; stroke-opacity: .8; }
+#elev-chart .ch-txt { fill: var(--muted); font-size: 9px; }
+.chart-legend .sun::before { background: var(--sun); }
+.chart-legend .earth::before { background: var(--earth); }
+.chart-legend .horizon::before { background: repeating-linear-gradient(90deg, #fff 0 4px, transparent 4px 7px); opacity: .6; }
+.chart-legend .band::before { height: 8px; background: var(--earth); opacity: .25; }
+#time-speed { padding: 4px 6px; }

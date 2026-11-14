@@ -8,6 +8,7 @@ export function createTimeline(onIndex) {
   const slider = $("time-slider");
   const label = $("time-label");
   const play = $("btn-play");
+  const speed = $("time-speed");
   let samples = null;
   let timer = null;
 
@@ -33,12 +34,16 @@ export function createTimeline(onIndex) {
   play.addEventListener("click", () => {
     if (!samples) return;
     if (timer) return stop();
-    // ~12 s para percorrer o período inteiro, no máximo 30 quadros por segundo
-    const step = Math.max(1, Math.round(samples.length / 360));
+    // 1× = período inteiro em ~12 s (30 quadros/s); a posição acumula frações para velocidades baixas
+    let pos = Number(slider.value);
     timer = setInterval(() => {
-      const next = (Number(slider.value) + step) % samples.length;
-      slider.value = next;
-      show(next);
+      const perFrame = (samples.length / 360) * Number(speed.value || 1);
+      pos = (pos + perFrame) % samples.length;
+      const next = Math.floor(pos);
+      if (next !== Number(slider.value)) {
+        slider.value = next;
+        show(next);
+      }
     }, 33);
     setPlayLabel();
   });

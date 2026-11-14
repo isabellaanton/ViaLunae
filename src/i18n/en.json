@@ -135,5 +135,11 @@
   "cmp.col.energyKwh": "Energy",
   "cmp.col.irrMean": "Mean ground irradiance",
   "cmp.col.tempMinC": "Min temp.",
-  "cmp.col.tempMaxC": "Max temp."
+  "cmp.col.tempMaxC": "Max temp.",
+  "cond.elevChartLabel": "Sun and Earth elevation over the period",
+  "cond.legendSun": "Sun (elevation)",
+  "cond.legendEarth": "Earth (elevation)",
+  "cond.legendHorizon": "Horizon (0°)",
+  "cond.legendBand": "Earth visible",
+  "time.speed": "Animation speed"
 }

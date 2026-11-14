@@ -86,6 +86,15 @@
         <p id="cond-time" class="muted small"></p>
         <dl id="cond-values" class="cond-grid"></dl>
         <figure class="chart-wrap">
+          <svg id="elev-chart" viewBox="0 0 320 150" role="img" data-i18n-aria-label="cond.elevChartLabel" aria-label="Elevação do Sol e da Terra ao longo do período"></svg>
+          <figcaption class="chart-legend small">
+            <span class="lg sun" data-i18n="cond.legendSun">Sol (elevação)</span>
+            <span class="lg earth" data-i18n="cond.legendEarth">Terra (elevação)</span>
+            <span class="lg horizon" data-i18n="cond.legendHorizon">Horizonte (0°)</span>
+            <span class="lg band" data-i18n="cond.legendBand">Terra visível</span>
+          </figcaption>
+        </figure>
+        <figure class="chart-wrap">
           <svg id="cond-chart" viewBox="0 0 320 150" role="img" data-i18n-aria-label="cond.chartLabel" aria-label="Irradiância e temperatura ao longo do período"></svg>
           <figcaption class="chart-legend small">
             <span class="lg irr" data-i18n="cond.legendIrr">Irradiância no chão (W/m²)</span>
@@ -146,6 +155,12 @@
   <footer class="timebar" data-i18n-aria-label="time.label" aria-label="Linha do tempo">
     <button id="btn-play" type="button" disabled data-i18n-title="time.play" data-i18n-aria-label="time.play" title="Animar" aria-label="Animar">▶</button>
     <input id="time-slider" type="range" min="0" max="100" value="0" disabled data-i18n-aria-label="time.label" aria-label="Linha do tempo">
+    <select id="time-speed" data-i18n-aria-label="time.speed" aria-label="Velocidade">
+      <option value="0.5">0,5×</option>
+      <option value="1" selected>1×</option>
+      <option value="2">2×</option>
+      <option value="4">4×</option>
+    </select>
     <span id="time-label" class="muted" data-i18n="time.none">—</span>
   </footer>
 
