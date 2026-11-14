@@ -21,9 +21,9 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [ ] 0.7 ✋ Criar repositório no GitHub e enviar o primeiro commit
 
 ## Fase 1 — Idiomas (PT/EN)
-- [ ] 1.1 Arquivos de tradução `src/i18n/pt.json` e `src/i18n/en.json`
-- [ ] 1.2 Função `t("chave")` e seletor de idioma no topo
-- [ ] 1.3 Lembrar a escolha do idioma no navegador
+- [x] 1.1 Arquivos de tradução `src/i18n/pt.json` e `src/i18n/en.json`
+- [x] 1.2 Função `t("chave")` e seletor de idioma no topo
+- [x] 1.3 Lembrar a escolha do idioma no navegador
 
 ## Fase 2 — Globo 3D da Lua (CesiumJS)
 - [ ] 2.1 Teste A: globo com forma da Lua + imagem LROC do Moon Trek (WMTS, sem conta)

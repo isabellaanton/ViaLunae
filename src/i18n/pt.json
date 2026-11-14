@@ -1,0 +1,17 @@
+{
+  "app.title": "Lunar Site Explorer",
+  "app.tour": "Tour",
+  "app.language": "Idioma",
+  "globe.label": "Globo da Lua",
+  "panel.label": "Painel de cenários",
+  "scenario.title": "Cenário",
+  "scenario.placeholder": "Escolha um local e um período.",
+  "solar.title": "Painel solar",
+  "solar.placeholder": "Área, eficiência e orientação.",
+  "compare.title": "Comparação",
+  "compare.placeholder": "Tabela de cenários e exportação CSV.",
+  "time.label": "Linha do tempo",
+  "time.play": "Animar",
+  "time.pause": "Pausar",
+  "time.none": "—"
+}

@@ -1,0 +1,17 @@
+{
+  "app.title": "Lunar Site Explorer",
+  "app.tour": "Tour",
+  "app.language": "Language",
+  "globe.label": "Moon globe",
+  "panel.label": "Scenario panel",
+  "scenario.title": "Scenario",
+  "scenario.placeholder": "Pick a site and a time period.",
+  "solar.title": "Solar array",
+  "solar.placeholder": "Area, efficiency and orientation.",
+  "compare.title": "Comparison",
+  "compare.placeholder": "Scenario table and CSV export.",
+  "time.label": "Timeline",
+  "time.play": "Play",
+  "time.pause": "Pause",
+  "time.none": "—"
+}

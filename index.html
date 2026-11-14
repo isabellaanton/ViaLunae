@@ -12,11 +12,11 @@
   <header class="topbar">
     <div class="brand">
       <span class="logo" aria-hidden="true">☾</span>
-      <span class="title">Lunar Site Explorer</span>
+      <span class="title" data-i18n="app.title">Lunar Site Explorer</span>
     </div>
     <div class="topbar-actions">
-      <button id="btn-tour" class="ghost" type="button">Tour</button>
-      <select id="lang" aria-label="Idioma / Language">
+      <button id="btn-tour" class="ghost" type="button" data-i18n="app.tour">Tour</button>
+      <select id="lang" data-i18n-aria-label="app.language" aria-label="Idioma">
         <option value="pt">PT</option>
         <option value="en">EN</option>
       </select>
@@ -24,30 +24,30 @@
   </header>
 
   <main class="layout">
-    <section class="globe-wrap" aria-label="Globo da Lua">
+    <section class="globe-wrap" data-i18n-aria-label="globe.label" aria-label="Globo da Lua">
       <div id="globe"></div>
     </section>
 
-    <aside class="panel" aria-label="Painel de cenários">
+    <aside class="panel" data-i18n-aria-label="panel.label" aria-label="Painel de cenários">
       <section class="card">
-        <h2>Cenário</h2>
-        <p class="muted">Escolha um local e um período. (Fase 4)</p>
+        <h2 data-i18n="scenario.title">Cenário</h2>
+        <p class="muted" data-i18n="scenario.placeholder">Escolha um local e um período.</p>
       </section>
       <section class="card">
-        <h2>Painel solar</h2>
-        <p class="muted">Área, eficiência e orientação. (Fase 5)</p>
+        <h2 data-i18n="solar.title">Painel solar</h2>
+        <p class="muted" data-i18n="solar.placeholder">Área, eficiência e orientação.</p>
       </section>
       <section class="card">
-        <h2>Comparação</h2>
-        <p class="muted">Tabela de cenários e exportação CSV. (Fase 6)</p>
+        <h2 data-i18n="compare.title">Comparação</h2>
+        <p class="muted" data-i18n="compare.placeholder">Tabela de cenários e exportação CSV.</p>
       </section>
     </aside>
   </main>
 
-  <footer class="timebar" aria-label="Linha do tempo">
-    <button id="btn-play" type="button" disabled>▶</button>
-    <input id="time-slider" type="range" min="0" max="100" value="0" disabled>
-    <span id="time-label" class="muted">—</span>
+  <footer class="timebar" data-i18n-aria-label="time.label" aria-label="Linha do tempo">
+    <button id="btn-play" type="button" disabled data-i18n-title="time.play" data-i18n-aria-label="time.play" title="Animar" aria-label="Animar">▶</button>
+    <input id="time-slider" type="range" min="0" max="100" value="0" disabled data-i18n-aria-label="time.label" aria-label="Linha do tempo">
+    <span id="time-label" class="muted" data-i18n="time.none">—</span>
   </footer>
 
   <script type="module" src="/src/main.js"></script>
