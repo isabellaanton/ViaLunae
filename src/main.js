@@ -61,13 +61,13 @@ $("btn-global").addEventListener("click", () => flyToGlobal(viewer, 1.5, subsola
 // ---------- luz do Sol agora ----------
 async function lightNow() {
   try {
-    const p = await fetchSubsolarPoint(new Date());
+    const p = await fetchSubsolarPoint();
     setSunFromSubsolarPoint(viewer, p.lon, p.lat);
     subsolarLon = p.lon;
     flyToGlobal(viewer, 1.0, subsolarLon);
     sunStatus = {
       key: "globe.sunAt",
-      vars: { time: p.time, lon: p.lon.toFixed(1), lat: p.lat.toFixed(1) },
+      vars: { time: p.t.replace("T", " ").replace(/:00Z$|Z$/, ""), lon: p.lon.toFixed(1), lat: p.lat.toFixed(1) },
     };
     setStatus(sunStatus.key, sunStatus.vars);
   } catch (e) {

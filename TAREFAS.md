@@ -33,10 +33,10 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [x] 2.5 Iluminação do globo pela direção do Sol na data/hora selecionada
 
 ## Fase 3 — Proxy e dados da Horizons
-- [ ] 3.1 Função `api/sky.js` (Vercel): recebe lat, lon, início, duração e passo; devolve Sol e Terra (azimute e elevação) em JSON
-- [ ] 3.2 Validação de parâmetros, limite de duração e mensagens de erro claras
-- [ ] 3.3 Cache simples de respostas para não repetir consultas iguais
-- [ ] 3.4 Rodar a função localmente (`vercel dev` ou servidor Vite com proxy)
+- [x] 3.1 Funções `api/sky.js` e `api/subsolar.js` (Vercel): recebe lat, lon, início, duração e passo; devolve Sol e Terra (azimute e elevação) em JSON
+- [x] 3.2 Validação de parâmetros, limite de duração e mensagens de erro claras
+- [x] 3.3 Cache simples de respostas para não repetir consultas iguais
+- [x] 3.4 Rodar as funções localmente (plugin do Vite executa api/*.js no `npm run dev`)
 
 ## Fase 4 — Locais fixos e dados pré-calculados
 - [ ] 4.1 Lista de locais `data/sites.json`: 6 sítios Apollo + sítios do polo sul (nome PT/EN, lat, lon, tipo, descrição)

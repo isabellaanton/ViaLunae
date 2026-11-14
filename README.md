@@ -24,6 +24,20 @@ Abra http://localhost:5173.
 
 O `npm install` copia os arquivos estáticos do Cesium para `public/cesium` (pasta ignorada pelo Git).
 
+## API
+
+As funções em `api/` rodam na Vercel em produção e no próprio `npm run dev` localmente.
+A Horizons não envia CORS, por isso o navegador sempre passa por elas.
+
+| Rota | Parâmetros | Retorna |
+|---|---|---|
+| `GET /api/sky` | `lat`, `lon` (leste; negativo aceito), `start` (`AAAA-MM-DD` ou `AAAA-MM-DDTHH:MM`, UTC), `days` (padrão 30, máx. 400), `step` (min., opcional) | Azimute e elevação do Sol e da Terra no local, em série temporal |
+| `GET /api/subsolar` | `time` (opcional, padrão agora) | Ponto subsolar na Lua (lon, lat) |
+
+Erros vêm como `{ "error": { "code", "message" } }` com status 400, 502, 503 ou 504.
+Respostas são guardadas em cache (memória da função + `Cache-Control` na CDN da Vercel).
+As elevações consideram o horizonte liso (esfera lunar); o relevo LOLA entra na Fase 8.
+
 ## Estrutura
 
 | Pasta | Conteúdo |
