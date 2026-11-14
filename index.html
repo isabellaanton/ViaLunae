@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lunar Site Explorer</title>
+  <link rel="stylesheet" href="/cesium/Widgets/widgets.css">
+  <!-- Cesium carrega workers e assets daqui (copiados por scripts/copy-cesium.mjs) -->
+  <script>window.CESIUM_BASE_URL = "/cesium";</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">☾</span>
+      <span class="title">Lunar Site Explorer</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-tour" class="ghost" type="button">Tour</button>
+      <select id="lang" aria-label="Idioma / Language">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="globe-wrap" aria-label="Globo da Lua">
+      <div id="globe"></div>
+    </section>
+
+    <aside class="panel" aria-label="Painel de cenários">
+      <section class="card">
+        <h2>Cenário</h2>
+        <p class="muted">Escolha um local e um período. (Fase 4)</p>
+      </section>
+      <section class="card">
+        <h2>Painel solar</h2>
+        <p class="muted">Área, eficiência e orientação. (Fase 5)</p>
+      </section>
+      <section class="card">
+        <h2>Comparação</h2>
+        <p class="muted">Tabela de cenários e exportação CSV. (Fase 6)</p>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="timebar" aria-label="Linha do tempo">
+    <button id="btn-play" type="button" disabled>▶</button>
+    <input id="time-slider" type="range" min="0" max="100" value="0" disabled>
+    <span id="time-label" class="muted">—</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

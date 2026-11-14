@@ -1,0 +1,19 @@
+{
+  "name": "lunar-site-explorer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Compare lunar landing sites and dates: Sun and Earth on the horizon, power and communication windows.",
+  "scripts": {
+    "postinstall": "node scripts/copy-cesium.mjs",
+    "dev": "vite",
+    "build": "node scripts/copy-cesium.mjs && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "cesium": "^1.147.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  }
+}
