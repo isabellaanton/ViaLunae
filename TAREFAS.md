@@ -26,11 +26,11 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [x] 1.3 Lembrar a escolha do idioma no navegador
 
 ## Fase 2 — Globo 3D da Lua (CesiumJS)
-- [ ] 2.1 Teste A: globo com forma da Lua + imagem LROC do Moon Trek (WMTS, sem conta)
-- [ ] 2.2 Teste B: Cesium ion / Cesium Moon (terreno e imagem prontos, com token)
+- [x] 2.1 Teste A: globo com forma da Lua + imagem LROC do Moon Trek (WMTS, sem conta)
+- [ ] 2.2 Teste B: Cesium ion / Cesium Moon (terreno e imagem prontos, com token) — código pronto, ✋ falta a chave para testar
 - [ ] 2.3 ✋ Comparar os dois testes com você e escolher um
-- [ ] 2.4 Navegação: girar, zoom, botão "ir para o polo sul"
-- [ ] 2.5 Iluminação do globo pela direção do Sol na data/hora selecionada
+- [x] 2.4 Navegação: girar, zoom, botão "ir para o polo sul"
+- [x] 2.5 Iluminação do globo pela direção do Sol na data/hora selecionada
 
 ## Fase 3 — Proxy e dados da Horizons
 - [ ] 3.1 Função `api/sky.js` (Vercel): recebe lat, lon, início, duração e passo; devolve Sol e Terra (azimute e elevação) em JSON

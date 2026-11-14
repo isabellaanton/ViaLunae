@@ -26,6 +26,18 @@
   <main class="layout">
     <section class="globe-wrap" data-i18n-aria-label="globe.label" aria-label="Globo da Lua">
       <div id="globe"></div>
+      <div class="globe-tools">
+        <button id="btn-south" type="button" class="ghost" data-i18n="globe.southPole">Polo sul</button>
+        <button id="btn-global" type="button" class="ghost" data-i18n="globe.global">Visão global</button>
+        <label class="surface-pick">
+          <span data-i18n="globe.surface">Superfície</span>
+          <select id="surface">
+            <option value="trek" data-i18n="globe.surfaceTrek">Moon Trek (imagem)</option>
+            <option value="ion" data-i18n="globe.surfaceIon">Cesium Moon (relevo)</option>
+          </select>
+        </label>
+      </div>
+      <div id="globe-status" class="globe-status muted" role="status"></div>
     </section>
 
     <aside class="panel" data-i18n-aria-label="panel.label" aria-label="Painel de cenários">

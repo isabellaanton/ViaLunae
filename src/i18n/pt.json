@@ -13,5 +13,15 @@
   "time.label": "Linha do tempo",
   "time.play": "Animar",
   "time.pause": "Pausar",
-  "time.none": "—"
+  "time.none": "—",
+  "globe.southPole": "Polo sul",
+  "globe.global": "Visão global",
+  "globe.surface": "Superfície",
+  "globe.surfaceTrek": "Moon Trek (imagem)",
+  "globe.surfaceIon": "Cesium Moon (relevo)",
+  "globe.loading": "Carregando superfície…",
+  "globe.noToken": "Cesium Moon precisa da chave do Cesium ion (VITE_CESIUM_ION_TOKEN no .env).",
+  "globe.ionError": "Não foi possível carregar o Cesium Moon: {msg}. Confira se o asset 2684829 está na sua conta do Cesium ion.",
+  "globe.sunAt": "Luz do Sol em {time} UTC (ponto subsolar {lon}°, {lat}°)",
+  "globe.sunError": "Não foi possível obter a posição do Sol na Horizons: {msg}"
 }
