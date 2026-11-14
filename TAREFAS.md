@@ -18,7 +18,7 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 - [x] 0.4 Página base com layout: globo à esquerda/centro, painel lateral, barra de tempo embaixo
 - [x] 0.5 Variável de ambiente `VITE_CESIUM_ION_TOKEN` e arquivo `.env.example` (✋ você coloca a chave no `.env` local)
 - [x] 0.6 README com como rodar localmente
-- [ ] 0.7 ✋ Criar repositório no GitHub e enviar o primeiro commit
+- [x] 0.7 ✋ Criar repositório no GitHub e enviar o primeiro commit — github.com/isabellaanton/ViaLunae, branch feature/lunar-site-explorer
 
 ## Fase 1 — Idiomas (PT/EN)
 - [x] 1.1 Arquivos de tradução `src/i18n/pt.json` e `src/i18n/en.json`
