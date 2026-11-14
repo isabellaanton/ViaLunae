@@ -48,7 +48,10 @@ async function applySurface(source) {
   }
 }
 surfaceSelect.addEventListener("change", () => applySurface(surfaceSelect.value));
-if (!hasIonToken) surfaceSelect.querySelector('option[value="ion"]').textContent += " 🔒";
+// Padrão: Cesium Moon (relevo 3D). Sem chave do Cesium ion, fica só o Moon Trek.
+const DEFAULT_SURFACE = hasIonToken ? "ion" : "trek";
+if (!hasIonToken) surfaceSelect.querySelector('option[value="ion"]').disabled = true;
+surfaceSelect.value = DEFAULT_SURFACE;
 
 // ---------- navegação ----------
 $("btn-south").addEventListener("click", () => flyToSouthPole(viewer));
@@ -72,6 +75,6 @@ async function lightNow() {
   }
 }
 
-applySurface("trek");
+applySurface(DEFAULT_SURFACE);
 flyToGlobal(viewer, 0);
 lightNow();
