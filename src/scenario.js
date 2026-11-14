@@ -6,7 +6,7 @@ import { renderScenarioResult } from "./results.js";
 
 const $ = (id) => document.getElementById(id);
 
-export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioLoaded }) {
+export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioLoaded, onScenarioCleared }) {
   const sel = $("sc-site");
   const lat = $("sc-lat");
   const lon = $("sc-lon");
@@ -65,6 +65,7 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
   function clearResult() {
     lastResult = null;
     result.replaceChildren();
+    onScenarioCleared?.();
   }
 
   sel.addEventListener("change", () => {
@@ -131,6 +132,7 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
       onScenarioLoaded?.(lastResult);
     } catch (e) {
       lastResult = { error: { key: "scenario.error", vars: { msg: e.message } } };
+      onScenarioCleared?.();
       renderResult();
     } finally {
       btn.disabled = false;

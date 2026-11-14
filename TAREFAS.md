@@ -54,14 +54,14 @@ Legenda: `[ ]` a fazer · `[x]` feito · ✋ precisa de ação ou aprovação su
 
 ## Fase 5B — Simulação das condições de uma coordenada
 Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como muda ao longo do período.
-- [ ] 5B.1 Painel "Condições no local" com: dia/noite, elevação e azimute do Sol, elevação e azimute da Terra, tempo até o próximo pôr do Sol e pôr da Terra
-- [ ] 5B.2 Irradiância solar na superfície (W/m²): constante solar corrigida pela distância ao Sol (Horizons) × seno da elevação do Sol; zero com o Sol abaixo do horizonte
-- [ ] 5B.3 Temperatura da superfície **estimada** (K e °C): equilíbrio radiativo de dia (albedo e emissividade lunares típicos) e valor de noite fria; aviso claro de que é estimativa, não medição
-- [ ] 5B.4 Atraso de comunicação com a Terra (tempo-luz, Horizons) e distância Terra–local
-- [ ] 5B.5 Fase da Terra vista do local (fração iluminada) e duração do dia/noite lunar no local
-- [ ] 5B.6 Gráfico das condições ao longo do período (irradiância e temperatura), ligado à linha do tempo
-- [ ] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média)
-- [ ] 5B.8 Cartões educativos explicando cada condição (por que a temperatura varia tanto, por que não há atmosfera)
+- [x] 5B.1 Card "Condições no local": dia/noite, Sol e Terra (elevação e azimute) no instante escolhido na barra de tempo
+- [x] 5B.2 Irradiância (raios diretos e no chão, W/m²) com a distância ao Sol vinda da Horizons
+- [x] 5B.3 Temperatura estimada (°C e K): equilíbrio radiativo de dia (albedo 0,12, emissividade 0,95) e piso noturno por latitude; aviso na tela
+- [x] 5B.4 Atraso do sinal e distância Terra–local no instante
+- [x] 5B.5 Fração iluminada da Terra vista do local e duração do dia e da noite (quando há ciclo completo no período)
+- [x] 5B.6 Gráfico SVG de irradiância e temperatura no período, com cursor ligado à barra de tempo
+- [ ] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média) — junto com a Fase 6 (`conditionsSummary` já pronto)
+- [ ] 5B.8 Cartões educativos explicando cada condição — junto com a Fase 9
 - [ ] 5B.9 (refino, Fase 8) Usar o horizonte LOLA: Sol atrás do relevo = sombra, com efeito na irradiância e na temperatura
 
 ## Fase 6 — Tabela de comparação de cenários
@@ -72,10 +72,10 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 - [ ] 6.5 Exportar a tabela em CSV
 
 ## Fase 7 — Linha do tempo e animação
-- [ ] 7.1 Barra de tempo do período do cenário selecionado
-- [ ] 7.2 Botão animar / pausar e controle de velocidade
+- [x] 7.1 Barra de tempo do período do cenário selecionado
+- [x] 7.2 Botão animar / pausar (velocidade fixa: período inteiro em ~12 s)
 - [ ] 7.3 Gráfico simples de elevação do Sol e da Terra ao longo do tempo, com o horizonte em 0°
-- [ ] 7.4 Globo e métricas atualizam conforme o tempo avança
+- [x] 7.4 Globo (luz do Sol) e condições atualizam conforme o tempo avança
 
 ## Fase 8 — Relevo LOLA e vista do horizonte (Street View)
 - [ ] 8.1 ✋ Escolher e aprovar os arquivos LOLA 5 m do PGDA (nome, tamanho e origem antes de baixar)

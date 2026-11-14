@@ -80,6 +80,19 @@
         </form>
         <div id="sc-result" class="result" aria-live="polite"></div>
       </section>
+      <section class="card" id="cond-card" hidden>
+        <h2 data-i18n="cond.title">Condições no local</h2>
+        <p id="cond-time" class="muted small"></p>
+        <dl id="cond-values" class="cond-grid"></dl>
+        <figure class="chart-wrap">
+          <svg id="cond-chart" viewBox="0 0 320 150" role="img" data-i18n-aria-label="cond.chartLabel" aria-label="Irradiância e temperatura ao longo do período"></svg>
+          <figcaption class="chart-legend small">
+            <span class="lg irr" data-i18n="cond.legendIrr">Irradiância no chão (W/m²)</span>
+            <span class="lg temp" data-i18n="cond.legendTemp">Temperatura estimada (°C)</span>
+          </figcaption>
+        </figure>
+        <p class="muted small" data-i18n="cond.tempNote"></p>
+      </section>
       <section class="card" id="solar-card">
         <h2 data-i18n="solar.title">Painel solar</h2>
         <p class="muted small" data-i18n="solar.intro">Valores padrão editáveis. A potência é recalculada na hora.</p>

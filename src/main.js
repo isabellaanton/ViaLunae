@@ -6,12 +6,15 @@ import {
   flyToSouthPole,
   flyToGlobal,
   setSunFromSubsolarPoint,
+  setSunFromLocalAzEl,
   hasIonToken,
 } from "./globe.js";
 import { fetchSubsolarPoint } from "./horizons.js";
 import { createMarkers } from "./markers.js";
 import { initScenarioPanel } from "./scenario.js";
 import { initPanelForm } from "./panel.js";
+import { createConditionsView } from "./conditionsView.js";
+import { createTimeline } from "./timeline.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -84,8 +87,36 @@ const markers = createMarkers(viewer, {
   onPickCoordinate: (lat, lon) => markers.onPick?.(lat, lon),
 });
 let scenario = null;
+let loaded = null; // { query, series }
+const conditions = createConditionsView();
+onLangChange(() => conditions.rerender());
+
+// instante escolhido na barra de tempo -> condições e luz do globo
+const timeline = createTimeline((i) => {
+  if (!loaded) return;
+  conditions.setIndex(i);
+  const s = loaded.series.samples[i];
+  const p = setSunFromLocalAzEl(viewer, loaded.query.lat, loaded.query.lon, s.sunAz, s.sunEl);
+  sunStatus = { key: "globe.sunAt", vars: { time: s.t.replace("T", " ").replace(/:00Z$|Z$/, ""), lon: p.lon.toFixed(1), lat: p.lat.toFixed(1) } };
+  setStatus(sunStatus.key, sunStatus.vars);
+});
+
 const panelForm = initPanelForm(() => scenario?.rerender());
-initScenarioPanel({ viewer, markers, getPanel: () => panelForm.get() })
+initScenarioPanel({
+  viewer,
+  markers,
+  getPanel: () => panelForm.get(),
+  onScenarioLoaded: (r) => {
+    loaded = r;
+    conditions.setScenario(r.series.samples, r.query.lat);
+    timeline.load(r.series.samples);
+  },
+  onScenarioCleared: () => {
+    loaded = null;
+    conditions.clear();
+    timeline.clear();
+  },
+})
   .then((ctl) => (scenario = ctl))
   .catch((e) => setStatus("scenario.error", { msg: e.message }, true));
 

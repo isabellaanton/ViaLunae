@@ -133,3 +133,20 @@ export function setSunFromSubsolarPoint(viewer, lonDeg, latDeg) {
   viewer.scene.light.direction = Cartesian3.negate(toSun, new Cartesian3());
   viewer.scene.requestRender();
 }
+
+// Direção do Sol vista de um ponto (azimute/elevação locais) -> luz do globo.
+// Converte a base local (leste, norte, cima) para o referencial fixo da Lua.
+// Devolve o ponto subsolar equivalente { lon, lat } em graus.
+export function setSunFromLocalAzEl(viewer, latDeg, lonDeg, azDeg, elDeg) {
+  const la = CMath.toRadians(latDeg), lo = CMath.toRadians(lonDeg);
+  const az = CMath.toRadians(azDeg), el = CMath.toRadians(elDeg);
+  const e = Math.sin(az) * Math.cos(el), n = Math.cos(az) * Math.cos(el), u = Math.sin(el);
+  const east = [-Math.sin(lo), Math.cos(lo), 0];
+  const north = [-Math.sin(la) * Math.cos(lo), -Math.sin(la) * Math.sin(lo), Math.cos(la)];
+  const up = [Math.cos(la) * Math.cos(lo), Math.cos(la) * Math.sin(lo), Math.sin(la)];
+  const v = [0, 1, 2].map((k) => east[k] * e + north[k] * n + up[k] * u);
+  const lon = CMath.toDegrees(Math.atan2(v[1], v[0]));
+  const lat = CMath.toDegrees(Math.asin(Math.max(-1, Math.min(1, v[2]))));
+  setSunFromSubsolarPoint(viewer, lon, lat);
+  return { lon, lat };
+}

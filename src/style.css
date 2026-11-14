@@ -134,3 +134,25 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
 .metric-block dd { margin: 0; font-variant-numeric: tabular-nums; }
 .result .note { margin-top: 8px; }
 #pv-reset { align-self: flex-start; padding: 4px 10px; font-size: 12px; }
+
+/* condições no local */
+.cond-grid { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 6px 0 8px; font-size: 12.5px; }
+.cond-grid dt { color: var(--muted); }
+.cond-grid dd { margin: 0; font-variant-numeric: tabular-nums; }
+.cond-grid dd.sun { color: var(--sun); }
+.cond-grid dd.earth { color: var(--earth); }
+.cond-grid dd.temp { color: #ff9f7a; }
+.chart-wrap { margin: 4px 0 6px; }
+#cond-chart { width: 100%; height: auto; display: block; }
+#cond-chart .ch-bg { fill: var(--bg); stroke: var(--border); }
+#cond-chart .ch-zero { stroke: #ff9f7a; stroke-opacity: .35; stroke-dasharray: 3 3; }
+#cond-chart .ch-irr { fill: none; stroke: var(--sun); stroke-width: 1.4; }
+#cond-chart .ch-temp { fill: none; stroke: #ff9f7a; stroke-width: 1.4; }
+#cond-chart .ch-cursor { stroke: #fff; stroke-width: 1; stroke-opacity: .8; }
+#cond-chart .ch-txt { fill: var(--muted); font-size: 9px; }
+#cond-chart .ch-txt.irr { fill: var(--sun); }
+#cond-chart .ch-txt.temp { fill: #ff9f7a; }
+.chart-legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; color: var(--muted); }
+.chart-legend .lg::before { content: ""; display: inline-block; width: 12px; height: 2px; vertical-align: middle; margin-right: 5px; }
+.chart-legend .irr::before { background: var(--sun); }
+.chart-legend .temp::before { background: #ff9f7a; }
