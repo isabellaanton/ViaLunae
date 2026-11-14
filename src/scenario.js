@@ -62,9 +62,12 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
     renderDesc();
   }
 
+  const addBtn = $("sc-add");
+
   function clearResult() {
     lastResult = null;
     result.replaceChildren();
+    addBtn.hidden = true;
     onScenarioCleared?.();
   }
 
@@ -129,9 +132,13 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
       if (!series.samples.length) throw new Error("sem dados");
       lastResult = { query: q, series };
       renderResult();
+      addBtn.hidden = false;
+      addBtn.disabled = false;
+      addBtn.textContent = t("cmp.add");
       onScenarioLoaded?.(lastResult);
     } catch (e) {
       lastResult = { error: { key: "scenario.error", vars: { msg: e.message } } };
+      addBtn.hidden = true;
       onScenarioCleared?.();
       renderResult();
     } finally {
@@ -154,5 +161,28 @@ export async function initScenarioPanel({ viewer, markers, getPanel, onScenarioL
   sel.value = "mons-mouton";
   applySelection({ fly: false });
 
-  return { rerender: renderResult, getLast: () => lastResult };
+  // nome do local de uma consulta, no idioma atual
+  function siteLabel(q) {
+    const s = q.siteId && byId.get(q.siteId);
+    if (s) return s.name[getLang()] ?? s.name.en;
+    return t("cmp.customSite", { lat: q.lat.toFixed(2), lon: q.lon.toFixed(2) });
+  }
+
+  // preenche o formulário com uma consulta (para editar/duplicar) e carrega
+  function loadQuery(q) {
+    sel.value = q.siteId && byId.has(q.siteId) ? q.siteId : "custom";
+    clearResult();
+    applySelection();
+    if (sel.value === "custom") {
+      lat.value = q.lat;
+      lon.value = q.lon;
+      markers.setCustom(q.lat, q.lon);
+    }
+    start.value = q.start.toISOString().slice(0, 10);
+    days.value = q.days;
+    $("scenario-form").requestSubmit();
+    $("scenario-card").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  return { rerender: renderResult, getLast: () => lastResult, siteLabel, loadQuery };
 }

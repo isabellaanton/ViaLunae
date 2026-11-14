@@ -60,16 +60,16 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 - [x] 5B.4 Atraso do sinal e distância Terra–local no instante
 - [x] 5B.5 Fração iluminada da Terra vista do local e duração do dia e da noite (quando há ciclo completo no período)
 - [x] 5B.6 Gráfico SVG de irradiância e temperatura no período, com cursor ligado à barra de tempo
-- [ ] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média) — junto com a Fase 6 (`conditionsSummary` já pronto)
+- [x] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média)
 - [ ] 5B.8 Cartões educativos explicando cada condição — junto com a Fase 9
 - [ ] 5B.9 (refino, Fase 8) Usar o horizonte LOLA: Sol atrás do relevo = sombra, com efeito na irradiância e na temperatura
 
 ## Fase 6 — Tabela de comparação de cenários
-- [ ] 6.1 Criar cenário: local + data inicial + duração, botão "adicionar à comparação"
-- [ ] 6.2 Tabela com N cenários e as quatro métricas em colunas
-- [ ] 6.3 Ordenar por coluna e destacar o melhor valor de cada métrica
-- [ ] 6.4 Remover e duplicar cenário (para mudar só a data ou só o local)
-- [ ] 6.5 Exportar a tabela em CSV
+- [x] 6.1 Botão "+ Adicionar à comparação" depois de carregar um cenário (evita repetidos, até 12)
+- [x] 6.2 Tabela com N cenários: luz solar, elevação média, maior período de luz, até o pôr do Sol, Terra visível, maior janela, potência média, energia, irradiância e temperaturas
+- [x] 6.3 Ordenar por coluna (clique no título) e destacar em verde o melhor valor de cada coluna
+- [x] 6.4 Remover e Editar (carrega o cenário no formulário para mudar só a data ou só o local e adicionar como novo); lista lembrada no navegador
+- [x] 6.5 Exportar a tabela em CSV (cabeçalho no idioma atual, ponto decimal, BOM para o Excel, inclui lat/lon e painel usado)
 
 ## Fase 7 — Linha do tempo e animação
 - [x] 7.1 Barra de tempo do período do cenário selecionado

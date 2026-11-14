@@ -79,6 +79,7 @@
           <button id="sc-load" type="submit" data-i18n="scenario.load">Carregar cenário</button>
         </form>
         <div id="sc-result" class="result" aria-live="polite"></div>
+        <button id="sc-add" type="button" class="ghost" data-i18n="cmp.add" hidden>+ Adicionar à comparação</button>
       </section>
       <section class="card" id="cond-card" hidden>
         <h2 data-i18n="cond.title">Condições no local</h2>
@@ -129,9 +130,15 @@
           <p id="pv-error" class="error small" hidden data-i18n="solar.invalid">Confira os valores do painel.</p>
         </form>
       </section>
-      <section class="card">
+      <section class="card" id="compare-card">
         <h2 data-i18n="compare.title">Comparação</h2>
-        <p class="muted" data-i18n="compare.placeholder">Tabela de cenários e exportação CSV.</p>
+        <p id="cmp-empty" class="muted small" data-i18n="cmp.empty">Carregue um cenário e clique em "Adicionar à comparação".</p>
+        <ol id="cmp-mini" class="cmp-mini"></ol>
+        <div class="btn-row">
+          <button id="cmp-open" type="button" data-i18n="cmp.open" disabled>Ver tabela</button>
+          <button id="cmp-csv" type="button" class="ghost" data-i18n="cmp.csv" disabled>Exportar CSV</button>
+          <button id="cmp-clear" type="button" class="ghost" data-i18n="cmp.clear" disabled>Limpar</button>
+        </div>
       </section>
     </aside>
   </main>
@@ -141,6 +148,19 @@
     <input id="time-slider" type="range" min="0" max="100" value="0" disabled data-i18n-aria-label="time.label" aria-label="Linha do tempo">
     <span id="time-label" class="muted" data-i18n="time.none">—</span>
   </footer>
+
+  <dialog id="cmp-dialog" class="cmp-dialog" data-i18n-aria-label="compare.title" aria-label="Comparação">
+    <header class="dlg-head">
+      <h2 data-i18n="cmp.tableTitle">Comparação de cenários</h2>
+      <div class="btn-row">
+        <button id="cmp-csv2" type="button" class="ghost" data-i18n="cmp.csv">Exportar CSV</button>
+        <button id="cmp-close" type="button" data-i18n="cmp.close">Fechar</button>
+      </div>
+    </header>
+    <p class="muted small" data-i18n="cmp.tableHint">Clique no título de uma coluna para ordenar. Em verde, o melhor valor de cada coluna.</p>
+    <p id="cmp-panel-note" class="muted small"></p>
+    <div class="table-wrap"><table id="cmp-table" class="cmp-table"></table></div>
+  </dialog>
 
   <script type="module" src="/src/main.js"></script>
 </body>

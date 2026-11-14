@@ -156,3 +156,35 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
 .chart-legend .lg::before { content: ""; display: inline-block; width: 12px; height: 2px; vertical-align: middle; margin-right: 5px; }
 .chart-legend .irr::before { background: var(--sun); }
 .chart-legend .temp::before { background: #ff9f7a; }
+
+/* comparação */
+.btn-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+#sc-add { margin-top: 10px; width: 100%; }
+.cmp-mini { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; }
+.cmp-mini:empty { display: none; }
+.cmp-mini li { display: flex; flex-direction: column; }
+.cmp-name { color: var(--text); }
+.cmp-val { color: var(--muted); font-variant-numeric: tabular-nums; }
+.cmp-dialog {
+  width: min(1200px, calc(100vw - 32px)); max-height: calc(100vh - 32px);
+  background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+}
+.cmp-dialog::backdrop { background: rgba(0, 0, 0, .6); }
+.dlg-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.dlg-head h2 { margin: 0; font-size: 16px; }
+.cmp-dialog p { margin: 6px 0; }
+.table-wrap { overflow: auto; max-height: calc(100vh - 200px); border: 1px solid var(--border); border-radius: 8px; margin-top: 8px; }
+.cmp-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+.cmp-table th, .cmp-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.cmp-table thead th { position: sticky; top: 0; background: var(--surface-2); z-index: 1; }
+.cmp-table tbody th { font-weight: 500; }
+.cmp-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.cmp-table td.best { color: #8ef0b5; font-weight: 600; background: rgba(142, 240, 181, .08); }
+.th-btn { background: none; border: 0; padding: 0; color: var(--text); font-weight: 600; cursor: pointer; text-align: left; white-space: normal; min-width: 70px; }
+.th-btn:hover { color: var(--accent); }
+.actions { display: flex; gap: 4px; }
+.small-btn { padding: 3px 8px; font-size: 12px; }
+.danger { color: #ff9b9b; border-color: #5a2a33; }
+/* coluna "Local" fixa ao rolar a tabela para o lado */
+.cmp-table thead th:first-child { left: 0; z-index: 2; }
+.cmp-table tbody th { position: sticky; left: 0; background: var(--surface); z-index: 1; }

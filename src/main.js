@@ -15,6 +15,8 @@ import { initScenarioPanel } from "./scenario.js";
 import { initPanelForm } from "./panel.js";
 import { createConditionsView } from "./conditionsView.js";
 import { createTimeline } from "./timeline.js";
+import { createComparison } from "./compare.js";
+import { getSeries } from "./sites.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -101,7 +103,11 @@ const timeline = createTimeline((i) => {
   setStatus(sunStatus.key, sunStatus.vars);
 });
 
-const panelForm = initPanelForm(() => scenario?.rerender());
+let comparison = null;
+const panelForm = initPanelForm(() => {
+  scenario?.rerender();
+  comparison?.rerender();
+});
 initScenarioPanel({
   viewer,
   markers,
@@ -117,7 +123,23 @@ initScenarioPanel({
     timeline.clear();
   },
 })
-  .then((ctl) => (scenario = ctl))
+  .then((ctl) => {
+    scenario = ctl;
+    comparison = createComparison({
+      getPanel: () => panelForm.get(),
+      siteLabel: ctl.siteLabel,
+      loadSeries: getSeries,
+      onEdit: ctl.loadQuery,
+    });
+    const addBtn = document.getElementById("sc-add");
+    addBtn.addEventListener("click", () => {
+      const r = scenario.getLast();
+      if (!r || r.error) return;
+      const res = comparison.add(r);
+      addBtn.textContent = t({ added: "cmp.added", duplicate: "cmp.duplicate", full: "cmp.full" }[res]);
+      addBtn.disabled = res === "added" || res === "duplicate";
+    });
+  })
   .catch((e) => setStatus("scenario.error", { msg: e.message }, true));
 
 applySurface(DEFAULT_SURFACE);
