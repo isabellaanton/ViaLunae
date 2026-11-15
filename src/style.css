@@ -38,10 +38,10 @@ select { background: var(--surface-2); border: 1px solid var(--border); border-r
 /* topo */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px; background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 16px; background: #000; border-bottom: 2px solid #ff6418;
 }
-.brand { display: flex; align-items: center; gap: 8px; font-weight: 600; }
-.logo { font-size: 20px; color: var(--sun); }
+.brand { display: flex; align-items: center; }
+.logo { display: block; width: auto; height: 48px; }
 .topbar-actions { display: flex; gap: 8px; align-items: center; }
 
 /* corpo: globo + painel */
