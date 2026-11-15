@@ -61,7 +61,7 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 - [x] 5B.5 Fração iluminada da Terra vista do local e duração do dia e da noite (quando há ciclo completo no período)
 - [x] 5B.6 Gráfico SVG de irradiância e temperatura no período, com cursor ligado à barra de tempo
 - [x] 5B.7 Condições incluídas na tabela de comparação e no CSV (temperatura mín./máx., irradiância média)
-- [ ] 5B.8 Cartões educativos explicando cada condição — junto com a Fase 9
+- [x] 5B.8 Cartões educativos explicando cada condição — feito na Fase 9 (botões "?")
 - [x] 5B.9 Horizonte real: Sol atrás do relevo = sombra, com efeito na irradiância, na temperatura e na potência
 
 ## Fase 6 — Tabela de comparação de cenários
@@ -143,7 +143,7 @@ Método: a Horizons dá o ponto subsolar, o ponto sub-Terra e as distâncias (2 
 - [ ] 8B.10 ✋ Locais do polo sul novos (proposta: Shackleton (borda), Nobile (alvo do VIPER), Haworth, Connecting Ridge) com efemérides pré-calculadas
 - [x] 8B.11 ✋ Apollo na análise: proposta = aparecem como referência em cinza, fora do ranking (sem filtro de gelo elas venceriam quase tudo por estarem no equador e de frente para a Terra)
 - [ ] 8B.12 Textos PT/EN de cada filtro (o que mede, por que importa, missão de referência) e fontes no README
-- [ ] 8B.13 (opcional, visual) Painel "Camadas" do Lunaserv no globo — iluminação %, sombra permanente, gelo, sombras na data — só para visualizar, não entra nos filtros
+- [x] 8B.13 (feito na 8D) Painel "Camadas" do Lunaserv no globo — iluminação %, sombra permanente, gelo, sombras na data — só para visualizar, não entra nos filtros
 
 ## Fase 8C — Filtros em tempo real e explicações
 **Decisões**
@@ -163,16 +163,45 @@ Método: a Horizons dá o ponto subsolar, o ponto sub-Terra e as distâncias (2 
 - [x] 8C.6 Clicar num ponto da Lua mostra os valores daquele ponto no cartão
 - [x] 8C.7 Animação lisa: ao ligar o mapa no modo Agora, todos os instantes do período são pré-calculados (~10 s, até 360 quadros, classes empacotadas em 2 bits por filtro); durante o ▶ cada quadro só é decodificado e desenhado numa casca fina sobre a Lua (~20+ quadros/s). Ao pausar, volta a versão nítida. No modo de cores Comparativo a animação usa a prévia ao vivo
 
+## Fase 8D — Camadas científicas e ferramentas de medida
+Objetivo: cobrir o que o Quickmap e o Moon Trek oferecem e o ViaLunae não tinha (comparação feita em 2026-11-14).
+
+**Camadas científicas** (só visualização; não entram nos filtros, que seguem só com dados da Horizons)
+- [x] 8D.1 Camadas: NASA Moon Trek (inclinação LOLA, rochas e temperatura média Diviner, globais) + Lunaserv (sombra permanente LOLA, iluminação % 88–90°, gelo estável e temperatura de verão Diviner, polos). A camada de rochas do Lunaserv é só numérica (sai preta), por isso a do Moon Trek
+- [x] 8D.2 Cartão "Camadas científicas": liga/desliga, transparência, legenda e crédito de cada camada; com camada ligada a superfície troca para Moon Trek (o relevo 3D não mostra camadas)
+- [x] 8D.3 Inclinação real do terreno: camada global LOLA (Moon Trek) + medida pontual no relevo do Cesium Moon (ferramenta ∠ Inclinação)
+
+**Ferramentas de medida** (sobre o globo)
+- [x] 8D.4 Barra de ferramentas no globo: Distância, Perfil, Área, Inclinação e Limpar; enquanto uma ferramenta está ativa, o clique não seleciona locais
+- [x] 8D.5 Distância: clicar pontos e ver cada trecho e o total em km (pela superfície da esfera lunar)
+- [x] 8D.6 Perfil de elevação: desenhar uma linha e ver o gráfico de altura ao longo dela (relevo do Cesium Moon), com subida, descida e inclinação máxima
+- [x] 8D.7 Área: desenhar um polígono e ver a área em km² e o perímetro
+- [x] 8D.8 Inclinação: clicar um ponto e ver a inclinação real do chão e a direção da descida; botão "usar na simulação" (preenche a declividade dos filtros)
+- [x] 8D.9 Textos PT/EN, tour e testes
+
 ## Fase 9 — Modo educativo
-- [ ] 9.1 Cartões de explicação curtos (PT/EN) ao lado de cada métrica (ícone "?")
-- [ ] 9.2 Tour inicial de 4 a 6 passos na primeira visita
-- [ ] 9.3 Cartões sobre por que o polo sul é difícil (Sol rasante, crateras em sombra, Terra baixa no céu)
-- [ ] 9.4 Ficha da missão ao clicar num ponto do globo: janela com fotos e explicação da missão daquele local (PT/EN)
-  - Conteúdo: ficha rápida (datas, tripulação/operador, tempo na superfície, amostras), resumo curto, como foi, pontos positivos e negativos, fontes — base em `apollo-missoes-resumos.md` e `PROBLEMAS PRINCIPAIS DAS MISSOES.md` da equipe
-  - Missões com problema ligadas aos filtros: o que deu errado (energia, relevo e sombras, comunicação, tempo) e qual filtro do app mostra isso (ex.: IM-2 → relevo e sombras)
-  - Fotos: galeria de 2 a 4 imagens por missão, com crédito e link da fonte em cada foto; prioridade a imagens da NASA (domínio público). Imagens de JAXA, ISRO e empresas (Intuitive Machines, Firefly) só com licença que permita uso, senão link para a página oficial
-  - ✋ Validar com a equipe a lista de fotos e conferir os números marcados "(conferir)" antes de publicar
-  - Botões na ficha: "Carregar cenário deste local" e "Ver do chão"
+Ordem: 9.4 (ficha da missão) → 9.2 (tour) → 9.1 + 5B.8 (cartões "?") → 9.3 (polo sul).
+
+**9.4 Ficha da missão ao clicar num ponto do globo**
+Base: `apollo-missoes-resumos.md` e `PROBLEMAS PRINCIPAIS DAS MISSOES.md` da equipe. Números "(conferir)" aparecem marcados na ficha.
+- [x] 9.4.1 Dados das 8 missões em `public/data/missions.json` (PT/EN): ficha rápida, resumo, como foi, pontos positivos e negativos, fontes; nas missões com problema, o que deu errado e qual filtro do app mostra isso
+- [x] 9.4.2 Fotos: 2 a 4 por missão, com crédito e link da fonte. Apollo = NASA (domínio público); IM-1 e IM-2 = imagens do local de pouso feitas pela LRO (NASA/GSFC/Arizona State University). Fotos de empresas só como link para a página oficial
+- [x] 9.4.3 Janela da ficha ao clicar num marcador: galeria com ampliação, abas (Resumo · Como foi · Prós e contras · Fontes), aviso "(conferir)"
+- [x] 9.4.4 Botões na ficha: "Carregar cenário deste local", "Ver do chão" e "Ver no ranking dos filtros"
+- [ ] 9.4.5 ✋ Equipe valida a lista de fotos e os números marcados "(conferir)"
+
+**9.2 Tour inicial**
+- [x] 9.2.1 Motor do tour: destaque do elemento, balão com texto, Próximo/Voltar/Pular, abre sozinho na primeira visita e pelo botão "Tour"
+- [x] 9.2.2 Roteiro de 6 passos (PT/EN): globo e locais → cenário → barra de tempo → filtros na Lua → ficha da missão → comparação
+
+**9.1 + 5B.8 Cartões "?" nas métricas e condições**
+- [x] 9.1.1 Componente "?" reutilizável (balão curto, fecha ao clicar fora)
+- [x] 9.1.2 Textos das métricas do cenário (luz solar, Terra visível, potência, energia, maior período, até o pôr do Sol)
+- [x] 5B.8 Textos das condições (temperatura, irradiância, fase da Terra, atraso do sinal, sombra do relevo)
+
+**9.3 Por que o polo sul é difícil**
+- [x] 9.3.1 Cartão com 3 explicações ilustradas: Sol rasante, crateras em sombra, Terra baixa no céu
+- [x] 9.3.2 Cada explicação ligada a uma missão real (SLIM, IM-1, IM-2, VIPER) e a um filtro do app que mostra o problema
 
 ## Fase 10 — Publicação e acabamento
 - [ ] 10.1 Build de produção e teste local da versão final

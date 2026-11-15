@@ -28,6 +28,7 @@ import { createAnalysisMap, scoreColor, COLORS } from "./analysisMap.js";
 import { DRAWINGS } from "./analysisDrawings.js";
 import { t, onLangChange, getLang, applyTranslations } from "./i18n/index.js";
 import { loadSites } from "./sites.js";
+import { interaction } from "./interaction.js";
 
 const STORE = "vialunae.analysis";
 const COUNTDOWNS = new Set(["blackoutH", "lightRunH", "darkRunH"]);
@@ -579,7 +580,7 @@ export function createAnalysisPanel({ viewer, markers, getPanel, getPeriod, onSh
     // clicar na Lua com o mapa ligado: valores daquele ponto
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction((ev) => {
-      if (!shown()) return;
+      if (!shown() || interaction.measuring) return;
       if (viewer.scene.pick(ev.position)?.id) return; // clique num marcador: o cenário cuida
       const cart = viewer.camera.pickEllipsoid(ev.position, Ellipsoid.MOON);
       if (!cart) return;
@@ -632,6 +633,43 @@ export function createAnalysisPanel({ viewer, markers, getPanel, getPeriod, onSh
     },
     redraw() {
       ready.then(() => repaint());
+    },
+    // ferramenta de inclinação -> declividade da simulação
+    setSlope(slopeDeg, facing) {
+      ready.then(() => {
+        const v = Math.max(0, Math.min(40, Math.round(slopeDeg)));
+        state.params.slopeDeg = v;
+        if (facing) state.params.slopeFacing = facing;
+        save();
+        const el = $("an-p-slope");
+        el.value = v;
+        $("an-p-slope-v").textContent = `${v}°`;
+        if (facing) $("an-p-facing").value = facing;
+        recompute();
+        $("an-p-slope").scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    },
+    // ficha da missão -> mostra o critério na Lua (liga o mapa e destaca o 1º filtro do critério)
+    showCriterion(criterionId) {
+      ready.then(() => {
+        const c = CRITERIA.find((x) => x.id === criterionId);
+        if (!c) return;
+        for (const f of c.filters) if (!state.enabled.includes(f.id)) state.enabled.push(f.id);
+        save();
+        // relevo real só existe nos locais: não há o que pintar na Lua inteira, então só explica
+        const onMap = !c.filters.some((f) => f.needsHorizon);
+        if (onMap) focus = c.filters[0].id;
+        buildList();
+        const box = $("an-show");
+        if (onMap && !box.checked) {
+          box.checked = true;
+          box.dispatchEvent(new Event("change"));
+        } else repaint();
+        const help = document.querySelector(`[data-detail="${c.id}"]`);
+        if (help) help.hidden = false;
+        $("analysis-card").scrollIntoView({ behavior: "smooth", block: "start" });
+        document.querySelector(`[data-help="${c.id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
     },
     update() {
       ready.then(() => recompute());

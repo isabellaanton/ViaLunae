@@ -8,8 +8,14 @@ import {
   setSunFromSubsolarPoint,
   setSunFromLocalAzEl,
   hasIonToken,
+  getTerrainTileset,
 } from "./globe.js";
 import { createAnalysisPanel } from "./analysisPanel.js";
+import { createMissionCard } from "./missionCard.js";
+import { createTour } from "./tour.js";
+import { createSouthPoleCard } from "./southPole.js";
+import { createLayers } from "./layers.js";
+import { createMeasureTools } from "./measure.js";
 import { fetchSubsolarPoint } from "./horizons.js";
 import { createMarkers } from "./markers.js";
 import { initScenarioPanel } from "./scenario.js";
@@ -48,6 +54,7 @@ async function applySurface(source) {
   try {
     await setSurface(viewer, source);
     analysis?.redraw();
+    layers?.reattach();
     if (sunStatus) setStatus(sunStatus.key, sunStatus.vars);
     else setStatus(null);
   } catch (e) {
@@ -87,10 +94,27 @@ async function lightNow() {
 
 // ---------- locais e cenário ----------
 const markers = createMarkers(viewer, {
-  onSelectSite: (site) => markers.onSelect?.(site),
+  onSelectSite: (site) => {
+    markers.onSelect?.(site);
+    missionCard.open(site.id);
+  },
   onPickCoordinate: (lat, lon) => markers.onPick?.(lat, lon),
 });
 let scenario = null;
+let afterLoad = null; // ação a fazer quando o próximo cenário terminar de carregar
+const loadSiteScenario = (then) => {
+  afterLoad = then || null;
+  $("scenario-form").requestSubmit();
+  $("scenario-card").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+const missionCard = createMissionCard({
+  onLoad: () => loadSiteScenario(),
+  onGround: () =>
+    loadSiteScenario(() => {
+      if (loaded?.horizon) $("btn-ground").click();
+    }),
+  onFilter: (criterion) => analysis?.showCriterion(criterion),
+});
 let loaded = null; // { query, series }
 const conditions = createConditionsView();
 const ground = createGroundView(viewer);
@@ -104,6 +128,8 @@ onLangChange(() => {
 function setGroundUi(on) {
   $("ground-bar").hidden = !on;
   document.querySelector(".globe-tools").hidden = on;
+  document.querySelector(".measure-tools").hidden = on;
+  if (on) measure.stop();
 }
 function exitGround() {
   ground.exit();
@@ -146,6 +172,23 @@ const timeline = createTimeline((i) => {
 let comparison = null;
 let analysis = null;
 let surfaceBeforeMap = null;
+// mapa de filtros e camadas científicas só aparecem na esfera (Moon Trek): troca e depois volta
+const sphereUsers = new Set();
+function needSphere(who, on) {
+  const before = sphereUsers.size;
+  if (on) sphereUsers.add(who);
+  else sphereUsers.delete(who);
+  if (before === 0 && sphereUsers.size > 0 && surfaceSelect.value === "ion") {
+    surfaceBeforeMap = "ion";
+    surfaceSelect.value = "trek";
+    applySurface("trek");
+    setStatus("an.surfaceSwitched");
+  } else if (before > 0 && sphereUsers.size === 0 && surfaceBeforeMap) {
+    surfaceSelect.value = surfaceBeforeMap;
+    surfaceBeforeMap = null;
+    applySurface(surfaceSelect.value);
+  }
+}
 const periodOf = () => {
   const start = $("sc-start").value;
   const days = Number($("sc-days").value) || 30;
@@ -167,6 +210,9 @@ initScenarioPanel({
     currentIndex = 0;
     conditions.setScenario(r.series.samples, r.query.lat, r.horizon);
     timeline.load(r.series.samples);
+    const then = afterLoad;
+    afterLoad = null;
+    then?.(r);
     analysis?.setPoint(r.query.lat, r.query.lon, scenario?.siteLabel(r.query) ?? `${r.query.lat.toFixed(2)}, ${r.query.lon.toFixed(2)}`, r.horizon);
   },
   onScenarioCleared: () => {
@@ -184,18 +230,7 @@ initScenarioPanel({
       getPanel: () => panelForm.get(),
       getPeriod: periodOf,
       // o mapa colorido só é desenhado na esfera: troca para Moon Trek e depois volta
-      onShowChange: (on) => {
-        if (on && surfaceSelect.value === "ion") {
-          surfaceBeforeMap = "ion";
-          surfaceSelect.value = "trek";
-          applySurface("trek");
-          setStatus("an.surfaceSwitched");
-        } else if (!on && surfaceBeforeMap) {
-          surfaceSelect.value = surfaceBeforeMap;
-          surfaceBeforeMap = null;
-          applySurface(surfaceSelect.value);
-        }
-      },
+      onShowChange: (on) => needSphere("filters", on),
     });
     for (const id of ["sc-start", "sc-days"]) $(id).addEventListener("change", () => analysis.update());
     comparison = createComparison({
@@ -214,6 +249,29 @@ initScenarioPanel({
     });
   })
   .catch((e) => setStatus("scenario.error", { msg: e.message }, true));
+
+createSouthPoleCard({
+  onFilter: (criterion) => analysis?.showCriterion(criterion),
+  onMission: (siteId) => missionCard.open(siteId),
+});
+
+// ---------- camadas científicas e ferramentas de medida ----------
+const layers = createLayers(viewer, { onNeedSphere: (on) => needSphere("layers", on) });
+const measure = createMeasureTools(viewer, {
+  getTileset: getTerrainTileset,
+  onUseSlope: ({ slopeDeg, downhillAzDeg }) => {
+    // direção da encosta: para onde o chão desce (convertida para as opções da simulação)
+    const lat = Number($("sc-lat").value) || 0;
+    const az = downhillAzDeg;
+    const facing = az >= 45 && az < 135 ? "east" : az >= 225 && az < 315 ? "west" : (az >= 135 && az < 225) === lat < 0 ? "pole" : "equator";
+    analysis?.setSlope(slopeDeg, facing);
+  },
+});
+
+// ---------- tour ----------
+const tour = createTour();
+$("btn-tour").addEventListener("click", () => tour.start());
+setTimeout(() => tour.startIfFirstVisit(), 1500);
 
 applySurface(DEFAULT_SURFACE);
 flyToGlobal(viewer, 0);

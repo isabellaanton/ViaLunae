@@ -2,6 +2,7 @@
 //  1) Elevação do Sol e da Terra com o horizonte em 0° (faixas: Terra visível)
 //  2) Irradiância no chão e temperatura estimada
 import { t, getLang } from "./i18n/index.js";
+import { hintButton } from "./hint.js";
 import { conditionsSeries, dayNightDurations, kToC } from "./conditions.js";
 import { drawLineChart, niceRange } from "./chart.js";
 
@@ -131,22 +132,23 @@ export function createConditionsView() {
     const c = state.series[state.index];
     timeEl.textContent = t("cond.at", { time: fmtTime(c.t) });
     const rows = [
-      [t("cond.dayNight"), c.isDay ? t("cond.day") : c.shadowed ? t("cond.shadow") : t("cond.night"), c.isDay ? "sun" : ""],
-      ...(c.sunHz != null ? [[t("cond.hzSun"), t("cond.hzValue", { v: n(c.sunHz) }), "terrain"]] : []),
-      [t("cond.sun"), t("cond.azEl", { el: n(c.sunEl), az: n(c.sunAz) }), "sun"],
-      [t("cond.irrNormal"), t("units.wm2", { v: n(c.irradianceNormal, 0) }), "sun"],
-      [t("cond.irrGround"), t("units.wm2", { v: n(c.irradianceGround, 0) }), "sun"],
-      [t("cond.temp"), t("cond.tempValue", { c: n(kToC(c.tempK), 0), k: n(c.tempK, 0) }), "temp"],
-      [t("cond.earth"), `${t("cond.azEl", { el: n(c.earthEl), az: n(c.earthAz) })} · ${c.earthVisible ? t("scenario.visible") : t("scenario.below")}`, "earth"],
-      ...(c.earthPhase != null ? [[t("cond.earthPhase"), t("cond.pct", { v: n(c.earthPhase * 100, 0) }), "earth"]] : []),
-      ...(c.delayS != null ? [[t("metrics.delay"), t("metrics.delayValue", { s: n(c.delayS, 2), km: n(c.earthDistKm, 0) }), "earth"]] : []),
-      [t("cond.dayLength"), dur(state.durations.dayHours), ""],
-      [t("cond.nightLength"), dur(state.durations.nightHours), ""],
+      [t("cond.dayNight"), c.isDay ? t("cond.day") : c.shadowed ? t("cond.shadow") : t("cond.night"), c.isDay ? "sun" : "", "dayNight"],
+      ...(c.sunHz != null ? [[t("cond.hzSun"), t("cond.hzValue", { v: n(c.sunHz) }), "terrain", "hzSun"]] : []),
+      [t("cond.sun"), t("cond.azEl", { el: n(c.sunEl), az: n(c.sunAz) }), "sun", "azEl"],
+      [t("cond.irrNormal"), t("units.wm2", { v: n(c.irradianceNormal, 0) }), "sun", "irrNormal"],
+      [t("cond.irrGround"), t("units.wm2", { v: n(c.irradianceGround, 0) }), "sun", "irrGround"],
+      [t("cond.temp"), t("cond.tempValue", { c: n(kToC(c.tempK), 0), k: n(c.tempK, 0) }), "temp", "temp"],
+      [t("cond.earth"), `${t("cond.azEl", { el: n(c.earthEl), az: n(c.earthAz) })} · ${c.earthVisible ? t("scenario.visible") : t("scenario.below")}`, "earth", "earthSky"],
+      ...(c.earthPhase != null ? [[t("cond.earthPhase"), t("cond.pct", { v: n(c.earthPhase * 100, 0) }), "earth", "earthPhase"]] : []),
+      ...(c.delayS != null ? [[t("metrics.delay"), t("metrics.delayValue", { s: n(c.delayS, 2), km: n(c.earthDistKm, 0) }), "earth", "delay"]] : []),
+      [t("cond.dayLength"), dur(state.durations.dayHours), "", "dayLength"],
+      [t("cond.nightLength"), dur(state.durations.nightHours), "", "nightLength"],
     ];
     values.replaceChildren(
-      ...rows.flatMap(([k, v, cls]) => {
+      ...rows.flatMap(([k, v, cls, hint]) => {
         const dt = document.createElement("dt");
         dt.textContent = k;
+        if (hint) dt.append(" ", hintButton(hint));
         const dd = document.createElement("dd");
         dd.textContent = v;
         if (cls) dd.className = cls;

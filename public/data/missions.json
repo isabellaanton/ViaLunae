@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "note": "Base: pesquisa da equipe (apollo-missoes-resumos.md e PROBLEMAS PRINCIPAIS DAS MISSOES.md). Itens marcados '(conferir)' precisam ser confirmados em fonte da NASA antes do pitch.",
+  "missions": {
+    "apollo11": {
+      "title": { "pt": "Apollo 11 — Mar da Tranquilidade", "en": "Apollo 11 — Sea of Tranquility" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "20/07/1969", "en": "Jul 20, 1969" } },
+        { "k": "crew", "v": { "pt": "Neil Armstrong, Buzz Aldrin (na superfície) e Michael Collins (em órbita)", "en": "Neil Armstrong, Buzz Aldrin (on the surface) and Michael Collins (in orbit)" } },
+        { "k": "surface", "v": { "pt": "cerca de 21 h 36 min; 1 caminhada de 2 h 31 min", "en": "about 21 h 36 min; 1 moonwalk of 2 h 31 min" } },
+        { "k": "samples", "v": { "pt": "cerca de 21,5 kg", "en": "about 21.5 kg" } }
+      ],
+      "summary": { "pt": "Primeiro pouso tripulado na Lua. Armstrong e Aldrin passaram cerca de 21 horas na superfície, com uma única caminhada de pouco mais de 2 horas. Instalaram os primeiros experimentos científicos, coletaram cerca de 21 kg de rochas e solo e cumpriram a meta fixada por Kennedy em 1961.", "en": "First crewed Moon landing. Armstrong and Aldrin spent about 21 hours on the surface with a single moonwalk of just over 2 hours. They set up the first science experiments, collected about 21 kg of rocks and soil and met the goal set by Kennedy in 1961." },
+      "story": { "pt": "A nave desceu no Mar da Tranquilidade e Armstrong assumiu o controle manual para guiar o módulo lunar até uma área mais lisa, longe de um campo de pedras. Os dois ficaram a até uns 90 metros do módulo, instalaram um pacote simples de experimentos (EASEP), coletaram amostras e voltaram. A missão terminou com amerrissagem no Pacífico.", "en": "The lander came down in the Sea of Tranquility and Armstrong took manual control to steer it to a smoother area, away from a boulder field. The two stayed within about 90 metres of the lander, set up a simple experiment package (EASEP), collected samples and returned. The mission ended with a Pacific splashdown." },
+      "pros": { "pt": ["Cumpriu a meta nacional e é a referência histórica de todas as missões seguintes.", "Provou que humanos podiam pousar, trabalhar na superfície e voltar.", "As amostras ainda geram pesquisa décadas depois."], "en": ["Met the national goal and is the historical reference for every later mission.", "Proved humans could land, work on the surface and return.", "Its samples still drive research decades later."] },
+      "cons": { "pt": ["Pouso tenso: Armstrong voou manualmente além do ponto previsto, cheio de pedras; uma fonte secundária fala em menos de 25 s de combustível (conferir).", "A preparação para a caminhada demorou cerca de 3,5 h em vez de 2 h.", "Ciência limitada: uma só caminhada curta, sem jipe."], "en": ["Tense landing: Armstrong flew manually past the boulder-strewn target; a secondary source mentions under 25 s of fuel left (to check).", "Preparing for the moonwalk took about 3.5 h instead of 2 h.", "Limited science: a single short moonwalk, no rover."] },
+      "photos": [
+        { "src": "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg", "caption": { "pt": "Buzz Aldrin caminha perto do módulo lunar.", "en": "Buzz Aldrin walks near the lunar module." }, "credit": "NASA (AS11-40-5903)", "link": "https://images.nasa.gov/details/as11-40-5903" },
+        { "src": "https://images-assets.nasa.gov/image/as11-40-5875/as11-40-5875~medium.jpg", "caption": { "pt": "Aldrin ao lado da bandeira.", "en": "Aldrin beside the flag." }, "credit": "NASA (AS11-40-5875)", "link": "https://images.nasa.gov/details/as11-40-5875" }
+      ],
+      "sources": [
+        { "title": "NASA — Apollo 11 Mission Overview", "url": "https://www.nasa.gov/missions/apollo/apollo-11/apollo-11-mission-overview/" },
+        { "title": "NASA — Apollo Lunar Surface Journal (Apollo 11)", "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html" }
+      ]
+    },
+    "apollo12": {
+      "title": { "pt": "Apollo 12 — Oceano das Tempestades", "en": "Apollo 12 — Ocean of Storms" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "19/11/1969", "en": "Nov 19, 1969" } },
+        { "k": "crew", "v": { "pt": "Pete Conrad, Alan Bean (na superfície) e Richard Gordon (em órbita)", "en": "Pete Conrad, Alan Bean (on the surface) and Richard Gordon (in orbit)" } },
+        { "k": "surface", "v": { "pt": "2 caminhadas", "en": "2 moonwalks" } },
+        { "k": "samples", "v": { "pt": "cerca de 34 kg", "en": "about 34 kg" } }
+      ],
+      "summary": { "pt": "A missão do pouso de precisão. Mesmo com dois raios no lançamento, Conrad e Bean pousaram a cerca de 180 m da sonda Surveyor 3, de 1967, e trouxeram peças dela para estudo. Instalaram o primeiro conjunto completo de experimentos (ALSEP).", "en": "The precision-landing mission. Despite two lightning strikes at launch, Conrad and Bean landed about 180 m from the 1967 Surveyor 3 probe and brought parts of it back. They set up the first full experiment package (ALSEP)." },
+      "story": { "pt": "A nave foi atingida por raios logo após a decolagem, o que desligou sistemas elétricos; a tripulação religou tudo e seguiu. Na primeira caminhada instalaram o ALSEP, que enviou dados por mais de sete anos. Na segunda andaram mais de 1,5 km até a Surveyor 3 e removeram cerca de 10 kg de peças, incluindo a câmera.", "en": "Lightning struck the vehicle right after liftoff, knocking out electrical systems; the crew restored them and continued. On the first moonwalk they set up the ALSEP, which sent data for over seven years. On the second they walked over 1.5 km to Surveyor 3 and removed about 10 kg of parts, including its camera." },
+      "pros": { "pt": ["Primeiro pouso de precisão: provou que dava para escolher um ponto exato.", "Peças da Surveyor 3 mostraram o efeito de anos de exposição ao ambiente lunar.", "O ALSEP, com gerador nuclear, funcionou por anos."], "en": ["First precision landing: proved a specific spot could be targeted.", "Surveyor 3 parts showed the effect of years of lunar exposure.", "The nuclear-powered ALSEP worked for years."] },
+      "cons": { "pt": ["Quase foi abortada no lançamento pelos raios; a chamada \"SCE to AUX\" que salvou a missão vem de fonte secundária (conferir).", "Duas caminhadas curtas, bem abaixo do que as missões seguintes fariam."], "en": ["Nearly aborted at launch by lightning; the \"SCE to AUX\" call that saved it comes from a secondary source (to check).", "Two short moonwalks, well below what later missions did."] },
+      "photos": [
+        { "src": "https://images-assets.nasa.gov/image/AS12-48-7133/AS12-48-7133~medium.jpg", "caption": { "pt": "Duas naves dos EUA na Lua: a Surveyor 3 e, ao fundo, o módulo lunar.", "en": "Two U.S. spacecraft on the Moon: Surveyor 3 and, behind it, the lunar module." }, "credit": "NASA (AS12-48-7133)", "link": "https://images.nasa.gov/details/AS12-48-7133" },
+        { "src": "https://images-assets.nasa.gov/image/as12-48-7121/as12-48-7121~medium.jpg", "caption": { "pt": "A Surveyor 3 na sua cratera.", "en": "Surveyor 3 in its crater." }, "credit": "NASA (AS12-48-7121)", "link": "https://images.nasa.gov/details/as12-48-7121" }
+      ],
+      "sources": [
+        { "title": "NASA — Apollo Expeditions to the Moon (SP-350, cap. 12)", "url": "https://www.nasa.gov/wp-content/uploads/static/history/SP-350/ch-12-1.html" },
+        { "title": "LROC — First Look: Apollo 12 and Surveyor 3", "url": "https://lroc.im-ldi.com/images/141" }
+      ]
+    },
+    "apollo14": {
+      "title": { "pt": "Apollo 14 — Fra Mauro", "en": "Apollo 14 — Fra Mauro" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "05/02/1971", "en": "Feb 5, 1971" } },
+        { "k": "crew", "v": { "pt": "Alan Shepard, Edgar Mitchell (na superfície) e Stuart Roosa (em órbita)", "en": "Alan Shepard, Edgar Mitchell (on the surface) and Stuart Roosa (in orbit)" } },
+        { "k": "surface", "v": { "pt": "2 caminhadas", "en": "2 moonwalks" } },
+        { "k": "samples", "v": { "pt": "cerca de 42 kg (conferir)", "en": "about 42 kg (to check)" } }
+      ],
+      "summary": { "pt": "A missão que salvou o programa depois da Apollo 13. Shepard e Mitchell pousaram em Fra Mauro, o destino que a Apollo 13 não alcançou, e fizeram duas caminhadas puxando um carrinho de mão. Tentaram chegar à borda da cratera Cone, mas não conseguiram.", "en": "The mission that rescued the program after Apollo 13. Shepard and Mitchell landed at Fra Mauro, the target Apollo 13 never reached, and made two moonwalks pulling a hand cart. They tried to reach the rim of Cone crater but could not." },
+      "story": { "pt": "O pouso foi na região montanhosa de Fra Mauro, a poucos metros do ponto planejado. Na primeira caminhada instalaram o ALSEP, com o primeiro experimento sísmico ativo em outro mundo. Na segunda tentaram subir até a borda da cratera Cone: o terreno ondulado dificultou a navegação, eles se perderam e voltaram sem alcançá-la.", "en": "They landed in the hilly Fra Mauro region, a few metres from the planned point. On the first moonwalk they set up the ALSEP, with the first active seismic experiment on another world. On the second they tried to climb to the rim of Cone crater: the rolling terrain made navigation hard, they lost their way and turned back short of it." },
+      "pros": { "pt": ["Recuperou a confiança no programa depois da Apollo 13.", "Primeiro uso do carrinho MET e do experimento sísmico ativo.", "Amostras do material lançado pelo impacto que formou a bacia Imbrium."], "en": ["Restored confidence in the program after Apollo 13.", "First use of the MET cart and of an active seismic experiment.", "Samples of material thrown out by the Imbrium basin impact."] },
+      "cons": { "pt": ["Não chegaram à borda da cratera Cone, o principal alvo geológico.", "Terreno difícil de navegar e sem jipe: um exemplo de como o relevo engana na superfície.", "Uma fonte secundária cita um interruptor de aborto defeituoso na descida (conferir)."], "en": ["They did not reach the rim of Cone crater, the main geological target.", "Hard-to-navigate terrain and no rover: an example of how relief misleads on the surface.", "A secondary source mentions a faulty abort switch during descent (to check)."] },
+      "problems": [ { "area": "relief", "criterion": "relief", "text": { "pt": "O relevo ondulado escondeu referências e a equipe se perdeu a caminho da cratera Cone.", "en": "The rolling relief hid landmarks and the crew lost their way to Cone crater." } } ],
+      "photos": [
+        { "src": "https://images-assets.nasa.gov/image/as14-66-9306/as14-66-9306~medium.jpg", "caption": { "pt": "O módulo lunar da Apollo 14 em Fra Mauro.", "en": "The Apollo 14 lunar module at Fra Mauro." }, "credit": "NASA (AS14-66-9306)", "link": "https://images.nasa.gov/details/as14-66-9306" },
+        { "src": "https://images-assets.nasa.gov/image/AS14-64-9089/AS14-64-9089~medium.jpg", "caption": { "pt": "Edgar Mitchell consulta o mapa do trajeto.", "en": "Edgar Mitchell checks the traverse map." }, "credit": "NASA (AS14-64-9089)", "link": "https://images.nasa.gov/details/AS14-64-9089" }
+      ],
+      "sources": [
+        { "title": "NASA — Apollo 14 Mission Details", "url": "https://www.nasa.gov/missions/apollo/apollo-14-mission-details/" },
+        { "title": "NASA/PDS — Apollo 14 mission summary", "url": "https://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-apollodoc/document_a14/mission/a14_mission.txt" }
+      ]
+    },
+    "apollo15": {
+      "title": { "pt": "Apollo 15 — Hadley-Apeninos", "en": "Apollo 15 — Hadley-Apennine" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "30/07/1971", "en": "Jul 30, 1971" } },
+        { "k": "crew", "v": { "pt": "David Scott, James Irwin (na superfície) e Alfred Worden (em órbita)", "en": "David Scott, James Irwin (on the surface) and Alfred Worden (in orbit)" } },
+        { "k": "surface", "v": { "pt": "3 caminhadas, mais de 18 h; jipe: cerca de 28 km", "en": "3 moonwalks, over 18 h; rover: about 28 km" } },
+        { "k": "samples", "v": { "pt": "mais de 77 kg", "en": "over 77 kg" } }
+      ],
+      "summary": { "pt": "Primeira missão \"J\", mais longa e científica, e a primeira com o jipe lunar. Scott e Irwin exploraram o pé dos Montes Apeninos e o canal Hadley Rille, trouxeram a \"Rocha Gênesis\", e Scott mostrou que um martelo e uma pena caem juntos no vácuo.", "en": "First \"J\" mission, longer and more scientific, and the first with the lunar rover. Scott and Irwin explored the foot of the Apennine Mountains and Hadley Rille, brought back the \"Genesis Rock\", and Scott showed a hammer and a feather fall together in vacuum." },
+      "story": { "pt": "O local fica entre um canal de lava e montanhas altas. Com o jipe, a dupla foi muito além do que daria a pé. Na segunda caminhada subiram o Monte Hadley Delta e acharam a Rocha Gênesis; na terceira foram à beira do Hadley Rille. Worden mapeou a Lua da órbita e lançou um pequeno satélite.", "en": "The site lies between a lava channel and tall mountains. With the rover the pair went far beyond walking range. On the second moonwalk they climbed Mount Hadley Delta and found the Genesis Rock; on the third they reached the edge of Hadley Rille. Worden mapped the Moon from orbit and released a small satellite." },
+      "pros": { "pt": ["Primeiro uso do jipe lunar (LRV).", "A missão científica mais extensa até então.", "Demonstração do martelo e da pena (Galileu)."], "en": ["First use of the lunar rover (LRV).", "The most extensive science mission to that date.", "Hammer-and-feather demonstration (Galileo)."] },
+      "cons": { "pt": ["Problemas com a perfuração do solo custaram tempo e esforço.", "Um dos três paraquedas falhou na volta, sem consequências."], "en": ["Trouble drilling the soil cost time and effort.", "One of three parachutes failed on return, without consequences."] },
+      "photos": [
+        { "src": "https://images-assets.nasa.gov/image/as15-86-11603/as15-86-11603~medium.jpg", "caption": { "pt": "James Irwin junto ao jipe lunar.", "en": "James Irwin at the lunar rover." }, "credit": "NASA (AS15-86-11603)", "link": "https://images.nasa.gov/details/as15-86-11603" },
+        { "src": "https://images-assets.nasa.gov/image/as15-85-11514/as15-85-11514~medium.jpg", "caption": { "pt": "David Scott na encosta do Hadley Delta.", "en": "David Scott on the slope of Hadley Delta." }, "credit": "NASA (AS15-85-11514)", "link": "https://images.nasa.gov/details/as15-85-11514" },
+        { "src": "https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~medium.jpg", "caption": { "pt": "Irwin saúda a bandeira, com os Apeninos ao fundo.", "en": "Irwin salutes the flag, Apennines behind." }, "credit": "NASA (AS15-88-11866)", "link": "https://images.nasa.gov/details/as15-88-11866" }
+      ],
+      "sources": [
+        { "title": "NASA — Apollo Lunar Surface Journal, Apollo 15 Mission Report", "url": "https://www.nasa.gov/history/alsj/a15/a15mr-1.htm" },
+        { "title": "LROC — Apollo 15: A Mission of Many Firsts", "url": "https://www.lroc.asu.edu/images/1198" }
+      ]
+    },
+    "apollo16": {
+      "title": { "pt": "Apollo 16 — Planalto de Descartes", "en": "Apollo 16 — Descartes Highlands" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "20/04/1972", "en": "Apr 20, 1972" } },
+        { "k": "crew", "v": { "pt": "John Young, Charles Duke (na superfície) e Ken Mattingly (em órbita)", "en": "John Young, Charles Duke (on the surface) and Ken Mattingly (in orbit)" } },
+        { "k": "surface", "v": { "pt": "3 caminhadas, cerca de 20 h; jipe: 26,7 km", "en": "3 moonwalks, about 20 h; rover: 26.7 km" } },
+        { "k": "samples", "v": { "pt": "cerca de 96 kg", "en": "about 96 kg" } }
+      ],
+      "summary": { "pt": "Primeira missão a pousar nas terras altas. Os cientistas esperavam rochas vulcânicas, mas as amostras mostraram que a região foi formada por impactos de asteroides, o que mudou ideias sobre a história da Lua.", "en": "First mission to land in the highlands. Scientists expected volcanic rocks, but the samples showed the region was shaped by asteroid impacts, changing ideas about the Moon's history." },
+      "story": { "pt": "O local fica mais de 2.000 m acima do da Apollo 11. Uma falha no módulo de comando atrasou o pouso, aprovado com cautela. Young e Duke dirigiram o jipe até crateras como Flag e North Ray, coletaram amostras e deixaram um telescópio ultravioleta funcionando.", "en": "The site is over 2,000 m higher than Apollo 11's. A command module fault delayed the landing, cautiously approved. Young and Duke drove the rover to craters such as Flag and North Ray, collected samples and left an ultraviolet telescope running." },
+      "pros": { "pt": ["Primeira visita às terras altas, que cobrem a maior parte da Lua.", "Mostrou que a hipótese vulcânica estava errada.", "Cerca de 96 kg de amostras."], "en": ["First visit to the highlands, which cover most of the Moon.", "Showed the volcanic hypothesis was wrong.", "About 96 kg of samples."] },
+      "cons": { "pt": ["Início com problemas técnicos e dúvida se o pouso aconteceria.", "O experimento de fluxo de calor se perdeu quando Young tropeçou num cabo."], "en": ["Technical problems at the start and doubt about landing at all.", "The heat-flow experiment was lost when Young tripped over a cable."] },
+      "photos": [
+        { "src": "https://images-assets.nasa.gov/image/as16-113-18339/as16-113-18339~medium.jpg", "caption": { "pt": "John Young salta para saudar a bandeira.", "en": "John Young jumps to salute the flag." }, "credit": "NASA (AS16-113-18339)", "link": "https://images.nasa.gov/details/as16-113-18339" },
+        { "src": "https://images-assets.nasa.gov/image/as16-116-18607/as16-116-18607~medium.jpg", "caption": { "pt": "Charles Duke trabalha no jipe lunar.", "en": "Charles Duke works at the lunar rover." }, "credit": "NASA (AS16-116-18607)", "link": "https://images.nasa.gov/details/as16-116-18607" }
+      ],
+      "sources": [
+        { "title": "NASA SVS — Apollo 16 Lands in the Lunar Highlands", "url": "https://svs.gsfc.nasa.gov/4989" },
+        { "title": "Planetary Society — Apollo 16", "url": "https://planetary.org/space-missions/apollo-16" }
+      ]
+    },
+    "apollo17": {
+      "title": { "pt": "Apollo 17 — Vale Taurus-Littrow", "en": "Apollo 17 — Taurus-Littrow Valley" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "11/12/1972", "en": "Dec 11, 1972" } },
+        { "k": "crew", "v": { "pt": "Eugene Cernan, Harrison Schmitt (na superfície) e Ronald Evans (em órbita)", "en": "Eugene Cernan, Harrison Schmitt (on the surface) and Ronald Evans (in orbit)" } },
+        { "k": "surface", "v": { "pt": "cerca de 75 h; 3 caminhadas; jipe: cerca de 36 km", "en": "about 75 h; 3 moonwalks; rover: about 36 km" } },
+        { "k": "samples", "v": { "pt": "cerca de 110 kg (o recorde)", "en": "about 110 kg (the record)" } }
+      ],
+      "summary": { "pt": "Última missão tripulada à Lua e a mais longa do programa. Schmitt, o único geólogo a pisar na Lua, descobriu o \"solo laranja\", feito de pequenas esferas de vidro vulcânico.", "en": "The last crewed Moon mission and the longest of the program. Schmitt, the only geologist to walk on the Moon, found the \"orange soil\", made of tiny volcanic glass beads." },
+      "story": { "pt": "O vale foi escolhido para amostrar terreno antigo e material vulcânico mais jovem. O lançamento noturno fez a nave chegar com o Sol baixo, o que dá sombras boas para ver o relevo. Na cratera Shorty, Schmitt exclamou \"There is orange soil!\". Cernan foi o último a deixar a superfície.", "en": "The valley was chosen to sample old terrain and younger volcanic material. The night launch timed the arrival for a low Sun, which casts shadows that reveal relief. At Shorty crater Schmitt exclaimed \"There is orange soil!\". Cernan was the last to leave the surface." },
+      "pros": { "pt": ["A missão mais produtiva: mais amostras, maior distância e mais tempo na superfície.", "Primeiro cientista na Lua e a descoberta do solo laranja.", "Exemplo de uso planejado da iluminação: Sol baixo escolhido para ver melhor o relevo."], "en": ["The most productive mission: most samples, longest distance and longest stay.", "First scientist on the Moon and the orange-soil discovery.", "An example of planned lighting: a low Sun chosen to see the relief better."] },
+      "cons": { "pt": ["Foi a última: as Apollo 18, 19 e 20 foram canceladas.", "Retirar uma amostra profunda custou tempo e oxigênio."], "en": ["It was the last: Apollo 18, 19 and 20 were cancelled.", "Taking a deep core sample cost time and oxygen."] },
+      "photos": [
+        { "src": "https://images-assets.nasa.gov/image/AS17-134-20384/AS17-134-20384~medium.jpg", "caption": { "pt": "Harrison Schmitt ao lado da bandeira, com a Terra no céu.", "en": "Harrison Schmitt beside the flag, Earth in the sky." }, "credit": "NASA (AS17-134-20384)", "link": "https://images.nasa.gov/details/AS17-134-20384" },
+        { "src": "https://images-assets.nasa.gov/image/as17-137-20990/as17-137-20990~medium.jpg", "caption": { "pt": "O solo laranja encontrado na estação 4.", "en": "The orange soil found at Station 4." }, "credit": "NASA (AS17-137-20990)", "link": "https://images.nasa.gov/details/as17-137-20990" },
+        { "src": "https://images-assets.nasa.gov/image/as17-148-22727/as17-148-22727~medium.jpg", "caption": { "pt": "A Terra vista pela tripulação a caminho da Lua (\"Blue Marble\").", "en": "Earth seen by the crew on the way to the Moon (\"Blue Marble\")." }, "credit": "NASA (AS17-148-22727)", "link": "https://images.nasa.gov/details/as17-148-22727" }
+      ],
+      "sources": [
+        { "title": "NASA — Lunar Exploration Concluded (SP-4214, cap. 13)", "url": "https://www.nasa.gov/wp-content/uploads/static/history/SP-4214/ch13-8.html" },
+        { "title": "Smithsonian NASM — Apollo 17", "url": "https://airandspace.si.edu/apollo-17" }
+      ]
+    },
+    "malapert-a": {
+      "title": { "pt": "IM-1 Odysseus — Malapert A", "en": "IM-1 Odysseus — Malapert A" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "22/02/2024", "en": "Feb 22, 2024" } },
+        { "k": "operator", "v": { "pt": "Intuitive Machines, com cargas da NASA (programa CLPS)", "en": "Intuitive Machines, with NASA payloads (CLPS program)" } },
+        { "k": "surface", "v": { "pt": "cerca de 6 dias, contra uma semana planejada", "en": "about 6 days, versus a planned week" } },
+        { "k": "site", "v": { "pt": "80,13° S, 1,44° L; cerca de 1,5 km do alvo, numa encosta de cerca de 12°", "en": "80.13° S, 1.44° E; about 1.5 km from target, on a slope of about 12°" } }
+      ],
+      "summary": { "pt": "Primeiro pouso dos EUA na Lua desde 1972 e o primeiro de uma empresa privada. O módulo prendeu um pé na superfície e tombou, apoiado numa rocha. A posição dificultou o apontamento das antenas para a Terra, mas a missão ainda devolveu dados científicos.", "en": "First U.S. Moon landing since 1972 and the first by a private company. The lander caught a foot on the surface and tipped over, resting on a rock. Its attitude made it hard to point the antennas at Earth, but the mission still returned science data." },
+      "story": { "pt": "Na descida, o Odysseus pousou numa encosta perto da cratera Malapert A, a cerca de 1,5 km do ponto planejado. A equipe achou no início que ele estava de pé. Com o módulo inclinado, o sinal para a Terra ficou fraco e o tempo de operação, menor que o previsto. A LRO fotografou o local dois dias depois do pouso.", "en": "Odysseus came down on a slope near Malapert A crater, about 1.5 km from the planned point. The team first thought it was upright. With the lander tilted, the link to Earth was weak and operations were shorter than planned. LRO photographed the site two days after landing." },
+      "pros": { "pt": ["Retomou os pousos dos EUA na Lua depois de 52 anos.", "Devolveu dados científicos mesmo com limitações (ex.: ROLSES)."], "en": ["Resumed U.S. Moon landings after 52 years.", "Returned science data despite limitations (e.g., ROLSES)."] },
+      "cons": { "pt": ["Tombou e ficou inclinado sobre uma rocha.", "Antenas mal apontadas: comunicação fraca com a Terra.", "Operou menos tempo que o planejado."], "en": ["Tipped over and came to rest tilted on a rock.", "Antennas poorly pointed: weak link to Earth.", "Operated for less time than planned."] },
+      "problems": [
+        { "area": "comms", "criterion": "moduleTilt", "text": { "pt": "Módulo inclinado → antena mal apontada para a Terra. No app: filtro \"Inclinação do módulo no pouso\" (Terra acima do convés inclinado).", "en": "Tilted lander → antenna poorly pointed at Earth. In the app: \"Lander tilt after landing\" filter (Earth above the tilted deck)." } },
+        { "area": "relief", "criterion": "slope", "text": { "pt": "Pousou numa encosta de cerca de 12°. No app: filtro \"Declividade do terreno\".", "en": "Landed on a slope of about 12°. In the app: \"Terrain slope\" filter." } }
+      ],
+      "photos": [
+        { "src": "https://www.lroc.asu.edu/ckeditor_assets/pictures/1425/content_Nova_C_1100x1100_crop.png", "caption": { "pt": "O Odysseus visto pela LRO (seta), perto de Malapert A, em 24/02/2024.", "en": "Odysseus seen by LRO (arrow), near Malapert A, on Feb 24, 2024." }, "credit": "NASA/GSFC/Arizona State University (LROC)", "link": "https://www.lroc.asu.edu/images/1360" }
+      ],
+      "sources": [
+        { "title": "NASA — LRO images Intuitive Machines' Odysseus lander", "url": "https://www.nasa.gov/missions/lro/nasas-lro-images-intuitive-machines-odysseus-lander/" },
+        { "title": "LROC — Intuitive Machines IM-1 On The Moon!", "url": "https://www.lroc.asu.edu/images/1360" }
+      ],
+      "officialLink": { "title": "Intuitive Machines — site oficial (fotos da missão IM-1)", "url": "https://www.intuitivemachines.com/" }
+    },
+    "mons-mouton": {
+      "title": { "pt": "IM-2 Athena — Mons Mouton", "en": "IM-2 Athena — Mons Mouton" },
+      "facts": [
+        { "k": "landing", "v": { "pt": "06/03/2025", "en": "Mar 6, 2025" } },
+        { "k": "operator", "v": { "pt": "Intuitive Machines, com cargas da NASA (programa CLPS)", "en": "Intuitive Machines, with NASA payloads (CLPS program)" } },
+        { "k": "surface", "v": { "pt": "cerca de 12 h 45 min, contra 10 dias previstos; 250 MB enviados", "en": "about 12 h 45 min, versus 10 planned days; 250 MB returned" } },
+        { "k": "site", "v": { "pt": "planalto de Mons Mouton, cerca de 160 km do polo sul; de lado, dentro de uma cratera, a cerca de 250 m do alvo (a NASA citou mais de 400 m)", "en": "Mons Mouton plateau, about 160 km from the south pole; on its side inside a crater, about 250 m from target (NASA cited over 400 m)" } }
+      ],
+      "summary": { "pt": "A missão que mais se parece com o problema do ViaLunae. A Athena pousou de lado dentro de uma cratera no Mons Mouton. Com a direção do Sol, a orientação dos painéis e o frio da cratera, a bateria não recarregou, e a missão de 10 dias durou cerca de 12 horas.", "en": "The mission closest to the problem ViaLunae addresses. Athena landed on its side inside a crater on Mons Mouton. With the Sun direction, the panel orientation and the crater cold, the battery did not recharge, and a 10-day mission lasted about 12 hours." },
+      "story": { "pt": "Na descida, a Athena teve dificuldade para medir e reconhecer o terreno; uma fonte cita falha no altímetro (conferir). Ela pousou fora do alvo, dentro de uma pequena cratera, e ficou deitada. Em sombra e no frio, com os painéis mal orientados para o Sol baixo do polo, não houve energia para recarregar, e a missão foi encerrada. A LRO fotografou a nave no dia seguinte.", "en": "During descent Athena struggled to measure and recognize the terrain; one source cites an altimeter failure (to check). It landed off target, inside a small crater, and ended up lying down. In shadow and cold, with panels badly oriented for the low polar Sun, there was no power to recharge and the mission was ended. LRO photographed the lander the next day." },
+      "pros": { "pt": ["Chegou mais perto do polo sul que qualquer módulo anterior dos EUA.", "Enviou dados e imagens antes de perder energia."], "en": ["Got closer to the south pole than any earlier U.S. lander.", "Returned data and images before losing power."] },
+      "cons": { "pt": ["Pousou de lado, dentro de uma cratera.", "Bateria não recarregou: Sol baixo, painéis mal orientados e frio.", "Operou cerca de 12 h em vez de 10 dias."], "en": ["Landed on its side inside a crater.", "Battery did not recharge: low Sun, poorly oriented panels and cold.", "Operated about 12 h instead of 10 days."] },
+      "problems": [
+        { "area": "relief", "criterion": "relief", "text": { "pt": "Cratera e Sol rasante deixaram o local em sombra. No app: \"Relevo e sombras (relevo real)\" e \"Parede da cratera\" na simulação.", "en": "Crater and grazing Sun left the site in shadow. In the app: \"Terrain and shadows (real terrain)\" and \"Crater wall\" in the simulation." } },
+        { "area": "power", "criterion": "panels", "text": { "pt": "Painéis mal orientados para o Sol. No app: \"Orientação dos painéis solares\" e \"Inclinação do módulo\".", "en": "Panels poorly oriented to the Sun. In the app: \"Solar panel orientation\" and \"Lander tilt\"." } },
+        { "area": "time", "criterion": "temperature", "text": { "pt": "Frio da cratera e falta de recarga encurtaram a missão. No app: \"Temperatura e frio da cratera\" e, no modo Agora, \"Horas até o pôr do Sol\".", "en": "Crater cold and no recharge cut the mission short. In the app: \"Temperature and crater cold\" and, in Now mode, \"Hours until sunset\"." } }
+      ],
+      "photos": [
+        { "src": "https://www.lroc.asu.edu/ckeditor_assets/pictures/1494/content_M1495922531_LRmos.warp.str01_str02.3xdecimated.1300p.png", "caption": { "pt": "A Athena vista de lado pela LRO, dentro da cratera.", "en": "Athena seen obliquely by LRO, inside the crater." }, "credit": "NASA/GSFC/Arizona State University (LROC)", "link": "https://www.lroc.asu.edu/images/1408" },
+        { "src": "https://www.lroc.asu.edu/ckeditor_assets/pictures/1484/content_im2_wac_overview.png", "caption": { "pt": "A região de pouso do IM-2 perto do polo sul.", "en": "The IM-2 landing region near the south pole." }, "credit": "NASA/GSFC/Arizona State University (LROC)", "link": "https://www.lroc.asu.edu/images/1401" }
+      ],
+      "sources": [
+        { "title": "LROC — IM-2 Athena Seen Obliquely", "url": "https://www.lroc.asu.edu/images/1408" },
+        { "title": "LROC — IM-2 Landing Region", "url": "https://www.lroc.asu.edu/images/1401" },
+        { "title": "Space.com — Athena seen inside its crater from lunar orbit", "url": "https://www.space.com/the-universe/moon/dead-athena-moon-lander-seen-inside-its-crater-grave-from-lunar-orbit-photos" }
+      ],
+      "officialLink": { "title": "Intuitive Machines — site oficial (fotos da missão IM-2)", "url": "https://www.intuitivemachines.com/" }
+    }
+  }
+}

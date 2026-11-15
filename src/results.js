@@ -2,6 +2,7 @@
 import { t, getLang } from "./i18n/index.js";
 import { computeMetrics } from "./metrics.js";
 import { powerSummary } from "./power.js";
+import { hintButton } from "./hint.js";
 
 const LIGHT_KM_S = 299_792.458;
 const fmtTime = (iso) => iso.replace("T", " ").replace(/:00Z$|Z$/, "");
@@ -36,8 +37,10 @@ function section(title, cls, rows) {
   const box = el("div", `metric-block ${cls}`);
   box.append(el("h3", null, title));
   const dl = el("dl");
-  for (const [k, v] of rows) {
-    dl.append(el("dt", null, k), el("dd", null, v));
+  for (const [k, v, hint] of rows) {
+    const dt = el("dt", null, k);
+    if (hint) dt.append(" ", hintButton(hint));
+    dl.append(dt, el("dd", null, v));
   }
   box.append(dl);
   return box;
@@ -67,28 +70,28 @@ export function renderScenarioResult(container, lastResult, panel) {
     el("p", "muted small", t("scenario.source", { source: t(series.source === "file" ? "scenario.sourceFile" : "scenario.sourceLive") })),
 
     section(t("metrics.sun"), "sun", [
-      [t("metrics.atStart"), `${n(m.sun.elevationNow)}° · ${vis(m.sun.visibleNow, m.sun.elevationNow)}`],
-      [t("metrics.elevRange"), t("metrics.minMeanMax", { min: n(m.sun.elevation.min), mean: n(m.sun.elevation.mean), max: n(m.sun.elevation.max) })],
-      [t("metrics.sunlight"), t("metrics.fractionOf", { pct: n(m.sun.fraction * 100, 0), d: dur(m.sun.hours) })],
-      [t("metrics.longest"), dur(m.sun.longestWindowHours)],
-      [t("metrics.next"), next(m.sun.next, "metrics.sunsetIn", "metrics.sunriseIn")],
+      [t("metrics.atStart"), `${n(m.sun.elevationNow)}° · ${vis(m.sun.visibleNow, m.sun.elevationNow)}`, "sunNow"],
+      [t("metrics.elevRange"), t("metrics.minMeanMax", { min: n(m.sun.elevation.min), mean: n(m.sun.elevation.mean), max: n(m.sun.elevation.max) }), "sunElev"],
+      [t("metrics.sunlight"), t("metrics.fractionOf", { pct: n(m.sun.fraction * 100, 0), d: dur(m.sun.hours) }), "sunlight"],
+      [t("metrics.longest"), dur(m.sun.longestWindowHours), "sunLongest"],
+      [t("metrics.next"), next(m.sun.next, "metrics.sunsetIn", "metrics.sunriseIn"), "sunNext"],
     ]),
 
     section(t("metrics.earth"), "earth", [
-      [t("metrics.atStart"), `${n(m.earth.elevationNow)}° · ${vis(m.earth.visibleNow, m.earth.elevationNow)}`],
-      [t("metrics.commWindow"), t("metrics.fractionOf", { pct: n(m.earth.fraction * 100, 0), d: dur(m.earth.hours) })],
-      [t("metrics.windows"), t("metrics.windowsCount", { count: m.earth.windows.length, longest: dur(m.earth.longestWindowHours) })],
-      [t("metrics.next"), next(m.earth.next, "metrics.earthsetIn", "metrics.earthriseIn")],
+      [t("metrics.atStart"), `${n(m.earth.elevationNow)}° · ${vis(m.earth.visibleNow, m.earth.elevationNow)}`, "earthNow"],
+      [t("metrics.commWindow"), t("metrics.fractionOf", { pct: n(m.earth.fraction * 100, 0), d: dur(m.earth.hours) }), "earthWindow"],
+      [t("metrics.windows"), t("metrics.windowsCount", { count: m.earth.windows.length, longest: dur(m.earth.longestWindowHours) }), "earthWindows"],
+      [t("metrics.next"), next(m.earth.next, "metrics.earthsetIn", "metrics.earthriseIn"), "earthNext"],
       ...(m.earth.distanceKmNow
-        ? [[t("metrics.delay"), t("metrics.delayValue", { s: n(m.earth.distanceKmNow / LIGHT_KM_S, 2), km: n(m.earth.distanceKmNow, 0) })]]
+        ? [[t("metrics.delay"), t("metrics.delayValue", { s: n(m.earth.distanceKmNow / LIGHT_KM_S, 2), km: n(m.earth.distanceKmNow, 0) }), "delay"]]
         : []),
     ]),
 
     section(t("metrics.power"), "power", [
-      [t("metrics.powerNow"), t("units.kw", { v: n(p.nowKw, 2) })],
-      [t("metrics.powerMean"), t("units.kw", { v: n(p.meanKw, 2) })],
-      [t("metrics.powerPeak"), t("units.kw", { v: n(p.peakKw, 2) })],
-      [t("metrics.energy"), t("units.kwh", { v: n(p.energyKwh, 0) })],
+      [t("metrics.powerNow"), t("units.kw", { v: n(p.nowKw, 2) }), "powerNow"],
+      [t("metrics.powerMean"), t("units.kw", { v: n(p.meanKw, 2) }), "powerMean"],
+      [t("metrics.powerPeak"), t("units.kw", { v: n(p.peakKw, 2) }), "powerPeak"],
+      [t("metrics.energy"), t("units.kwh", { v: n(p.energyKwh, 0) }), "energy"],
     ]),
 
     el("p", "muted small note", lastResult.horizon ? t("metrics.terrainNote", { km: lastResult.horizon.maxRangeKm }) : t("metrics.smoothNote")),

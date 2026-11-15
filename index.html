@@ -37,6 +37,20 @@
           </select>
         </label>
       </div>
+      <div class="measure-tools" role="toolbar" data-i18n-aria-label="ms.toolbar" aria-label="Ferramentas de medida">
+        <button type="button" class="ghost" data-ms-tool="distance" data-i18n="ms.distance">📏 Distância</button>
+        <button type="button" class="ghost" data-ms-tool="profile" data-i18n="ms.profile">📈 Perfil</button>
+        <button type="button" class="ghost" data-ms-tool="area" data-i18n="ms.areaBtn">⬠ Área</button>
+        <button type="button" class="ghost" data-ms-tool="slope" data-i18n="ms.slope">∠ Inclinação</button>
+      </div>
+      <div id="measure-panel" class="measure-panel small" hidden>
+        <div id="measure-out"></div>
+        <svg id="measure-chart" class="chart" viewBox="0 0 340 140" hidden></svg>
+        <div class="btn-row">
+          <button type="button" class="ghost small" data-ms-clear data-i18n="ms.clear">Limpar</button>
+          <button type="button" class="ghost small" data-ms-close data-i18n="ms.close">Fechar ferramenta</button>
+        </div>
+      </div>
       <div id="globe-status" class="globe-status muted" role="status"></div>
       <div id="an-map-legend" class="an-map-legend small" hidden aria-live="polite"></div>
       <div id="ground-bar" class="ground-bar" hidden>
@@ -91,6 +105,13 @@
         </form>
         <div id="sc-result" class="result" aria-live="polite"></div>
         <button id="sc-add" type="button" class="ghost" data-i18n="cmp.add" hidden>+ Adicionar à comparação</button>
+      </section>
+      <section class="card" id="sp-card">
+        <details>
+          <summary><h2 class="sp-title" data-i18n="sp.title">Por que o polo sul é difícil?</h2></summary>
+          <p class="muted small" data-i18n="sp.intro"></p>
+          <div id="sp-items" class="sp-items"></div>
+        </details>
       </section>
       <section class="card" id="cond-card" hidden>
         <h2 data-i18n="cond.title">Condições no local</h2>
@@ -189,6 +210,11 @@
         <label class="an-check small"><input id="an-hide-apollo" type="checkbox"> <span data-i18n="an.hideApollo">Apollo só como referência (fora do ranking)</span></label>
         <ol id="an-rank" class="an-rank"></ol>
       </section>
+      <section class="card" id="layers-card">
+        <h2 data-i18n="ly.title">Camadas científicas</h2>
+        <p class="muted small" data-i18n="ly.intro"></p>
+        <div id="layers-list" class="ly-list"></div>
+      </section>
       <section class="card" id="solar-card">
         <h2 data-i18n="solar.title">Painel solar</h2>
         <p class="muted small" data-i18n="solar.intro">Valores padrão editáveis. A potência é recalculada na hora.</p>
@@ -264,5 +290,6 @@
   </dialog>
 
   <script type="module" src="/src/main.js"></script>
+  <dialog id="mission-dialog" class="mc-dialog" data-i18n-aria-label="mc.label" aria-label="Ficha da missão"><div class="mc-body"></div></dialog>
 </body>
 </html>

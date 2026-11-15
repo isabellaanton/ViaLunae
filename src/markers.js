@@ -14,6 +14,7 @@ import {
   Math as CMath,
   defined,
 } from "cesium";
+import { interaction } from "./interaction.js";
 
 const COLORS = {
   apollo: Color.fromCssColorString("#9ecbff"),
@@ -120,6 +121,7 @@ export function createMarkers(viewer, { onSelectSite, onPickCoordinate }) {
   // clique: marcador -> seleciona o sítio; no modo de coordenadas livres -> escolhe o ponto clicado
   const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
   handler.setInputAction((ev) => {
+    if (interaction.measuring) return; // ferramenta de medida ativa
     const picked = viewer.scene.pick(ev.position);
     const site = picked?.id?.__site;
     if (site) {

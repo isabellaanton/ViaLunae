@@ -101,3 +101,16 @@ test("quadros pré-calculados batem com o cálculo instantâneo, inclusive conta
     }
   }
 });
+
+test("medidas: distância, área e inclinação na esfera lunar", async () => {
+  const { surfaceDistanceKm, sphericalAreaKm2, slopeFromHeights } = await import("../src/geoMeasure.js");
+  // 1° de arco na Lua ≈ 30,32 km
+  assert.ok(Math.abs(surfaceDistanceKm({ lat: 0, lon: 0 }, { lat: 0, lon: 1 }) - 30.32) < 0.05);
+  // quadrado de 1° × 1° no equador ≈ 30,32² km²
+  const a = sphericalAreaKm2([{ lat: 0, lon: 0 }, { lat: 0, lon: 1 }, { lat: 1, lon: 1 }, { lat: 1, lon: 0 }]);
+  assert.ok(Math.abs(a - 919.3) < 5, `área ${a}`);
+  // chão que sobe 10 m para leste em 20 m de base -> atan(0,5)=26,6°, descida para oeste (270°)
+  const s = slopeFromHeights({ e: 5, w: -5, n: 0, s: 0 }, 10);
+  assert.ok(Math.abs(s.slopeDeg - 26.57) < 0.05);
+  assert.ok(Math.abs(s.downhillAzDeg - 270) < 0.01);
+});
