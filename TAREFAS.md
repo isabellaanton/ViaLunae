@@ -85,15 +85,99 @@ Para um ponto (lat/lon) e uma data/hora, mostrar "como está lá agora" e como m
 - [x] 8.5 Vista do chão: câmera a 2 m do solo, relevo real, Sol e Terra no céu seguindo a barra de tempo; arrastar para olhar em volta
 - [x] 8.6 Botão "Ver do chão" no card de condições, com "Olhar para o Sol / Terra" e "Sair"; gráfico panorâmico do horizonte com os caminhos do Sol e da Terra
 
+## Fase 8B — Análise com filtros (semáforo)
+Ideia: cada critério vira um filtro vermelho/amarelo/verde; os filtros ligados se somam e o local com mais verde fica no topo do ranking.
+**Regra: os filtros usam só dados da API Horizons (posição do Sol e da Terra vistos do local, distâncias) e cálculos feitos a partir deles.** Quando o critério depende de algo que a API não dá (inclinação do módulo, declividade, parede da cratera), isso entra como parâmetro editável do usuário e o app calcula o efeito.
+
+**Decisões já tomadas**
+- Onde: nova aba "Análise" na janela de comparação + marcadores do globo pintados com a pontuação de cada local
+- Cores: 3 níveis (verde = 2, amarelo = 1, vermelho = 0); botão alterna "Limites" (valores fixos editáveis) e "Comparativo" (terço melhor/meio/pior entre os locais)
+- Pontuação: média dos subfiltros de cada critério, soma dos critérios ligados, mostrada em % do máximo possível; empate aparece como empate
+- Filtros principais vêm ligados; complementares vêm desligados (o usuário liga os que quiser)
+- Gráficos: barras por local para cada filtro, com fundo nas faixas vermelha/amarela/verde, e ranking final
+
+**Filtros principais** (✋ validar limites com a equipe)
+| Critério | Filtro (medida) | Parâmetro do usuário | Verde | Amarelo | Vermelho | Base |
+|---|---|---|---|---|---|---|
+| Orientação dos painéis solares | % da potência ideal com o painel configurado (vs. painel que segue o Sol nos 2 eixos); mostra também a melhor orientação fixa para o local | painel (modo, inclinação, azimute) | ≥ 80% | 50–80% | < 50% | SLIM: painéis virados para oeste |
+| Inclinação do módulo no pouso | Energia perdida com o módulo inclinado X° na pior direção | X° (padrão 15°) | ≤ 15% | 15–40% | > 40% | IM-1 e IM-2 tombaram |
+| Inclinação do módulo no pouso | % do tempo com a Terra acima do convés inclinado (antena) | X° | ≥ 70% | 40–70% | < 40% | IM-1: apontamento da antena |
+| Declividade do terreno | Luz que o chão inclinado recebe em relação ao chão plano (Sol acima do plano da encosta) | declividade e direção da encosta (padrão 10°, voltada para o polo) | ≥ 80% | 50–80% | < 50% | critérios de segurança Artemis |
+| Temperatura e frio da cratera | Temperatura média no período (modelo radiativo com Sol e distância da Horizons) | altura da parede da cratera em graus (padrão 0°) | ≥ −50 °C | −50 a −120 °C | < −120 °C | IM-2: frio da cratera |
+| Temperatura e frio da cratera | % do tempo abaixo de −150 °C | parede da cratera | ≤ 30% | 30–60% | > 60% | sobrevivência da eletrônica |
+| Visibilidade da Terra (libração) | % do tempo com a Terra acima da máscara da antena | máscara (padrão 5°) | ≥ 60% | 30–60% | < 30% | Terra baixa = reflexo e perda de sinal (NASA) |
+| Visibilidade da Terra (libração) | Maior apagão sem a Terra | máscara | ≤ 3 dias | 3–14 dias | > 14 dias | VIPER: ~2 semanas/mês sem Terra |
+
+**Filtros complementares** (sugeridos; vêm desligados)
+| Critério | Filtro (medida) | Verde | Amarelo | Vermelho | Base |
+|---|---|---|---|---|---|
+| Energia solar | Potência média (kW) com o painel configurado | ≥ 2,0 | 1,0–2,0 | < 1,0 | painel 10 m², 30% (máx. ~4,1 kW) |
+| Tempo disponível | Maior período de luz seguido | ≥ 300 h | 100–300 h | < 100 h | Blue Ghost: 346 h |
+| Duração da noite lunar | Maior escuridão seguida | ≤ 50 h | 50–100 h | > 100 h | VIPER aguenta até 50 h no escuro |
+| Energia + comunicação juntas | % do tempo com Sol e Terra visíveis ao mesmo tempo | ≥ 50% | 25–50% | < 25% | gerar e transmitir dados ao mesmo tempo |
+| Sombra do próprio módulo | Comprimento médio da sombra de um módulo de altura h quando há Sol (h padrão 4,8 m) | ≤ 20 m | 20–100 m | > 100 m | Athena: sombras fora da previsão no pouso |
+
+Fora dos filtros (não vem da API): luz perdida pelo relevo real, altura do horizonte real, gelo, rochas, precisão do pouso. O relevo do Cesium continua só no cenário e na vista do chão.
+Limitações a mostrar na tela: inclinação, declividade e parede da cratera são simulações com valores digitados (a API não mede o terreno); a temperatura é estimativa.
+
+**Mapa da Lua inteira (estilo Lunaserv), em 3D e girável**
+Método: a Horizons dá o ponto subsolar, o ponto sub-Terra e as distâncias (2 séries para a Lua inteira, `public/data/ephem/global.json`, 12 meses, passo 1 h). Com eles, a posição do Sol e da Terra em qualquer coordenada sai por geometria (`src/skyGeometry.js`), validada contra a Horizons nos 8 locais: erro máximo de 0,02°.
+- [x] 8B.M1 Série global da Horizons (`scripts/precompute-global.mjs`) e geometria local + teste de validação
+- [x] 8B.M2 Núcleo dos filtros (`src/analysisCore.js`): 5 critérios principais (8 filtros) + 5 complementares, classificação, modo Limites/Comparativo, pontuação + testes
+- [x] 8B.M3 Mapa na Lua inteira: grade 1° × 0,5° (polos) calculada em Web Workers (~5 s) e pintada como camada sobre o globo 3D, com transparência
+- [x] 8B.M4 Cartão "Filtros na Lua": liga/desliga, limites editáveis, parâmetros de simulação, valores no ponto do cenário, melhor painel fixo, ranking dos locais e marcadores coloridos (Apollo como referência)
+- [x] 8B.M4b Critério "Relevo e sombras (relevo real)" no ranking dos locais: horas de Sol perdidas atrás do relevo e altura máxima do horizonte, usando os perfis do Cesium Moon/LOLA já calculados (caixa liga/desliga); no mapa da Lua inteira fica "sem dado"
+- [ ] 8B.M5 Relevo 3D (Cesium Moon) não desenha a camada colorida: com o mapa ligado a superfície troca para Moon Trek e volta ao desligar (investigar depois)
+- [ ] 8B.M6 Gráficos de barras por filtro e ranking na janela de comparação; colunas novas no CSV
+
+**Microtarefas**
+- [x] 8B.1 Métricas a partir das séries da Horizons: maior período de luz, maior escuridão, maior apagão da Terra, % Sol + Terra juntos, % Terra acima da máscara, temperatura média e % abaixo de −150 °C + testes
+- [x] 8B.2 Painéis: % da potência ideal e busca da melhor orientação fixa (inclinação e azimute) + testes
+- [x] 8B.3 Módulo inclinado X°: perda de energia e Terra acima do convés na pior direção + testes
+- [x] 8B.4 Encosta (declividade e direção): Sol acima do plano da encosta e luz relativa ao chão plano + testes
+- [x] 8B.5 Parede da cratera (altura em graus) aplicada à temperatura; comprimento da sombra do módulo + testes
+- [x] 8B.6 Modelo de filtros (`src/analysisCore.js`): limites, classificação, modo Limites/Comparativo, principais × complementares, pontuação com filtros ligados/desligados + testes
+- [x] 8B.7 Cartão "Filtros na Lua": filtros com liga/desliga e limites editáveis, parâmetros (X°, encosta, parede, máscara, altura do módulo), botão de modo, legenda
+- [ ] 8B.8 Gráficos de barras por filtro com faixas coloridas e ranking final (pontuação em %)
+- [ ] 8B.9 Marcadores do globo pintados com a cor da pontuação; limites e parâmetros lembrados no navegador; colunas novas na tabela e no CSV
+- [ ] 8B.10 ✋ Locais do polo sul novos (proposta: Shackleton (borda), Nobile (alvo do VIPER), Haworth, Connecting Ridge) com efemérides pré-calculadas
+- [x] 8B.11 ✋ Apollo na análise: proposta = aparecem como referência em cinza, fora do ranking (sem filtro de gelo elas venceriam quase tudo por estarem no equador e de frente para a Terra)
+- [ ] 8B.12 Textos PT/EN de cada filtro (o que mede, por que importa, missão de referência) e fontes no README
+- [ ] 8B.13 (opcional, visual) Painel "Camadas" do Lunaserv no globo — iluminação %, sombra permanente, gelo, sombras na data — só para visualizar, não entra nos filtros
+
+## Fase 8C — Filtros em tempo real e explicações
+**Decisões**
+- Dois modos, com botão: **Agora** (a Lua é pintada no instante da barra de tempo e muda enquanto ela anima: o Sol se põe, a energia cai, o local fica vermelho) e **Período** (resumo atual: médias e maiores intervalos)
+- No modo Agora, filtros de período viram contagem regressiva: horas até o pôr do Sol, horas até o nascer do Sol, horas de contato restantes com a Terra
+- Energia no modo Agora: % da potência máxima do painel (verde ≥ 50%, amarelo 10–50%, vermelho < 10%; sem Sol = vermelho)
+- Velocidade: prévia rápida (grade mais grossa) enquanto anima ou arrasta, e versão nítida quando para
+- Explicação de cada filtro: frase curta sempre visível + botão "?" com detalhes (como é calculado, por que importa, missão de referência) + desenho do filtro + filtro em destaque no mapa com legenda dos valores
+- Valores de um ponto da Lua: ao clicar no globo (sem caixinha ao passar o mouse)
+
+**Microtarefas**
+- [x] 8C.1 Valores instantâneos de cada filtro e contagens regressivas (`src/analysisCore.js`) + testes
+- [x] 8C.2 Mapa com prévia rápida + refino (período e instante)
+- [x] 8C.3 Modo Agora ligado à barra de tempo (anima junto) e parâmetros com controles deslizantes ao vivo
+- [x] 8C.4 Frase curta, botão "?" com detalhes e desenho de cada filtro (PT/EN)
+- [x] 8C.5 Filtro em destaque: clicar no nome mostra só aquele filtro no mapa, com legenda dos valores
+- [x] 8C.6 Clicar num ponto da Lua mostra os valores daquele ponto no cartão
+- [x] 8C.7 Animação lisa: ao ligar o mapa no modo Agora, todos os instantes do período são pré-calculados (~10 s, até 360 quadros, classes empacotadas em 2 bits por filtro); durante o ▶ cada quadro só é decodificado e desenhado numa casca fina sobre a Lua (~20+ quadros/s). Ao pausar, volta a versão nítida. No modo de cores Comparativo a animação usa a prévia ao vivo
+
 ## Fase 9 — Modo educativo
 - [ ] 9.1 Cartões de explicação curtos (PT/EN) ao lado de cada métrica (ícone "?")
 - [ ] 9.2 Tour inicial de 4 a 6 passos na primeira visita
 - [ ] 9.3 Cartões sobre por que o polo sul é difícil (Sol rasante, crateras em sombra, Terra baixa no céu)
+- [ ] 9.4 Ficha da missão ao clicar num ponto do globo: janela com fotos e explicação da missão daquele local (PT/EN)
+  - Conteúdo: ficha rápida (datas, tripulação/operador, tempo na superfície, amostras), resumo curto, como foi, pontos positivos e negativos, fontes — base em `apollo-missoes-resumos.md` e `PROBLEMAS PRINCIPAIS DAS MISSOES.md` da equipe
+  - Missões com problema ligadas aos filtros: o que deu errado (energia, relevo e sombras, comunicação, tempo) e qual filtro do app mostra isso (ex.: IM-2 → relevo e sombras)
+  - Fotos: galeria de 2 a 4 imagens por missão, com crédito e link da fonte em cada foto; prioridade a imagens da NASA (domínio público). Imagens de JAXA, ISRO e empresas (Intuitive Machines, Firefly) só com licença que permita uso, senão link para a página oficial
+  - ✋ Validar com a equipe a lista de fotos e conferir os números marcados "(conferir)" antes de publicar
+  - Botões na ficha: "Carregar cenário deste local" e "Ver do chão"
 
 ## Fase 10 — Publicação e acabamento
 - [ ] 10.1 Build de produção e teste local da versão final
-- [ ] 10.2 ✋ Conectar o repositório GitHub à Vercel e configurar o token do Cesium nas variáveis da Vercel
-- [ ] 10.3 Testar o link público (globo, tabela, API ao vivo, CSV, idiomas)
+- [x] 10.2 ✋ Conectar o repositório GitHub à Vercel e configurar o token do Cesium nas variáveis da Vercel
+- [x] 10.3 Testar o link público (globo, tabela, API ao vivo, CSV, idiomas)
 - [ ] 10.4 Ajustes visuais, responsividade em tela menor e textos finais
 - [ ] 10.5 Roteiro curto de demonstração para a apresentação do hackathon
 

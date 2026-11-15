@@ -9,6 +9,7 @@ import {
   setSunFromLocalAzEl,
   hasIonToken,
 } from "./globe.js";
+import { createAnalysisPanel } from "./analysisPanel.js";
 import { fetchSubsolarPoint } from "./horizons.js";
 import { createMarkers } from "./markers.js";
 import { initScenarioPanel } from "./scenario.js";
@@ -46,6 +47,7 @@ async function applySurface(source) {
   setStatus("globe.loading");
   try {
     await setSurface(viewer, source);
+    analysis?.redraw();
     if (sunStatus) setStatus(sunStatus.key, sunStatus.vars);
     else setStatus(null);
   } catch (e) {
@@ -135,15 +137,25 @@ const timeline = createTimeline((i) => {
   conditions.setIndex(i);
   const s = loaded.series.samples[i];
   ground.update(s);
+  analysis?.setTime(s.t);
   const p = setSunFromLocalAzEl(viewer, loaded.query.lat, loaded.query.lon, s.sunAz, s.sunEl);
   sunStatus = { key: "globe.sunAt", vars: { time: s.t.replace("T", " ").replace(/:00Z$|Z$/, ""), lon: p.lon.toFixed(1), lat: p.lat.toFixed(1) } };
   setStatus(sunStatus.key, sunStatus.vars);
 });
 
 let comparison = null;
+let analysis = null;
+let surfaceBeforeMap = null;
+const periodOf = () => {
+  const start = $("sc-start").value;
+  const days = Number($("sc-days").value) || 30;
+  const day = /^\d{4}-\d{2}-\d{2}$/.test(start) ? start : new Date().toISOString().slice(0, 10);
+  return { startIso: `${day}T00:00:00Z`, days };
+};
 const panelForm = initPanelForm(() => {
   scenario?.rerender();
   comparison?.rerender();
+  analysis?.update();
 });
 initScenarioPanel({
   viewer,
@@ -155,6 +167,7 @@ initScenarioPanel({
     currentIndex = 0;
     conditions.setScenario(r.series.samples, r.query.lat, r.horizon);
     timeline.load(r.series.samples);
+    analysis?.setPoint(r.query.lat, r.query.lon, scenario?.siteLabel(r.query) ?? `${r.query.lat.toFixed(2)}, ${r.query.lon.toFixed(2)}`, r.horizon);
   },
   onScenarioCleared: () => {
     loaded = null;
@@ -165,6 +178,26 @@ initScenarioPanel({
 })
   .then((ctl) => {
     scenario = ctl;
+    analysis = createAnalysisPanel({
+      viewer,
+      markers,
+      getPanel: () => panelForm.get(),
+      getPeriod: periodOf,
+      // o mapa colorido só é desenhado na esfera: troca para Moon Trek e depois volta
+      onShowChange: (on) => {
+        if (on && surfaceSelect.value === "ion") {
+          surfaceBeforeMap = "ion";
+          surfaceSelect.value = "trek";
+          applySurface("trek");
+          setStatus("an.surfaceSwitched");
+        } else if (!on && surfaceBeforeMap) {
+          surfaceSelect.value = surfaceBeforeMap;
+          surfaceBeforeMap = null;
+          applySurface(surfaceSelect.value);
+        }
+      },
+    });
+    for (const id of ["sc-start", "sc-days"]) $(id).addEventListener("change", () => analysis.update());
     comparison = createComparison({
       getPanel: () => panelForm.get(),
       siteLabel: ctl.siteLabel,

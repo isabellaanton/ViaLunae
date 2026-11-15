@@ -38,6 +38,7 @@
         </label>
       </div>
       <div id="globe-status" class="globe-status muted" role="status"></div>
+      <div id="an-map-legend" class="an-map-legend small" hidden aria-live="polite"></div>
       <div id="ground-bar" class="ground-bar" hidden>
         <span class="small" data-i18n="ground.hint">Arraste para olhar em volta.</span>
         <button id="ground-sun" type="button" class="ghost" data-i18n="ground.lookSun">☀ Olhar para o Sol</button>
@@ -121,6 +122,72 @@
           </figcaption>
         </figure>
         <p class="muted small" data-i18n="cond.tempNote"></p>
+      </section>
+      <section class="card" id="analysis-card">
+        <h2 data-i18n="an.title">Filtros na Lua</h2>
+        <p class="muted small" data-i18n="an.intro">Cada filtro pinta a Lua de verde, amarelo ou vermelho. Os filtros ligados se somam: quanto mais verde, melhor o local. Só dados da Horizons (Sol e Terra vistos de cada ponto) e cálculos sobre eles.</p>
+        <div class="an-timemode" role="group" data-i18n-aria-label="an.timeMode" aria-label="Modo de tempo">
+          <button type="button" data-time-mode="now" data-i18n="an.now">Agora</button>
+          <button type="button" data-time-mode="period" data-i18n="an.periodBtn">Período</button>
+        </div>
+        <p id="an-time-note" class="muted small"></p>
+        <div class="an-top">
+          <label class="an-check"><input id="an-show" type="checkbox"> <span data-i18n="an.show">Mostrar na Lua</span></label>
+          <label class="field inline">
+            <span data-i18n="an.mode">Cores</span>
+            <select id="an-mode">
+              <option value="fixed" data-i18n="an.modeFixed">Limites</option>
+              <option value="relative" data-i18n="an.modeRelative">Comparativo</option>
+            </select>
+          </label>
+          <label class="field inline">
+            <span data-i18n="an.opacity">Transparência</span>
+            <input id="an-opacity" type="range" min="10" max="100" step="5">
+          </label>
+        </div>
+        <p id="an-status" class="muted small" aria-live="polite"></p>
+        <p id="an-frames" class="muted small" aria-live="polite"></p>
+        <div class="an-legend small">
+          <span><span class="dot g"></span><span data-i18n="an.green">bom</span></span>
+          <span><span class="dot y"></span><span data-i18n="an.yellow">atenção</span></span>
+          <span><span class="dot r"></span><span data-i18n="an.red">ruim</span></span>
+          <span class="muted" data-i18n="an.period">Período = o do cenário</span>
+        </div>
+        <p id="an-point" class="small an-point"></p>
+        <div id="an-filters" class="an-filters"></div>
+        <p id="an-best" class="muted small"></p>
+        <div class="btn-row">
+          <button id="an-all" type="button" class="ghost" data-i18n="an.all">Ligar todos</button>
+          <button id="an-none" type="button" class="ghost" data-i18n="an.none">Desligar todos</button>
+          <button id="an-reset" type="button" class="ghost" data-i18n="an.reset">Restaurar padrão</button>
+        </div>
+        <details class="an-params" open>
+          <summary data-i18n="an.params">Simulação (valores definidos por você)</summary>
+          <p class="muted small" data-i18n="an.paramsNote">A Horizons não mede o terreno nem o módulo: estes valores são suposições suas, e o app calcula o efeito delas com a posição real do Sol e da Terra.</p>
+          <div class="row">
+            <label class="field"><span data-i18n="an.p.tilt">Inclinação do módulo (°)</span><span class="an-range"><input id="an-p-tilt" type="range"><output id="an-p-tilt-v"></output></span></label>
+            <label class="field"><span data-i18n="an.p.slope">Declividade da encosta (°)</span><span class="an-range"><input id="an-p-slope" type="range"><output id="an-p-slope-v"></output></span></label>
+          </div>
+          <div class="row">
+            <label class="field"><span data-i18n="an.p.facing">Encosta voltada para</span>
+              <select id="an-p-facing">
+                <option value="pole" data-i18n="an.p.pole">o polo</option>
+                <option value="equator" data-i18n="an.p.equator">o equador</option>
+                <option value="east" data-i18n="an.p.east">o leste</option>
+                <option value="west" data-i18n="an.p.west">o oeste</option>
+              </select></label>
+            <label class="field"><span data-i18n="an.p.wall">Parede da cratera (° acima do horizonte)</span><span class="an-range"><input id="an-p-wall" type="range"><output id="an-p-wall-v"></output></span></label>
+          </div>
+          <div class="row">
+            <label class="field"><span data-i18n="an.p.mask">Máscara da antena (°)</span><span class="an-range"><input id="an-p-mask" type="range"><output id="an-p-mask-v"></output></span></label>
+            <label class="field"><span data-i18n="an.p.height">Altura do módulo (m)</span><span class="an-range"><input id="an-p-height" type="range"><output id="an-p-height-v"></output></span></label>
+          </div>
+          <p class="muted small" data-i18n="an.panelNote">O painel solar usado é o do cartão "Painel solar".</p>
+        </details>
+        <h3 class="an-group" data-i18n="an.rank">Ranking dos locais</h3>
+        <label class="an-check small"><input id="an-relief" type="checkbox"> <span data-i18n="an.relief">Relevo real nos locais (horizonte do Cesium Moon/LOLA)</span></label>
+        <label class="an-check small"><input id="an-hide-apollo" type="checkbox"> <span data-i18n="an.hideApollo">Apollo só como referência (fora do ranking)</span></label>
+        <ol id="an-rank" class="an-rank"></ol>
       </section>
       <section class="card" id="solar-card">
         <h2 data-i18n="solar.title">Painel solar</h2>

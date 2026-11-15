@@ -56,6 +56,8 @@ export function createMarkers(viewer, { onSelectSite, onPickCoordinate }) {
   let selectedId = null;
   let customEntity = null;
   let pickMode = false;
+  let scoreColors = null; // { siteId: Color } quando a análise está ligada
+  const colorOf = (e) => scoreColors?.[e.__site.id] ?? COLORS[e.__site.group] ?? COLORS.apollo;
 
   function addSites(sites, lang) {
     for (const s of sites) {
@@ -77,12 +79,12 @@ export function createMarkers(viewer, { onSelectSite, onPickCoordinate }) {
   function highlight(id) {
     if (selectedId && byId.has(selectedId)) {
       const prev = byId.get(selectedId);
-      Object.assign(prev.point, pointStyle(COLORS[prev.__site.group], false));
+      Object.assign(prev.point, pointStyle(colorOf(prev), false));
     }
     selectedId = id;
     if (id && byId.has(id)) {
       const e = byId.get(id);
-      Object.assign(e.point, pointStyle(COLORS[e.__site.group], true));
+      Object.assign(e.point, pointStyle(colorOf(e), true));
     }
   }
 
@@ -101,6 +103,13 @@ export function createMarkers(viewer, { onSelectSite, onPickCoordinate }) {
     } else {
       customEntity.position = position(lon, lat);
     }
+  }
+
+  // cores da pontuação da análise (CSS por id) ou null para voltar às cores dos grupos
+  function setScoreColors(map) {
+    scoreColors = map ? Object.fromEntries(Object.entries(map).map(([id, c]) => [id, Color.fromCssColorString(c)])) : null;
+    for (const e of byId.values()) Object.assign(e.point, pointStyle(colorOf(e), e.__site.id === selectedId));
+    viewer.scene.requestRender();
   }
 
   function setPickMode(on) {
@@ -125,7 +134,7 @@ export function createMarkers(viewer, { onSelectSite, onPickCoordinate }) {
     onPickCoordinate(CMath.toDegrees(c.latitude), CMath.toDegrees(c.longitude));
   }, ScreenSpaceEventType.LEFT_CLICK);
 
-  return { addSites, setLang, highlight, setCustom, setPickMode };
+  return { addSites, setLang, highlight, setCustom, setPickMode, setScoreColors };
 }
 
 export function flyToSite(viewer, lat, lon, duration = 1.5) {
